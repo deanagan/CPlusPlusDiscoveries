@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Coding With STL</title>
 
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
@@ -25,10 +25,55 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+				<section> <!------------ Slide Start ------------------------->
+					<h1>Coding with STL Algorithms</h1>
+					<h3>The C++ Standard Template Library</h3>
+					<p>
+						<small>Created by <a href="https://www.linkedin.com/in/deanagan/">Dean Agan</a> </small>
+					</p>
+				</section> <!------------ Slide End ------------------------->
+
+				<section>  <!------------ Slide Start ------------------------->
+				<h2>Why use the STL?</h2>
+					<ul>
+						<li>It is well tested and optimised.</li>
+						<li>Don't reinvent the wheel.</li>
+						<li>It leads to shorter more compact code.</li>
+					</ul>
+				</section>  <!------------ Slide End ------------------------->
+
+				<section>  <!------------ Slide Start ------------------------->
+				<h2>STL Approach</h2>
+					<ul>
+						<li>There is preference for free functions over member functions (e.g. std::find(container..) over container.find() ).</li>
+						<li>Algorithms are designed to work for most containers.</li>
+						<li>Algorithms work with iterators.</li>
+					</ul>
+				</section>  <!------------ Slide End ------------------------->
+
+				<section>  <!------------ Slide Start ------------------------->
+				<h2>Standard Template Library Categories</h2>
+					<ul>
+						<li>
+							<a href="https://en.cppreference.com/w/cpp/container">Collections</a>
+							<em> (vectors, list, etc)</em>
+						</li>
+						<li>
+							<a href="https://en.cppreference.com/w/cpp/algorithm">Algorithms</a>
+							<em>(find, copy, sort, etc)</em>
+						</li>
+						<li>
+							<a href="https://en.cppreference.com/w/cpp/iterator">Iterators</a> - common interfaces for any container type.
+							<em>(input, output, forward, bidirectional, random access iterators. C++17 has contiguous)</em>
+							
+						</li>
+					</ul>
+				</section>  <!------------ Slide End ------------------------->
+
+
+
+			</div> <!----------------------- Slides ------------------>
+		</div> <!----------------------- Reveal ------------------>
 
 		<script src="js/reveal.js"></script>
 
