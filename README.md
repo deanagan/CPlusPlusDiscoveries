@@ -1,4 +1,10 @@
-## Welcome to Coding With STL
+# CodingWithSTL
+This repository is a presentation using revealjs and talks about using STL in C++.
 
-This is a revealjs project based presentation on coding with C++ Standard Template Library.
+This is part of the learn to code series that I do to give back to the programming community.
 
+For any questions, queries, comments, corrections or suggestions, you can contact me through:
+
+GitHub: www.github.com/deanagan/CodingWithSTL
+Twitter: @dean_agan
+LinkedIn: www.linkedin.com/in/deanagan

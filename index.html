@@ -1,94 +1,162 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Coding With STL</title>
+        <title>Coding With STL</title>
 
-		<link rel="stylesheet" href="css/reset.css">
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/solarized.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/monokai.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section> <!------------ Slide Start ------------------------->
-					<h1>Coding with STL Algorithms</h1>
-					<h3>The C++ Standard Template Library</h3>
-					<p>
-						<small>Created by <a href="https://www.linkedin.com/in/deanagan/">Dean Agan</a> </small>
-					</p>
-				</section> <!------------ Slide End ------------------------->
-
-				<section>  <!------------ Slide Start ------------------------->
-				<h2>Why use the STL?</h2>
-					<ul>
-						<li>It is well tested and optimised.</li>
-						<li>Don't reinvent the wheel.</li>
-						<li>It leads to shorter more compact code.</li>
-					</ul>
-				</section>  <!------------ Slide End ------------------------->
-
-				<section>  <!------------ Slide Start ------------------------->
-				<h2>STL Approach</h2>
-					<ul>
-						<li>There is preference for free functions over member functions (e.g. std::find(container..) over container.find() ).</li>
-						<li>Algorithms are designed to work for most containers.</li>
-						<li>Algorithms work with iterators.</li>
-					</ul>
-				</section>  <!------------ Slide End ------------------------->
-
-				<section>  <!------------ Slide Start ------------------------->
-				<h2>Standard Template Library Categories</h2>
-					<ul>
-						<li>
-							<a href="https://en.cppreference.com/w/cpp/container">Collections</a>
-							<em> (vectors, list, etc)</em>
-						</li>
-						<li>
-							<a href="https://en.cppreference.com/w/cpp/algorithm">Algorithms</a>
-							<em>(find, copy, sort, etc)</em>
-						</li>
-						<li>
-							<a href="https://en.cppreference.com/w/cpp/iterator">Iterators</a> - common interfaces for any container type.
-							<em>(input, output, forward, bidirectional, random access iterators. C++17 has contiguous)</em>
-							
-						</li>
-					</ul>
-				</section>  <!------------ Slide End ------------------------->
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section> <!------------ Slide Start ------------------------->
+                    <h1>Coding with STL Algorithms</h1>
+                    <h3>The C++ Standard Template Library</h3>
+                    <p>
+                        <small>Created by <a href="https://www.linkedin.com/in/deanagan/">Dean Agan</a> </small> </br>
+                        <a href="https://twitter.com/intent/tweet?screen_name=dean_agan&ref_src=twsrc%5Etfw" 
+                        class="twitter-mention-button" data-show-count="false">Tweet to @dean_agan
+                        </a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    </p>
+                </section> <!------------ Slide End ------------------------->
 
 
 
-			</div> <!----------------------- Slides ------------------>
-		</div> <!----------------------- Reveal ------------------>
+                <section> <!------------ Slide Start ------------------------->
+                    <h2>What we'll cover:</h2>
+                    <ul>
+                        <li class="fragment">Why use the STL?</li>
+                        <li class="fragment">The STL Approach</li>
+                        <li class="fragment">STL Categories</li>
+                        <li class="fragment">Example Algorithm: std::find_if</li>
+                        <li class="fragment">Discovering Lambdas</li>
+                        <li class="fragment">The Power of Iterators</li>
+                        <li class="fragment">More Examples</li>
+                    </ul>      				
+                </section> <!------------ Slide End ------------------------->	
 
-		<script src="js/reveal.js"></script>
+                <section> <!------------ Slide Start ------------------------->	
+                    <div>
+                        <h3>Why use the STL?</h3>
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="fragment">It is well tested and optimised.</li>
+                            <li class="fragment">Don't reinvent the wheel.</li>
+                            <li class="fragment">It leads to shorter more compact code.</li>
+                        </ul>
+                    </div>
+                <div>
+                </section>  <!------------ Slide End ------------------------->
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true }
-				]
-			});
-		</script>
-	</body>
+                <section>  <!------------ Slide Start ------------------------->
+                <h3>STL Approach</h3>
+                    <ul>
+                        <li class="fragment">There is preference for free functions over member functions (e.g. std::find(container..) over container.find() ).</li>
+                        <li class="fragment">Algorithms are designed to work for most containers.</li>
+                        <li class="fragment">Algorithms work with iterators.</li>
+                    </ul>
+                </section>  <!------------ Slide End ------------------------->
+
+                <section>  <!------------ Slide Start ------------------------->
+                    <section>
+                    <h4>Example Algorithm: std::find_if</h4>
+                    <div>Finding the first odd number in a sequence of numbers</div>
+                    <pre>
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+
+                            std::vector&ltint&gt n { 2, 4, 6, 9, 10 };
+
+                            auto result_iter = std::find_if(begin(n), end(n), ???);
+
+                        </code>
+                    </pre>
+                    </section>
+                    <section>
+                        <h3>Before C++11, we had 2 common approaches</h3>
+                        <div>Using a stand alone/free function</div>
+                        <pre>
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+bool IsOdd(int n)
+{
+  return n % 2 != 0;
+}
+
+  std::vector&ltint&gt::iterator it; // no auto yet!
+  it = std::find_if(n.begin(), n.end(), IsOdd);
+
+  if (it != n.end())
+  {
+    std::cout &lt&lt *it;
+  }
+
+                            
+                        </code>
+                        </pre>
+                    </section>
+
+                    <section>
+                        <div>Or using a function object or functor</div>
+                        
+                        <pre>
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+struct IsOdd
+{
+  bool operator()(int n) const
+  {
+    return n%2 != 0;
+  }
+};
+
+  std::vector&ltint&gt::iterator it; // no auto yet!
+  it = std::find_if(n.begin(), n.end(), IsOdd());
+
+  if (it != n.end())
+  {
+    std::cout &lt&lt *it;
+  }
+
+                            
+                        </code>
+                        </pre>
+                    </section>
+                </section>  <!------------ Slide End ------------------------->
+
+
+
+            </div> <!----------------------- Slides ------------------>
+        </div> <!----------------------- Reveal ------------------>
+
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true }
+                ]
+            });
+        </script>
+    </body>
 </html>
