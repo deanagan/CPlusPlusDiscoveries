@@ -138,6 +138,25 @@ void printOdd() {
                         </code>
                         </pre>
                     </section>
+
+                    <section>
+                        <h3>With C++11, we now have lambdas.</h3>
+                        
+                        <pre class="fragment">
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+void printOdd() {  
+  auto it = std::find_if(begin(n), end(n), [] (int n) { 
+      return n%2 != 0;
+  });
+
+  if (it != n.end()) {
+    std::cout &lt&lt *it;
+  }
+}
+                            
+                        </code>
+                        </pre>
+                    </section>
                 </section>  <!------------ Slide End ------------------------->
 
 
