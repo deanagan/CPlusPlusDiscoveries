@@ -43,7 +43,6 @@
                     <ul>
                         <li class="fragment">Why use the STL?</li>
                         <li class="fragment">The STL Approach</li>
-                        <li class="fragment">STL Categories</li>
                         <li class="fragment">Example Algorithm: std::find_if</li>
                         <li class="fragment">Discovering Lambdas</li>
                         <li class="fragment">The Power of Iterators</li>
@@ -53,7 +52,7 @@
 
                 <section> <!------------ Slide Start ------------------------->	
                     <div>
-                        <h3>Why use the STL?</h3>
+                        <h2>Why use the STL?</h2>
                     </div>
                     <div>
                         <ul>
@@ -66,7 +65,7 @@
                 </section>  <!------------ Slide End ------------------------->
 
                 <section>  <!------------ Slide Start ------------------------->
-                <h3>STL Approach</h3>
+                <h2>STL Approach</h2>
                     <ul>
                         <li class="fragment">There is preference for free functions over member functions (e.g. std::find(container..) over container.find() ).</li>
                         <li class="fragment">Algorithms are designed to work for most containers.</li>
@@ -76,7 +75,7 @@
 
                 <section>  <!------------ Slide Start ------------------------->
                     <section>
-                    <h4>Example Algorithm: std::find_if</h4>
+                    <h2>Example Algorithm: std::find_if</h2>
                     <div>Finding the first odd number in a sequence of numbers</div>
                     <pre>
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
@@ -91,47 +90,50 @@
                     <section>
                         <h3>Before C++11, we had 2 common approaches</h3>
                         <div>Using a stand alone/free function</div>
-                        <pre>
+                        <pre class="fragment">
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
-bool IsOdd(int n)
-{
+bool IsOdd(int n) {
   return n % 2 != 0;
 }
-
+                        </code>
+                        </pre>
+                        <pre class="fragment">
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+void printOdd() {
   std::vector&ltint&gt::iterator it; // no auto yet!
   it = std::find_if(n.begin(), n.end(), IsOdd);
 
-  if (it != n.end())
-  {
+  if (it != n.end()) {
     std::cout &lt&lt *it;
   }
-
-                            
+}
+    
                         </code>
                         </pre>
                     </section>
 
                     <section>
-                        <div>Or using a function object or functor</div>
+                        <h3>Or using a function object or functor</h3>
                         
-                        <pre>
+                        <pre class="fragment">
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
-struct IsOdd
-{
-  bool operator()(int n) const
-  {
+struct IsOdd {
+  bool operator()(int n) const {
     return n%2 != 0;
   }
 };
-
+                        </code>
+                        </pre>
+                        <pre class="fragment">
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+void printOdd() {
   std::vector&ltint&gt::iterator it; // no auto yet!
   it = std::find_if(n.begin(), n.end(), IsOdd());
 
-  if (it != n.end())
-  {
+  if (it != n.end()) {
     std::cout &lt&lt *it;
   }
-
+}
                             
                         </code>
                         </pre>
