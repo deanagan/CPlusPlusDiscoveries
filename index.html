@@ -159,6 +159,80 @@ void printOdd() {
                     </section>
                 </section>  <!------------ Slide End ------------------------->
 
+             <section>  <!------------ Slide Start ------------------------->
+                <h2>Discovering Lambdas</h2>
+                    <blockquote cite="http://www.stroustrup.com/C++11FAQ.html#lambda">
+						&ldquo;A lambda expression is a mechanism for specifying a function object. The primary use for a lambda is to specify a simple action to be performed by some function.&rdquo; - Bjarne Stroustrup
+					</blockquote>
+             </section>  <!------------ Slide End ------------------------->
+
+             <section>  <!------------ Slide Start ------------------------->
+                <section data-transition="none">
+                <h2>Syntax of Lambdas</h2>
+
+                        <pre>
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+// Minimal lambda
+auto fn = [] { };
+                        
+                            
+                        </code>
+                        </pre>
+                </section>
+
+                <section data-transition="none">
+                <h2>Syntax of Lambdas</h2>
+
+                        <pre>
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+auto fn = [] /* the square bracket is a &ldquo;lambda introducer&rdquo; */ { };
+                        
+                            
+                        </code>
+                        </pre>
+                </section>
+
+                <section data-transition="none">
+                <h2>Syntax of Lambdas</h2>
+
+                        <pre>
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+auto fn = [/*anything that goes here is a &ldquo;capture&rdquo;*/] { };
+                        
+                            
+                        </code>
+                        </pre>
+                </section>
+
+                <section data-transition="none">
+                <h2>Syntax of Lambdas</h2>
+
+                        <pre>
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+auto fn = [/*&ldquo;capture&rdquo;*/] 
+ /* Everything in between is optional:
+  (...) mutable throwSpec -> retType */
+ { /* body */ };
+                        
+                            
+                        </code>
+                        </pre>
+                </section>
+
+                <section data-transition="none">
+                <h2>Syntax of Lambdas</h2>
+
+                        <pre>
+                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+/*A lambda can have a parameter specified in parentheses*/
+auto fn = [](const std::string& name) 
+{ std::cout << "Hello, " << name << "\n"; };
+                        
+                            
+                        </code>
+                        </pre>
+                </section>
+             </section>  <!------------ Slide End ------------------------->
 
 
             </div> <!----------------------- Slides ------------------>
