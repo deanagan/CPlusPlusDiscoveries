@@ -8,7 +8,7 @@
 
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/reveal.css">
-        <link rel="stylesheet" href="css/theme/solarized.css">
+        <link rel="stylesheet" href="css/theme/league.css">
 
         <!-- Theme used for syntax highlighting of code -->
         <link rel="stylesheet" href="lib/css/monokai.css">
@@ -21,6 +21,8 @@
             link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
             document.getElementsByTagName( 'head' )[0].appendChild( link );
         </script>
+
+        
     </head>
     <body>
         <div class="reveal">
@@ -40,14 +42,20 @@
 
                 <section> <!------------ Slide Start ------------------------->
                     <h2>What we'll cover:</h2>
-                    <ul>
+                    <ol>
                         <li class="fragment">Why use the STL?</li>
                         <li class="fragment">The STL Approach</li>
                         <li class="fragment">Example Algorithm: std::find_if</li>
                         <li class="fragment">Discovering Lambdas</li>
+                            <ul class="fragment">
+                                <li class="fragment">Syntax</li>
+                                <li class="fragment">Captures</li>
+                                <li class="fragment">Mutable</li>
+                                <li class="fragment">Guidelines</li>
+                            </ul>
                         <li class="fragment">The Power of Iterators</li>
                         <li class="fragment">More Examples</li>
-                    </ul>      				
+                    </ol>      				
                 </section> <!------------ Slide End ------------------------->	
 
                 <section> <!------------ Slide Start ------------------------->	
@@ -168,7 +176,7 @@ void printOdd() {
 
              <section>  <!------------ Slide Start ------------------------->
                 <section data-transition="none">
-                <h2>Syntax of Lambdas</h2>
+                <h2>Syntax</h2>
 
                         <pre>
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
@@ -224,7 +232,8 @@ auto fn = [/*&ldquo;capture&rdquo;*/]
 
                         <pre>
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
-/*A lambda can have a parameter specified in parentheses*/
+/*A lambda can have a parameter specified in parentheses. 
+This is also called a lambda declarator.*/
 auto fn = [](const std::string& name) 
 { std::cout << "Hello, " << name << "\n"; };
                         
@@ -234,6 +243,69 @@ auto fn = [](const std::string& name)
                 </section>
              </section>  <!------------ Slide End ------------------------->
 
+            <section>  <!------------ Slide Start ------------------------->
+                <section>  <!------------ Slide Start ------------------------->
+                <h2>Captures</h2>
+                    <h5 class="fragment">
+                        <div class="row">
+                            <div class="column">
+                                <pre>
+                                    <code class="cpp" data-trim>[=]{};</code>
+                                </pre>
+                            </div>
+                            <div class="column">Outer scope is passed to the lambda by value default.</div>
+                        </div> <!-- End Row -->
+                    </h5> <!-- End Fragment -->
+
+                    <h5 class="fragment">
+                        <div class="row">
+                            <div class="column">
+                                <pre>
+                                    <code class="cpp" data-trim>[&]{};</code>
+                                </pre>
+                            </div>
+                            <div class="column">Outer scope is passed to the lambda by reference default.</div>
+                        </div> <!-- End Row -->
+                    </h5> <!-- End Fragment -->
+
+                    <h5 class="fragment">
+                        <div class="row">
+                            <div class="column">
+                                <pre>
+                                    <code class="cpp" data-trim>[&i]{};</code>
+                                </pre>
+                            </div>
+                            <div class="column">Capture i by reference.</div>
+                        </div> <!-- End Row -->
+                    </h5> <!-- End Fragment -->
+
+                    </section>
+                    <section>  
+                    <h2>Captures</h2>
+                    <h5 class>
+                        <div class="row">
+                            <div class="column">
+                                <pre>
+                                    <code class="cpp" data-trim>[i]{};</code>
+                                </pre>
+                            </div>
+                            <div class="column">Capture i by value.</div>
+                        </div> <!-- End Row -->
+                    </h5> <!-- End Fragment -->
+
+                    <h5 class="fragment">
+                        <div class="row">
+                            <div class="column">
+                                <pre>
+                                    <code class="cpp" data-trim>[&i, j]{};</code>
+                                </pre>
+                            </div>
+                            <div class="column">Capture i by reference and capture j by value.</div>
+                        </div> <!-- End Row -->
+                    </h5> <!-- End Fragment -->
+                    </section>
+
+            </section>  <!------------ Slide End ------------------------->
 
             </div> <!----------------------- Slides ------------------>
         </div> <!----------------------- Reveal ------------------>
