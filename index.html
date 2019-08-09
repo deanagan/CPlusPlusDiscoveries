@@ -22,7 +22,7 @@
             document.getElementsByTagName( 'head' )[0].appendChild( link );
         </script>
 
-        
+
     </head>
     <body>
         <div class="reveal">
@@ -32,41 +32,34 @@
                     <h3>The C++ Standard Template Library</h3>
                     <p>
                         <small>Created by <a href="https://www.linkedin.com/in/deanagan/">Dean Agan</a> </small> </br>
-                        <a href="https://twitter.com/intent/tweet?screen_name=dean_agan&ref_src=twsrc%5Etfw" 
+                        <a href="https://twitter.com/intent/tweet?screen_name=dean_agan&ref_src=twsrc%5Etfw"
                         class="twitter-mention-button" data-show-count="false">Tweet to @dean_agan
                         </a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     </p>
                 </section> <!------------ Slide End ------------------------->
 
-
+                <section> <!------------ Slide Start ------------------------->
+                    <h3>What we'll cover:</h3>
+                    <ol class="coverage">
+                        <li class="fragment" v-for="cv in topcoverage">
+                                {{ cv }}
+                                <span v-if=cv.includes('Lambda')>
+                                    <ul class="fragment">
+                                        <li class="fragment" v-for="lc in lambdacoverage">{{ lc }}</li>
+                                    </ul>
+                                </span>
+                            </li>
+                        </ul>
+                    </ol>
+                </section> <!------------ Slide End ------------------------->
 
                 <section> <!------------ Slide Start ------------------------->
-                    <h2>What we'll cover:</h2>
-                    <ol>
-                        <li class="fragment">Why use the STL?</li>
-                        <li class="fragment">The STL Approach</li>
-                        <li class="fragment">Example Algorithm: std::find_if</li>
-                        <li class="fragment">Discovering Lambdas</li>
-                            <ul class="fragment">
-                                <li class="fragment">Syntax</li>
-                                <li class="fragment">Captures</li>
-                                <li class="fragment">Mutable</li>
-                                <li class="fragment">Guidelines</li>
-                            </ul>
-                        <li class="fragment">The Power of Iterators</li>
-                        <li class="fragment">More Examples</li>
-                    </ol>      				
-                </section> <!------------ Slide End ------------------------->	
-
-                <section> <!------------ Slide Start ------------------------->	
                     <div>
                         <h2>Why use the STL?</h2>
                     </div>
                     <div>
-                        <ul>
-                            <li class="fragment">It is well tested and optimised.</li>
-                            <li class="fragment">Don't reinvent the wheel.</li>
-                            <li class="fragment">It leads to shorter more compact code.</li>
+                        <ul class="whyUseStl">
+                            <li class="fragment" v-for="why in whys">{{ why }}</li>
                         </ul>
                     </div>
                 <div>
@@ -74,10 +67,8 @@
 
                 <section>  <!------------ Slide Start ------------------------->
                 <h2>STL Approach</h2>
-                    <ul>
-                        <li class="fragment">There is preference for free functions over member functions (e.g. std::find(container..) over container.find() ).</li>
-                        <li class="fragment">Algorithms are designed to work for most containers.</li>
-                        <li class="fragment">Algorithms work with iterators.</li>
+                    <ul class = 'stlapproach'>
+                        <li class="fragment" v-for="approach in approaches">{{ approach }}</li>
                     </ul>
                 </section>  <!------------ Slide End ------------------------->
 
@@ -86,15 +77,15 @@
                     <h2>Example Algorithm: std::find_if</h2>
                     <div>Finding the first odd number in a sequence of numbers</div>
                     <pre>
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
-
+                        <code class="fragment cpp" data-trim>
                             std::vector&ltint&gt n { 2, 4, 6, 9, 10 };
 
                             auto result_iter = std::find_if(begin(n), end(n), ???);
-
                         </code>
                     </pre>
                     </section>
+
+
                     <section>
                         <h3>Before C++11, we had 2 common approaches</h3>
                         <div>Using a stand alone/free function</div>
@@ -115,14 +106,14 @@ void printOdd() {
     std::cout &lt&lt *it;
   }
 }
-    
+
                         </code>
                         </pre>
                     </section>
 
                     <section>
                         <h3>Or using a function object or functor</h3>
-                        
+
                         <pre class="fragment">
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
 struct IsOdd {
@@ -142,18 +133,18 @@ void printOdd() {
     std::cout &lt&lt *it;
   }
 }
-                            
+
                         </code>
                         </pre>
                     </section>
 
                     <section>
                         <h3>With Modern C++(C++11 and beyond), we now have lambdas.</h3>
-                        
+
                         <pre class="fragment">
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
-void printOdd() {  
-  auto it = std::find_if(begin(n), end(n), [] (int n) { 
+void printOdd() {
+  auto it = std::find_if(begin(n), end(n), [] (int n) {
       return n%2 != 0;
   });
 
@@ -161,7 +152,7 @@ void printOdd() {
     std::cout &lt&lt *it;
   }
 }
-                            
+
                         </code>
                         </pre>
                     </section>
@@ -182,8 +173,8 @@ void printOdd() {
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
 // Minimal lambda
 auto fn = [] { };
-                        
-                            
+
+
                         </code>
                         </pre>
                 </section>
@@ -194,8 +185,8 @@ auto fn = [] { };
                         <pre>
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
 auto fn = [] /* the square bracket is a &ldquo;lambda introducer&rdquo; */ { };
-                        
-                            
+
+
                         </code>
                         </pre>
                 </section>
@@ -206,8 +197,8 @@ auto fn = [] /* the square bracket is a &ldquo;lambda introducer&rdquo; */ { };
                         <pre>
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
 auto fn = [/*anything that goes here is a &ldquo;capture&rdquo;*/] { };
-                        
-                            
+
+
                         </code>
                         </pre>
                 </section>
@@ -217,12 +208,12 @@ auto fn = [/*anything that goes here is a &ldquo;capture&rdquo;*/] { };
 
                         <pre>
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
-auto fn = [/*&ldquo;capture&rdquo;*/] 
+auto fn = [/*&ldquo;capture&rdquo;*/]
  /* Everything in between is optional:
   (...) mutable throwSpec -> retType */
  { /* body */ };
-                        
-                            
+
+
                         </code>
                         </pre>
                 </section>
@@ -232,12 +223,12 @@ auto fn = [/*&ldquo;capture&rdquo;*/]
 
                         <pre>
                         <code class="cpp" data-trim data-line-numbers="4,8-11">
-/*A lambda can have a parameter specified in parentheses. 
+/*A lambda can have a parameter specified in parentheses.
 This is also called a lambda declarator.*/
-auto fn = [](const std::string& name) 
+auto fn = [](const std::string& name)
 { std::cout << "Hello, " << name << "\n"; };
-                        
-                            
+
+
                         </code>
                         </pre>
                 </section>
@@ -280,7 +271,7 @@ auto fn = [](const std::string& name)
                     </h5> <!-- End Fragment -->
 
                     </section>
-                    <section>  
+                    <section>
                     <h2>Captures</h2>
                     <h5 class>
                         <div class="row">
@@ -317,11 +308,16 @@ auto fn = [](const std::string& name)
             // - https://github.com/hakimel/reveal.js#configuration
             // - https://github.com/hakimel/reveal.js#dependencies
             Reveal.initialize({
+                center: true,
+                transition: 'convex',
                 dependencies: [
                     { src: 'plugin/markdown/marked.js' },
                     { src: 'plugin/markdown/markdown.js' },
                     { src: 'plugin/notes/notes.js', async: true },
-                    { src: 'plugin/highlight/highlight.js', async: true }
+                    { src: 'plugin/highlight/highlight.js', async: true },
+
+                    { src: 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js'},
+                    { src: 'js/index.js'}
                 ]
             });
         </script>
