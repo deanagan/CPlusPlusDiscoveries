@@ -44,9 +44,7 @@
                         <li class="fragment" v-for="cv in topcoverage">
                                 {{ cv }}
                                 <span v-if=cv.includes('Lambda')>
-                                    <ul class="fragment">
-                                        <li class="fragment" v-for="lc in lambdacoverage">{{ lc }}</li>
-                                    </ul>
+                                    <ul><li class="fragment" v-for="lc in lambdacoverage">{{ lc }}</li></ul>
                                 </span>
                             </li>
                         </ul>
@@ -54,22 +52,40 @@
                 </section> <!------------ Slide End ------------------------->
 
                 <section> <!------------ Slide Start ------------------------->
+                    <section>
                     <div>
-                        <h2>Why use the STL?</h2>
+                        <h3>Why use STL?</h3>
                     </div>
+
                     <div>
                         <ul class="whyUseStl">
                             <li class="fragment" v-for="why in whys">{{ why }}</li>
                         </ul>
                     </div>
-                <div>
-                </section>  <!------------ Slide End ------------------------->
-
-                <section>  <!------------ Slide Start ------------------------->
-                <h2>STL Approach</h2>
+                    </section>
+                    <section>
+                    <h3>STL Approach</h3>
                     <ul class = 'stlapproach'>
                         <li class="fragment" v-for="approach in approaches">{{ approach }}</li>
                     </ul>
+                    </section>
+                </section>  <!------------ Slide End ------------------------->
+
+                <section class="choosingcontainer">  <!------------ Slide Start ------------------------->
+                    <h3>STL Containers</h3>
+                    <section v-for="container in containers">
+                    <div class="row">
+                        <div class="column">
+                            <a v-bind:href="baseurl + container.name">
+                            {{ container.name.charAt(0).toUpperCase() + container.name.slice(1).replace("_", " ") }}</a>
+                        </div>
+                        <div class="column">
+                            <ul class>
+                                <li class="fragment" style="font-size:30px" v-for="description in container.descriptions">{{ description }}</li>
+                            </ul>
+                        </div>
+                    </div> <!-- End Row -->
+                    </section>
                 </section>  <!------------ Slide End ------------------------->
 
                 <section>  <!------------ Slide Start ------------------------->
