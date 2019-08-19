@@ -5,6 +5,6 @@ This is part of the learn to code series that I do to give back to the programmi
 
 For any questions, queries, comments, corrections or suggestions, you can contact me through:
 
-GitHub: www.github.com/deanagan/CodingWithSTL
+
 Twitter: @dean_agan
 LinkedIn: www.linkedin.com/in/deanagan
