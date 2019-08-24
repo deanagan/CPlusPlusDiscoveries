@@ -1,9 +1,4 @@
 # C++ Discoveries
-This repository is a presentation using revealjs and talks about using modern C++ in general.
+This repository is a slideshow notebook/presentation using revealjs and talks about modern C++ in general.
 
-
-For any questions, queries, comments, corrections or suggestions, you can contact me through:
-
-
-Twitter: @dean_agan
-LinkedIn: www.linkedin.com/in/deanagan
+This project is kept like a personal notebook but in presentation style with revealjs so it becomes easier to revisit things that I have learned.
