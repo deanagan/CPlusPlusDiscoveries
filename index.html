@@ -91,7 +91,7 @@
                 <section>  <!------------ Slide Start ------------------------->
                     <section>
                     <h2>Example Algorithm: std::find_if</h2>
-                    <div>Finding the first odd number in a sequence of numbers</div>
+                    <div>Finding the first odd number</div>
                     <pre>
                         <code class="fragment cpp" data-trim>
                             std::vector&ltint&gt n { 2, 4, 6, 9, 10 };
@@ -106,14 +106,14 @@
                         <h3>Before C++11, we had 2 common approaches</h3>
                         <div>Using a stand alone/free function</div>
                         <pre class="fragment">
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim>
 bool IsOdd(int n) {
   return n % 2 != 0;
 }
                         </code>
                         </pre>
                         <pre class="fragment">
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim>
 void printOdd() {
   std::vector&ltint&gt::iterator it; // no auto yet!
   it = std::find_if(n.begin(), n.end(), IsOdd);
@@ -131,7 +131,7 @@ void printOdd() {
                         <h3>Or using a function object or functor</h3>
 
                         <pre class="fragment">
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim >
 struct IsOdd {
   bool operator()(int n) const {
     return n%2 != 0;
@@ -140,10 +140,11 @@ struct IsOdd {
                         </code>
                         </pre>
                         <pre class="fragment">
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim>
 void printOdd() {
   std::vector&ltint&gt::iterator it; // no auto yet!
-  it = std::find_if(n.begin(), n.end(), IsOdd());
+  IsOdd isOdd;
+  it = std::find_if(n.begin(), n.end(), isOdd);
 
   if (it != n.end()) {
     std::cout &lt&lt *it;
@@ -158,8 +159,9 @@ void printOdd() {
                         <h3>With Modern C++(C++11 and beyond), we now have lambdas.</h3>
 
                         <pre class="fragment">
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim >
 void printOdd() {
+  // C++ 14 now has generic lambdas too!
   auto it = std::find_if(begin(n), end(n), [] (int n) {
       return n%2 != 0;
   });
@@ -186,7 +188,7 @@ void printOdd() {
                 <h2>Syntax</h2>
 
                         <pre>
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim>
 // Minimal lambda
 auto fn = [] { };
 
@@ -199,7 +201,7 @@ auto fn = [] { };
                 <h2>Syntax of Lambdas</h2>
 
                         <pre>
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim>
 auto fn = [] /* the square bracket is a &ldquo;lambda introducer&rdquo; */ { };
 
 
@@ -211,7 +213,7 @@ auto fn = [] /* the square bracket is a &ldquo;lambda introducer&rdquo; */ { };
                 <h2>Syntax of Lambdas</h2>
 
                         <pre>
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim>
 auto fn = [/*anything that goes here is a &ldquo;capture&rdquo;*/] { };
 
 
@@ -223,7 +225,7 @@ auto fn = [/*anything that goes here is a &ldquo;capture&rdquo;*/] { };
                 <h2>Syntax of Lambdas</h2>
 
                         <pre>
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim>
 auto fn = [/*&ldquo;capture&rdquo;*/]
  /* Everything in between is optional:
   (...) mutable throwSpec -> retType */
@@ -238,7 +240,7 @@ auto fn = [/*&ldquo;capture&rdquo;*/]
                 <h2>Syntax of Lambdas</h2>
 
                         <pre>
-                        <code class="cpp" data-trim data-line-numbers="4,8-11">
+                        <code class="cpp" data-trim>
 /*A lambda can have a parameter specified in parentheses.
 This is also called a lambda declarator.*/
 auto fn = [](const std::string& name)

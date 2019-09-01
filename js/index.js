@@ -93,11 +93,3 @@ var choosingcontainer = new Vue({
         ]
     }
 });
-
-var defining = new Vue({
-    el: '#definition',
-    data: {
-        active: false
-    },
-
-});
