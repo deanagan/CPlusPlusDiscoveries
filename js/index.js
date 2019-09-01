@@ -93,3 +93,41 @@ var choosingcontainer = new Vue({
         ]
     }
 });
+
+
+var algosample = new Vue({
+    el: '.algosample',
+    data: {
+        entries: [
+            {
+                heading : "Example Algorithm: std::find_if",
+                subheading: "Finding the first odd number",
+
+                code: [
+                    replaceDoubleSpaceStrings(`std::vector<int> n { 2, 4, 6, 9, 10 };
+                     auto result_iter = std::find_if(begin(n), end(n), ???);`)
+                ]
+            },
+
+            {
+                heading : "Before C++11, we had 2 common approaches",
+                subheading: "Using a stand alone/free function",
+
+                code: [
+                    replaceDoubleSpaceStrings(`bool IsOdd(int n) { return n % 2 != 0; }`),
+                    `
+void printOdd() {
+    std::vector<int>::iterator it; // no auto yet!
+    it = std::find_if(n.begin(), n.end(), IsOdd);
+    if (it != n.end()) {
+        std::cout << *it;
+    }
+}`
+                  ],
+            },
+
+
+        ]
+    }
+
+});

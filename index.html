@@ -88,12 +88,24 @@
                     </section>
                 </section>  <!------------ Slide End ------------------------->
 
+                 <section class="algosample">  <!------------ Slide Start ------------------------->
+                    <section v-for="entry in entries">
+                        <h2>{{entry.heading}}</h2>
+                        <div>{{entry.subheading}}</div>
+                        <pre class="fragment prettyprint lang-cpp" v-for="code in entry.code">
+                            <code class="cpp" data-trim>
+{{ code }}
+                            </code>
+                        </pre>
+                    </section>
+                </section>
+
                 <section>  <!------------ Slide Start ------------------------->
                     <section>
                     <h2>Example Algorithm: std::find_if</h2>
                     <div>Finding the first odd number</div>
-                    <pre>
-                        <code class="fragment cpp" data-trim>
+                    <pre class="fragment">
+                        <code class="cpp" data-trim>
                             std::vector&ltint&gt n { 2, 4, 6, 9, 10 };
 
                             auto result_iter = std::find_if(begin(n), end(n), ???);
@@ -103,7 +115,7 @@
 
 
                     <section>
-                        <h3>Before C++11, we had 2 common approaches</h3>
+                        <h2>Before C++11, we had 2 common approaches</h2>
                         <div>Using a stand alone/free function</div>
                         <pre class="fragment">
                         <code class="cpp" data-trim>
@@ -335,6 +347,7 @@ auto fn = [](const std::string& name)
                     { src: 'plugin/highlight/highlight.js', async: true },
 
                     { src: 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js'},
+                    { src: 'js/util.js'},
                     { src: 'js/index.js'}
                 ]
             });
