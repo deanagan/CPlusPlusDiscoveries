@@ -114,18 +114,60 @@ var algosample = new Vue({
                 subheading: "Using a stand alone/free function",
 
                 code: [
-                    replaceDoubleSpaceStrings(`bool IsOdd(int n) { return n % 2 != 0; }`),
-                    `
-void printOdd() {
-    std::vector<int>::iterator it; // no auto yet!
-    it = std::find_if(n.begin(), n.end(), IsOdd);
-    if (it != n.end()) {
-        std::cout << *it;
-    }
-}`
+                    'bool IsOdd(int n) { return n % 2 != 0; }',
+                    dedentStrUsing1stLineIndent(`
+                    void printOdd() {
+                        std::vector<int>::iterator it; // no auto yet!
+                        it = std::find_if(n.begin(), n.end(), IsOdd);
+                        if (it != n.end()) {
+                            std::cout << *it;
+                        }
+                    }`)
                   ],
             },
 
+            {
+                heading : "Or using a function object or functor",
+                subheading: "",
+
+                code: [
+                    dedentStrUsing1stLineIndent(`
+                    struct IsOdd {
+                        bool operator()(int n) const {
+                            return n%2 != 0;
+                        }
+                    };`),
+                    dedentStrUsing1stLineIndent(`
+                    void printOdd() {
+                        std::vector&ltint&gt::iterator it; // no auto yet!
+                        IsOdd isOdd;
+                        it = std::find_if(n.begin(), n.end(), isOdd);
+
+                        if (it != n.end()) {
+                          std::cout << *it;
+                        }
+                    }`)
+                  ],
+            },
+
+            {
+                heading : "With Modern C++(C++11 and beyond), we now have lambdas.",
+                subheading: "C++14 and beyond has generic lambdas too!",
+
+                code: [
+                    dedentStrUsing1stLineIndent(`
+                    void printOdd() {
+                        auto it = std::find_if(begin(n), end(n), [] (int n) {
+                            return n%2 != 0;
+                        });
+
+                        if (it != n.end()) {
+                          std::cout << *it;
+                        }
+                    }`),
+
+                  ],
+            },
 
         ]
     }
