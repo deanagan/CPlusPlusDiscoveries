@@ -1,58 +1,69 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <title>Coding With STL</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <link rel="stylesheet" href="css/reset.css">
-        <link rel="stylesheet" href="css/reveal.css">
-        <link rel="stylesheet" href="css/theme/league.css">
+    <title>Coding With STL</title>
 
-        <!-- Theme used for syntax highlighting of code -->
-        <link rel="stylesheet" href="lib/css/monokai.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/league.css">
 
-        <!-- Printing and PDF exports -->
-        <script>
-            var link = document.createElement( 'link' );
-            link.rel = 'stylesheet';
-            link.type = 'text/css';
-            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-            document.getElementsByTagName( 'head' )[0].appendChild( link );
-        </script>
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monokai.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
 
 
-    </head>
-    <body>
-        <div class="reveal">
-            <div class="slides">
-                <section> <!------------ Slide Start ------------------------->
-                    <h1>C++ Discoveries</h1>
-                    <h3>A slideshow notebook on Modern C++</h3>
-                    <p>
-                        <small>Created by <a href="https://www.linkedin.com/in/deanagan/">Dean Agan</a> </small> </br>
-                        <a href="https://twitter.com/intent/tweet?screen_name=dean_agan&ref_src=twsrc%5Etfw"
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!------------ Slide Start ------------------------->
+            <section>
+
+                <h1>C++ Discoveries</h1>
+                <h3>A slideshow notebook on Modern C++</h3>
+                <p>
+                    <small>Created by <a href="https://www.linkedin.com/in/deanagan/">Dean Agan</a> </small> </br>
+                    <a href="https://twitter.com/intent/tweet?screen_name=dean_agan&ref_src=twsrc%5Etfw"
                         class="twitter-mention-button" data-show-count="false">Tweet to @dean_agan
-                        </a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                    </p>
-                </section> <!------------ Slide End ------------------------->
+                    </a>
+                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </p>
+            </section>
+            <!------------ Slide End ------------------------->
 
-                <section> <!------------ Slide Start ------------------------->
-                    <h3>Contents:</h3>
-                    <ol class="coverage">
-                        <li class="fragment" v-for="cv in topcoverage">
-                                {{ cv }}
-                                <span v-if=cv.includes('Lambda')>
-                                    <ul><li class="fragment" v-for="lc in lambdacoverage">{{ lc }}</li></ul>
-                                </span>
-                            </li>
-                        </ul>
-                    </ol>
-                </section> <!------------ Slide End ------------------------->
+            <!------------ Slide Start ------------------------->
+            <section>
+                <h3>Contents:</h3>
+                <ol class="coverage">
+                    <li class="fragment" v-for="cv in topcoverage">
+                        {{ cv }}
+                        <span v-if=cv.includes('Lambda')>
+                            <ul>
+                                <li class="fragment" v-for="lc in lambdacoverage">{{ lc }}</li>
+                            </ul>
+                        </span>
+                    </li>
+                    </ul>
+                </ol>
+            </section>
+            <!------------ Slide End ------------------------->
 
-                <section> <!------------ Slide Start ------------------------->
-                    <section>
+            <!------------ Slide Start ------------------------->
+            <section>
+                <section>
                     <div>
                         <h3>Why use STL?</h3>
                     </div>
@@ -62,207 +73,124 @@
                             <li class="fragment" v-for="why in whys">{{ why }}</li>
                         </ul>
                     </div>
-                    </section>
-                    <section>
+                </section>
+                <section>
                     <h3>STL Approach</h3>
-                    <ul class = 'stlapproach'>
+                    <ul class='stlapproach'>
                         <li class="fragment" v-for="approach in approaches">{{ approach }}</li>
                     </ul>
-                    </section>
-                </section>  <!------------ Slide End ------------------------->
+                </section>
+            </section>
+            <!------------ Slide End ------------------------->
 
-                <section class="choosingcontainer">  <!------------ Slide Start ------------------------->
-                    <h3>STL Containers</h3>
-                    <section v-for="container in containers">
+            <!------------ Slide Start ------------------------->
+            <section class="choosingcontainer">
+                <h3>STL Containers</h3>
+                <section v-for="container in containers">
                     <div class="row">
                         <div class="column">
                             <a v-bind:href="baseurl + container.name">
-                            {{ container.name.charAt(0).toUpperCase() + container.name.slice(1).replace("_", " ") }}</a>
+                                {{ container.name.charAt(0).toUpperCase() + container.name.slice(1).replace("_", " ") }}</a>
                         </div>
                         <div class="column">
                             <ul class>
-                                <li class="fragment" style="font-size:30px" v-for="description in container.descriptions">{{ description }}</li>
+                                <li class="fragment" style="font-size:30px"
+                                    v-for="description in container.descriptions">{{ description }}</li>
                             </ul>
                         </div>
-                    </div> <!-- End Row -->
-                    </section>
-                </section>  <!------------ Slide End ------------------------->
-
-                 <section class="algosample">  <!------------ Slide Start ------------------------->
-                    <section v-for="entry in entries">
-                        <h2>{{entry.heading}}</h2>
-                        <div>{{entry.subheading}}</div>
-                        <pre class="fragment prettyprint lang-cpp" v-for="code in entry.code">
-                            <code class="cpp" data-trim>
-{{ code }}
-                            </code>
-                        </pre>
-                    </section>
+                    </div>
                 </section>
+            </section>
+            <!------------ Slide End ------------------------->
 
-             <section>  <!------------ Slide Start ------------------------->
+            <!------------ Slide Start ------------------------->
+            <section class="algosample">
+                <section v-for="entry in entries">
+                    <h2>{{entry.heading}}</h2>
+                    <div>{{entry.subheading}}</div>
+                    <pre class="fragment prettyprint lang-cpp" v-for="code in entry.code">
+                            <code class="cpp" data-trim>{{ code }}</code>
+                    </pre>
+                </section>
+            </section>
+            <!------------ Slide End ------------------------->
+
+            <!------------ Slide Start ------------------------->
+            <section>
                 <h2>Discovering Lambdas</h2>
-                    <blockquote cite="http://www.stroustrup.com/C++11FAQ.html#lambda">
-						&ldquo;A lambda expression is a mechanism for specifying a function object. The primary use for a lambda is to specify a simple action to be performed by some function.&rdquo; - Bjarne Stroustrup
-					</blockquote>
-             </section>  <!------------ Slide End ------------------------->
+                <blockquote cite="http://www.stroustrup.com/C++11FAQ.html#lambda">
+                    &ldquo;A lambda expression is a mechanism for specifying a function object. The primary use for a
+                    lambda is to specify a simple action to be performed by some function.&rdquo; - Bjarne Stroustrup
+                </blockquote>
+            </section>
+            <!------------ Slide End ------------------------->
 
-             <section>  <!------------ Slide Start ------------------------->
-                <section data-transition="none">
-                <h2>Syntax</h2>
-
-                        <pre>
-                        <code class="cpp" data-trim>
-// Minimal lambda
-auto fn = [] { };
-
-
-                        </code>
-                        </pre>
+            <!------------ Slide Start ------------------------->
+            <section class="lambdasyntax">
+                <section v-for="codesample in codesamples">
+                    <h2>Syntax of Lambdas</h2>
+                    <pre><code class="cpp" data-trim>{{ codesample }}</code></pre>
                 </section>
+            </section>
+            <!------------ Slide End ------------------------->
 
-                <section data-transition="none">
-                <h2>Syntax of Lambdas</h2>
-
-                        <pre>
-                        <code class="cpp" data-trim>
-auto fn = [] /* the square bracket is a &ldquo;lambda introducer&rdquo; */ { };
-
-
-                        </code>
-                        </pre>
-                </section>
-
-                <section data-transition="none">
-                <h2>Syntax of Lambdas</h2>
-
-                        <pre>
-                        <code class="cpp" data-trim>
-auto fn = [/*anything that goes here is a &ldquo;capture&rdquo;*/] { };
-
-
-                        </code>
-                        </pre>
-                </section>
-
-                <section data-transition="none">
-                <h2>Syntax of Lambdas</h2>
-
-                        <pre>
-                        <code class="cpp" data-trim>
-auto fn = [/*&ldquo;capture&rdquo;*/]
- /* Everything in between is optional:
-  (...) mutable throwSpec -> retType */
- { /* body */ };
-
-
-                        </code>
-                        </pre>
-                </section>
-
-                <section data-transition="none">
-                <h2>Syntax of Lambdas</h2>
-
-                        <pre>
-                        <code class="cpp" data-trim>
-/*A lambda can have a parameter specified in parentheses.
-This is also called a lambda declarator.*/
-auto fn = [](const std::string& name)
-{ std::cout << "Hello, " << name << "\n"; };
-
-
-                        </code>
-                        </pre>
-                </section>
-             </section>  <!------------ Slide End ------------------------->
-
-            <section>  <!------------ Slide Start ------------------------->
-                <section>  <!------------ Slide Start ------------------------->
-                <h2>Captures</h2>
-                    <h5 class="fragment">
-                        <div class="row">
-                            <div class="column">
-                                <pre>
-                                    <code class="cpp" data-trim>[=]{};</code>
-                                </pre>
-                            </div>
-                            <div class="column">Outer scope is passed to the lambda by value default.</div>
-                        </div> <!-- End Row -->
-                    </h5> <!-- End Fragment -->
-
-                    <h5 class="fragment">
-                        <div class="row">
-                            <div class="column">
-                                <pre>
-                                    <code class="cpp" data-trim>[&]{};</code>
-                                </pre>
-                            </div>
-                            <div class="column">Outer scope is passed to the lambda by reference default.</div>
-                        </div> <!-- End Row -->
-                    </h5> <!-- End Fragment -->
-
-                    <h5 class="fragment">
-                        <div class="row">
-                            <div class="column">
-                                <pre>
-                                    <code class="cpp" data-trim>[&i]{};</code>
-                                </pre>
-                            </div>
-                            <div class="column">Capture i by reference.</div>
-                        </div> <!-- End Row -->
-                    </h5> <!-- End Fragment -->
-
-                    </section>
-                    <section>
+            <!------------ Slide Start ------------------------->
+            <section class="capturerules">
+                <section v-for="sl in splitted">
                     <h2>Captures</h2>
-                    <h5 class>
+                    <h5 class="fragment" v-for="cx in sl">
                         <div class="row">
                             <div class="column">
-                                <pre>
-                                    <code class="cpp" data-trim>[i]{};</code>
-                                </pre>
+                                <pre><code class="cpp" data-trim>{{ cx.column1 }}</code></pre>
                             </div>
-                            <div class="column">Capture i by value.</div>
-                        </div> <!-- End Row -->
-                    </h5> <!-- End Fragment -->
+                            <div class="column">{{ cx.column2 }}</div>
+                        </div>
+                    </h5>
+                </section>
+            </section>
+            <!------------ Slide End ------------------------->
 
-                    <h5 class="fragment">
-                        <div class="row">
-                            <div class="column">
-                                <pre>
-                                    <code class="cpp" data-trim>[&i, j]{};</code>
-                                </pre>
-                            </div>
-                            <div class="column">Capture i by reference and capture j by value.</div>
-                        </div> <!-- End Row -->
-                    </h5> <!-- End Fragment -->
-                    </section>
+        </div>
+        <!----------------------- Slides ------------------>
+    </div>
+    <!----------------------- Reveal ------------------>
 
-            </section>  <!------------ Slide End ------------------------->
+    <script src="js/reveal.js"></script>
 
-            </div> <!----------------------- Slides ------------------>
-        </div> <!----------------------- Reveal ------------------>
+    <script>
+        // More info about config & dependencies:
+        // - https://github.com/hakimel/reveal.js#configuration
+        // - https://github.com/hakimel/reveal.js#dependencies
+        Reveal.initialize({
+            center: true,
+            transition: 'convex',
+            dependencies: [{
+                    src: 'plugin/markdown/marked.js'
+                },
+                {
+                    src: 'plugin/markdown/markdown.js'
+                },
+                {
+                    src: 'plugin/notes/notes.js',
+                    async: true
+                },
+                {
+                    src: 'plugin/highlight/highlight.js',
+                    async: true
+                },
 
-        <script src="js/reveal.js"></script>
+                {
+                    src: 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js'
+                },
+                {
+                    src: 'js/util.js'
+                },
+                {
+                    src: 'js/index.js'
+                }
+            ]
+        });
+    </script>
+</body>
 
-        <script>
-            // More info about config & dependencies:
-            // - https://github.com/hakimel/reveal.js#configuration
-            // - https://github.com/hakimel/reveal.js#dependencies
-            Reveal.initialize({
-                center: true,
-                transition: 'convex',
-                dependencies: [
-                    { src: 'plugin/markdown/marked.js' },
-                    { src: 'plugin/markdown/markdown.js' },
-                    { src: 'plugin/notes/notes.js', async: true },
-                    { src: 'plugin/highlight/highlight.js', async: true },
-
-                    { src: 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js'},
-                    { src: 'js/util.js'},
-                    { src: 'js/index.js'}
-                ]
-            });
-        </script>
-    </body>
 </html>
