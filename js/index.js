@@ -66,31 +66,58 @@ var choosingcontainer = new Vue({
             { name: "list", descriptions: [
                 "Supports constant time insertion and removal of elements from anywhere in the container.",
                 "Usually a doubly linked list.",
-                "Elements are not stored contiguously, but rather individual allocated fixed sized arrays (typical implementation).",
-                "Larger minimal memory cost than a vector.",
-                "Unlike a vector, it does not involve copying of the existing elements to a new memory when expanding."
-
             ]},
             { name: "forward_list", descriptions: [
                 "Supports constant time insertion and removal of elements from anywhere in the container.",
                 "Implemented as singly-linked list.",
-                "Elements are not stored contiguously, but rather individual allocated fixed sized arrays (typical implementation).",
-                "Larger minimal memory cost than a vector.",
-                "Unlike a vector, it does not involve copying of the existing elements to a new memory when expanding."
-
             ]},
             { name: "set", descriptions: [
                 "An associative container that contains a sorted set of unique objects of type Key.",
                 "Sorting is done using the key comparison function Compare",
                 "Search, removal, and insertion operations have logarithmic complexity.",
+                "The key is the value itself. Key is unique, unlike multiset.",
                 "Sets are usually implemented as red-black trees.",
             ]},
             { name: "map", descriptions: [
                 "Is a sorted(unlike unordered_map) associative container that contains key-value pairs with unique keys.",
+                "A key is mapped to a value. Keys are unique, unlike multimap.",
                 "Sorting is done using the key comparison function Compare",
                 "Search, removal, and insertion operations have logarithmic complexity.",
             ]},
-        ]
+        ],
+        pickingcontainer : {
+            title: "Picking a Container",
+            scenarios_and_picks: [
+                {
+                    Scene: "By Default.",
+                    Pick: "Vector for smaller collections, Deque for growth efficiency."
+                },
+                {
+                    Scene: "Need a C-like contiguous dynamic array.",
+                    Pick: "Vector"
+                },
+                {
+                    Scene: "Need to insert a new element at the front and back.",
+                    Pick: "Deque"
+                },
+                {
+                    Scene: "Need to insert a new element at the middle and/or merge collections without re-allocating memory or invalidating iterators and references.",
+                    Pick: "List"
+                },
+                {
+                    Scene: "Need to look up by key separate to the value.",
+                    Pick: "Map"
+                },
+                {
+                    Scene: "Need to look up by key as the value itself.",
+                    Pick: "Set"
+                },
+                {
+                    Scene: "Need to look up by key, allowing for duplicates.",
+                    Pick: "Multimap and Multiset"
+                },
+            ]
+        }
     }
 });
 
