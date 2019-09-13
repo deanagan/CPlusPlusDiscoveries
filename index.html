@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Coding With STL</title>
+    <title>Modern C++ Discoveries</title>
 
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/reveal.css">
@@ -177,15 +177,16 @@
             <!------------ Slide End ------------------------->
 
             <!------------ Slide Start ------------------------->
-            <section class="lambdaNotes">
-                <section v-for="note in notes">
-                    {{note.statement}}
-                    <div class="fragment" v-for="code in note.codes">
+            <section class="lambdaGotchas">
+                <section v-for="gotcha in gotchas">
+                    <h2>Gotchas</h2>
+                    {{gotcha.statement}}
+                    <div class="fragment" v-for="code in gotcha.codes">
                         <pre><code class="cpp" data-trim>{{ code }}</code></pre>
                     </div>
                 </section>
             </section>
-                <!------------ Slide End ------------------------->
+            <!------------ Slide End ------------------------->
         </div>
         <!----------------------- Slides ------------------>
     </div>

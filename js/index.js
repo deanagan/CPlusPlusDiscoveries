@@ -26,7 +26,7 @@ var coverage = new Vue({
             'Syntax',
             'Captures',
             'Mutable',
-            'Notes'
+            'Gotchas'
         ]
     }
 });
@@ -165,7 +165,7 @@ var algosample = new Vue({
                     };`),
                     dedentStrUsing1stLineIndent(`
                     void printOdd() {
-                        std::vector&ltint&gt::iterator it; // no auto yet!
+                        std::vector<int>::iterator it; // no auto yet!
                         IsOdd isOdd;
                         it = std::find_if(n.begin(), n.end(), isOdd);
 
@@ -371,12 +371,12 @@ var mutableLambdas = new Vue({
     }
 })
 
-var lambdaNotes = new Vue({
-    el : '.lambdaNotes',
+var lambdaGotchas = new Vue({
+    el : '.lambdaGotchas',
     data : {
-        notes : [
+        gotchas : [
             {
-                statement : "Remember that with lambda expressions, bound variables are captured at the time of declaration.",
+                statement : "With lambda expressions, bound variables are captured at the time of declaration.",
                 codes : [
                     dedentStrUsing1stLineIndent(`
                     int someNumber = 20;
@@ -388,24 +388,15 @@ var lambdaNotes = new Vue({
                 ]
             },
             {
-                statement : replaceDoubleSpaceStrings(`Be careful with capturing by reference or capturing by value of a pointer in lambdas
-                that will be used nonlocally, including returned, stored on the heap, or passed to another thread.`),
+                statement : replaceDoubleSpaceStrings(`Capturing by reference or capturing by value of a pointer in lambdas
+                that will be used nonlocally, including returned, stored on the heap, or passed to another thread may result in dangling pointers or references.`),
                 codes : [
                     dedentStrUsing1stLineIndent(`
-                    std::function<int(int)> GetSomeFn() {
-                        auto someNumber = 43;
-                        return [&someNumber] (int value) {
-                            return value % someNumber;
+                    std::function<int(int)> GetModuloFn() {
+                        auto number = 43;
+                        return [&number] (int value) {
+                            return value % number;
                         }; // ref to someNumber will dangle!
-                    }`),
-
-                    dedentStrUsing1stLineIndent(`
-                    // Capture by value instead.
-                    std::function<int(int)> GetSomeFn() {
-                        auto someNumber = 43;
-                        return [someNumber] (int value) {
-                            return value % someNumber;
-                        }; // capture to someNumber will no longer be dangling!
                     }`),
                 ]
             },
@@ -449,7 +440,7 @@ var lambdaNotes = new Vue({
                 ]
             },
             {
-                statement : "Prefer to not use default capture modes to easily spot what was captured and avoid dangling.",
+                statement : "Prefer to not use default capture modes to easily spot what was captured and avoid dangling.(Scott Meyer Effective Modern C++)",
                 codes : [
                     dedentStrUsing1stLineIndent(`
                     int x;
@@ -460,30 +451,6 @@ var lambdaNotes = new Vue({
 
                 ]
             },
-            {
-                statement : replaceDoubleSpaceStrings(`In-place lambdas can be used with initializing variables that need
-                constness, especially legacy output parameter initializations.`),
-                codes : [
-                    dedentStrUsing1stLineIndent(`
-                    void LegacyUseOutputParameters(int& x) {
-                        x = 23;
-                    }
-
-                    auto result = 0;
-                    LegacyUseOutputParameters(result); // result = 23 but isn't const
-                    `),
-                    dedentStrUsing1stLineIndent(`
-                    void LegacyUseOutputParameters(int& x) {
-                        x = 23;
-                    }
-
-                    const auto result = [] {
-                        auto x = 0;
-                        LegacyUseOutputParameters(x);
-                        return x;
-                    }(); // now result is 23 and const`)
-                ]
-            }
         ]
     }
 })
