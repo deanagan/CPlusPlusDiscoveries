@@ -19,15 +19,14 @@ var coverage = new Vue({
             'Example Algorithm: std::find_if',
             'Discovering Lambdas',
             'The Power of Iterators',
-            'Algorithm Friendly Class via overloading',
-            'Refactoring to Use Algorithms'
+            'Example Refactorings to Use Algorithms'
         ],
 
         lambdacoverage : [
             'Syntax',
             'Captures',
             'Mutable',
-            'Guidelines'
+            'Notes'
         ]
     }
 });
@@ -307,5 +306,184 @@ var captureRules = new Vue({
             }
             return splittedList
         }
+    }
+})
+
+var mutableLambdas = new Vue({
+    el : '.mutablelambdas',
+    data : {
+        mutablenotes : [
+            {
+                statement: "Lambdas are equivalent to const methods by default.",
+                codes: [
+                    dedentStrUsing1stLineIndent(`
+                    // This lambda
+                    auto productFn = [multiplier](int multiplicand) {
+                        return multiplicand * multiplier;
+                    };`),
+                    dedentStrUsing1stLineIndent(`
+                    // is equivalent to this functor:
+                    struct Product {
+                        public:
+                            Product(int multiplier) : _multiplier(multiplier) {}
+                            int operator()(int multiplicand) const
+                            {
+                                return multiplicand * multiplier;
+                            }
+                        private:
+                            int _multiplier;
+                    };`)
+                ]
+            },
+            {
+                statement : "Lambdas follows the same syntax rules for const-qualified methods.",
+                codes : [
+                    dedentStrUsing1stLineIndent(`
+                    auto someFn = [someNumber](int anotherNumber) {
+                        ++someNumber; // Bad! expression must be a modifiable lvalue
+                        return anotherNumber + someNumber;
+                    };`),
+                    dedentStrUsing1stLineIndent(`
+                    auto someFn = [someNumber](int anotherNumber) mutable {
+                        ++someNumber; // Now good due to mutable.
+                        return anotherNumber + someNumber;
+                    };`)
+                ]
+            },
+
+            {
+                statement : "If it were a reference though, it will still work as someNumber is now external to the object, and does not alter the object state.",
+                codes : [
+                    dedentStrUsing1stLineIndent(`
+                    auto someFn = [&someNumber](int anotherNumber) {
+                        ++someNumber;
+                        return anotherNumber + someNumber;
+                    };`),
+                    dedentStrUsing1stLineIndent(`
+                    // Applies to pointers too!
+                    auto someFn = [pSomeNumber](int anotherNumber) {
+                        ++(*pSomeNumber);
+                        return anotherNumber + *pSomeNumber;
+                    };`)
+                ]
+            },
+        ]
+    }
+})
+
+var lambdaNotes = new Vue({
+    el : '.lambdaNotes',
+    data : {
+        notes : [
+            {
+                statement : "Remember that with lambda expressions, bound variables are captured at the time of declaration.",
+                codes : [
+                    dedentStrUsing1stLineIndent(`
+                    int someNumber = 20;
+                    auto someFn = [someNumber](int anotherNumber) {
+                        return anotherNumber + someNumber;
+                    };
+                    someNumber = 12;
+                    auto result = someFn(1); // result == 21 and not 13.`),
+                ]
+            },
+            {
+                statement : replaceDoubleSpaceStrings(`Be careful with capturing by reference or capturing by value of a pointer in lambdas
+                that will be used nonlocally, including returned, stored on the heap, or passed to another thread.`),
+                codes : [
+                    dedentStrUsing1stLineIndent(`
+                    std::function<int(int)> GetSomeFn() {
+                        auto someNumber = 43;
+                        return [&someNumber] (int value) {
+                            return value % someNumber;
+                        }; // ref to someNumber will dangle!
+                    }`),
+
+                    dedentStrUsing1stLineIndent(`
+                    // Capture by value instead.
+                    std::function<int(int)> GetSomeFn() {
+                        auto someNumber = 43;
+                        return [someNumber] (int value) {
+                            return value % someNumber;
+                        }; // capture to someNumber will no longer be dangling!
+                    }`),
+                ]
+            },
+            {
+                statement : 'A capture by value of a raw pointer may still dangle.',
+                codes : [
+                    dedentStrUsing1stLineIndent(`
+                    struct Coordinate {
+                        int xaxis { 1 };
+                        int yaxis { 1 };
+                    };
+
+                    std::function<int(int)> GetSomeFn() {
+                        auto pInter = new Coordinate;
+                        auto fn = [=] (int value) {
+                            return value % pInter->xaxis;  // dangle!
+                        };
+                        // .. more code here
+                        delete pInter;
+                        return fn;
+                    }`),
+                ]
+            },
+            {
+                statement : 'Dangling also happens with out of scope "this" instances of an object that returns a lambda fn.',
+                codes : [
+                    dedentStrUsing1stLineIndent(`
+                    struct Coordinate {
+                        int xaxis { 1 };
+                        int yaxis { 1 };
+
+                        std::function<int(int)> Compute() {
+                            return [this] (int value) { return value % this->xaxis; };
+                        }
+                    };
+
+                    std::function<int(int)> GetSomeFn() {
+                        Coordinate c;
+                        return c.Compute(); // dangling! Out of scope capture.
+                    }`)
+                ]
+            },
+            {
+                statement : "Prefer to not use default capture modes to easily spot what was captured and avoid dangling.",
+                codes : [
+                    dedentStrUsing1stLineIndent(`
+                    int x;
+                    ...
+                    auto fn = [=] (int y) { return x*y;}; // OK
+                    auto fn = [x] (int y) { return x*y;}; // Better
+                    `)
+
+                ]
+            },
+            {
+                statement : replaceDoubleSpaceStrings(`In-place lambdas can be used with initializing variables that need
+                constness, especially legacy output parameter initializations.`),
+                codes : [
+                    dedentStrUsing1stLineIndent(`
+                    void LegacyUseOutputParameters(int& x) {
+                        x = 23;
+                    }
+
+                    auto result = 0;
+                    LegacyUseOutputParameters(result); // result = 23 but isn't const
+                    `),
+                    dedentStrUsing1stLineIndent(`
+                    void LegacyUseOutputParameters(int& x) {
+                        x = 23;
+                    }
+
+                    const auto result = [] {
+                        auto x = 0;
+                        LegacyUseOutputParameters(x);
+                        return x;
+                    }(); // now result is 23 and const`)
+                ]
+            }
+        ]
     }
 })

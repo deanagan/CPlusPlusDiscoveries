@@ -164,6 +164,28 @@
             </section>
             <!------------ Slide End ------------------------->
 
+            <!------------ Slide Start ------------------------->
+            <section class="mutablelambdas">
+                <section v-for="note in mutablenotes">
+                <h2>Mutable</h2>
+                    {{note.statement}}
+                    <div class="fragment" v-for="code in note.codes">
+                        <pre><code class="cpp" data-trim>{{ code }}</code></pre>
+                    </div>
+                </section>
+            </section>
+            <!------------ Slide End ------------------------->
+
+            <!------------ Slide Start ------------------------->
+            <section class="lambdaNotes">
+                <section v-for="note in notes">
+                    {{note.statement}}
+                    <div class="fragment" v-for="code in note.codes">
+                        <pre><code class="cpp" data-trim>{{ code }}</code></pre>
+                    </div>
+                </section>
+            </section>
+                <!------------ Slide End ------------------------->
         </div>
         <!----------------------- Slides ------------------>
     </div>
