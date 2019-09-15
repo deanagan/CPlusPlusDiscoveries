@@ -1,0 +1,42 @@
+Iterators
+ - are concepts of an object that represents positions of elements in a container.
+ - not a pointer but rather, a generalization of a pointer, thus a pointer is an iterator but an iterator is not neccesarily be a pointer. i.e. an iterator to a graph or tree is much more than a pointer.
+ - iterators share the same interface but have different types
+Iterator Operations:
+
+Operator* - element of the current position
+Operator++ - step forward to the next element
+Operator == and != - indicates whether 2 iterators represent the same position
+Operator = assign the position of the element the righ hand iterator refers to
+
+Iterator Basic Member Function:
+begin() - represent the beginning of the elements in the container
+end() - represents the position behind the last element, a past-the-end iterator
+
+
+Two Iterator types defined in every container:
+container::iterator - iterate over elements in read/write mode
+container::const_iterator - iterator over elements in read-only mode
+
+
+Ranged Base FOr Loops versus iterators.
+Ranged based for loops are convenience interfaces only. THus, these are equivalents:
+for (container_type elem : container) {
+    ...
+}
+
+for (auto pos=container.begin(), end=container.end(); pos!=end; ++pos) {
+    // take note elem is a copy of the element refered by pos. Thus it is
+    // a good idea to make elem a reference/const reference to avoid unintentional copying.
+    container_type elem = *pos;
+    ...
+}
+
+
+Iterator Categories:
+
+Output Iterators - only iterates forward with write access, assigning new values to elements one by one
+		 - unable to iterate the container range twice
+
+Guidelines:
+Use cbegin/cend for const_iterator.
