@@ -1,7 +1,9 @@
 Iterators
  - are concepts of an object that represents positions of elements in a container.
- - not a pointer but rather, a generalization of a pointer, thus a pointer is an iterator but an iterator is not neccesarily be a pointer. i.e. an iterator to a graph or tree is much more than a pointer.
+ - not a pointer but rather, a generalization of a pointer, thus a pointer is an iterator but an iterator is not neccesarily a pointer.
+ e.g. an iterator to a graph or tree is much more than a pointer.
  - iterators share the same interface but have different types
+
 Iterator Operations:
 
 Operator* - element of the current position
