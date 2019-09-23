@@ -21,7 +21,7 @@ container::iterator - iterate over elements in read/write mode
 container::const_iterator - iterator over elements in read-only mode
 
 
-Ranged Base FOr Loops versus iterators.
+Ranged Base For Loops versus iterators.
 Ranged based for loops are convenience interfaces only. THus, these are equivalents:
 for (container_type elem : container) {
     ...
@@ -34,11 +34,19 @@ for (auto pos=container.begin(), end=container.end(); pos!=end; ++pos) {
     ...
 }
 
-
-Iterator Categories:
-
-Output Iterators - only iterates forward with write access, assigning new values to elements one by one
-		 - unable to iterate the container range twice
+- Iterators allow for working with vector without knowing the size beforehand.
 
 Guidelines:
 Use cbegin/cend for const_iterator.
+next() and advance() does not check whether it crosses the end() of a sequence
+(it can’t check because iterators in general do not know the containers on which they operate).
+Thus, calling this function might result in undefined behavior because calling operator ++ for
+the end of a sequence is not defined.
+prev() is the same, it doesn't check if it's past begin() and may result in undefined behavior.
+
+distance() - By using iterator tags, this function uses the best implementation according to
+the iterator category. For random-access iterators, this function simply returns pos2-pos1.
+Thus, for such iterators, distance() has constant complexity. For all other iterator categories,
+pos1 is incremented until it reaches pos2 and the number of increments is returned. Thus, for
+all other iterator categories, distance() has linear complexity. Therefore, distance() has bad
+performance for other than random-access iterators. You should consider avoiding it.

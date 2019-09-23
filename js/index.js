@@ -18,7 +18,7 @@ var coverage = new Vue({
             'STL Containers',
             'Example Algorithm: std::find_if',
             'Discovering Lambdas',
-            'The Power of Iterators',
+            'Iterators',
             'Example Refactorings to Use Algorithms'
         ],
 
