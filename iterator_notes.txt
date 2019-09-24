@@ -4,22 +4,23 @@ Iterators
  e.g. an iterator to a graph or tree is much more than a pointer.
  - iterators share the same interface but have different types
 
-Iterator Operations:
-
-Operator* - element of the current position
-Operator++ - step forward to the next element
-Operator == and != - indicates whether 2 iterators represent the same position
-Operator = assign the position of the element the righ hand iterator refers to
-
-Iterator Basic Member Function:
+--------------------------------------
+Iterator Functions:
 begin() - represent the beginning of the elements in the container
 end() - represents the position behind the last element, a past-the-end iterator
+std::begin()/::end() free functions - same as member function begin/end. Prefer over member function for
+uniformity as it can be used on C arrays.
+next() - advances iterator to next element.
+advance() - advances itertor to element by n steps.
+prev() - moves iterator to previous element.
 
+next() and advance() does not check whether it crosses the end() of a sequence
+(it can’t check because iterators in general do not know the containers on which they operate).
+Thus, calling this function might result in undefined behavior because calling operator ++ for
+the end of a sequence is not defined.
+prev() is the same, it doesn't check if it's past begin() and may result in undefined behavior.
 
-Two Iterator types defined in every container:
-container::iterator - iterate over elements in read/write mode
-container::const_iterator - iterator over elements in read-only mode
-
+iter_swap() - swap iterators
 
 Ranged Base For Loops versus iterators.
 Ranged based for loops are convenience interfaces only. THus, these are equivalents:
