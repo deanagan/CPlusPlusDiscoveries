@@ -51,3 +51,8 @@ Thus, for such iterators, distance() has constant complexity. For all other iter
 pos1 is incremented until it reaches pos2 and the number of increments is returned. Thus, for
 all other iterator categories, distance() has linear complexity. Therefore, distance() has bad
 performance for other than random-access iterators. You should consider avoiding it.
+
+begin/end free function vs begin/end member function
+
+In Modern C++, begin/end free functions are preferred over member functions. They do the
+same thing that begin/end member functions do plus work on regular C-arrays.
