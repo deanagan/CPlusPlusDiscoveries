@@ -476,13 +476,14 @@ var iteratorFunctions = new Vue({
         funcs : [
             {
                 name : "begin/end",
-                drawing : 'images/begin-end-iter.png',
+                drawing : 'https://github.com/deanagan/modern-cpp-stl-notes/blob/master/img/begin-end-iter.png',
                 descriptions : [
                 "sdasdasd"
                 ]
             },
             {
-                name : "begin/end",
+                name : "rbegin/rend",
+                drawing : 'https://github.com/deanagan/modern-cpp-stl-notes/blob/master/img/rbegin-rend-iter.png',
                 descriptions : [
                 "sdasdasd"
                 ]
