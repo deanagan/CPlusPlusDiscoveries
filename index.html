@@ -187,6 +187,30 @@
                 </section>
             </section>
             <!------------ Slide End ------------------------->
+
+            <!------------ Slide Start ------------------------->
+            <section class="iteratorDescriptions">
+                <h2>Iterators</h2>
+                <div class="fragment" v-for="description in descriptions">
+                    <ul>
+                    <li>{{ description }}</li>
+                    </ul>
+                </div>
+            </section>
+            <!------------ Slide End ------------------------->
+            <!------------ Slide Start ------------------------->
+            <section class="iteratorFunctions">
+                <section v-for="func in funcs">
+                    <h2>Iterator Functions</h2>
+                    <img src={{func.drawing}}></img>
+                    <div class="fragment" v-for="description in func.descriptions">
+                        <ul>
+                            <li>{{ description }}</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+            <!------------ Slide End ------------------------->
         </div>
         <!----------------------- Slides ------------------>
     </div>
