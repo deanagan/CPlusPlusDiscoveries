@@ -201,14 +201,17 @@
             <!------------ Slide Start ------------------------->
             <section class="iteratorFunctions">
                 <section v-for="func in funcs">
-                    <h2>Iterator Functions</h2>
-                    <img v-bind:src="func.drawing">
+                    <h2>Iterator Functions - {{func.name}}</h2>
                     <div class="fragment" v-for="description in func.descriptions">
                         <ul>
                             <li>{{ description }}</li>
                         </ul>
                     </div>
+                    <img v-if="func.drawing" class="fragment" v-bind:src="func.drawing">
+                    <div v-if="func.note" class="fragment">{{func.note}}</div>
+                    <pre class="fragment"><code v-if="func.sample" class="cpp" data-trim>{{ func.sample }}</code></pre>
                 </section>
+
             </section>
             <!------------ Slide End ------------------------->
         </div>
