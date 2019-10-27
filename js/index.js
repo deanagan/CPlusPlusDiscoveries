@@ -658,8 +658,7 @@ var refactoringExamples = new Vue({
                 class Card {
                 public:
                     Card(string suit, string rank)
-                        : m_suit(suit)
-                        , m_rank(rank) {}
+                        : m_suit(suit), m_rank(rank) {}
 
                     bool operator==(const Card& other) {
                         return m_suit == other.m_suit && 
@@ -705,7 +704,7 @@ var refactoringExamples = new Vue({
                         ++numCardRank9;
                     }
                 }`),
-                after_label: "Using STL std::count",
+                after_label: "Using STL std::count_if",
                 after : dedentStrUsing1stLineIndent(`                
                 const auto cardRank9 = "9";
                 numCardRank9 = count_if(begin(deckOfCards), end(deckOfCards), 
