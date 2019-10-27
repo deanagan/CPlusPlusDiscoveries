@@ -294,7 +294,7 @@ var captureRules = new Vue({
     },
     computed : {
         splitted() {
-            return splitListInChunks(this.readchunk, this.codeexp)
+            return splitListInChunks(this.codeexp, this.readchunk)
         },
     }
 })
@@ -653,54 +653,72 @@ var refactoringExamples = new Vue({
     data : {
         codes : [
             {
-                description: 'Prefer count over for-loop',
+                description: 'Preconditions',
                 before : dedentStrUsing1stLineIndent(`
-                class Card
-                {
-                    public:
-                        Card(std::string suit, std::string rank)
-                         : m_suit(suit)
-                         , m_rank(rank)
-                         {}
-                        bool operator==(const Card& other)
-                        {
-                            return m_suit == other.m_suit && 
-                                   m_rank == other.m_rank;
-                        }
-                    private:
-                    std::string m_suit;
-                    std::string m_rank;
-                }
-                std::vector<Card> deckOfCards { 
-                    Card("Spades", "9"),
-                    Card("Diamond", "9"),
-                    Card("Spades", "9"),
-                };
+                class Card {
+                public:
+                    Card(string suit, string rank)
+                        : m_suit(suit)
+                        , m_rank(rank) {}
 
-                auto numSpades9 = 0;
-                Card cardToCount("Spades", "9");
-                for (auto i = 0; i < deckOfCards.size(); ++i)
-                {
-                    if (deckOfCards[i] == cardToCount)
-                    {
-                        ++numSpades9;
+                    bool operator==(const Card& other) {
+                        return m_suit == other.m_suit && 
+                                m_rank == other.m_rank;
                     }
-                }
-                std::cout << "Total Spades Nine: " << numSpades9 <<
-                `),
+                    string GetSuit() const { return m_suit; }
+                    string GetRank() const { return m_rank; }
+                private:
+                    string m_suit;
+                    string m_rank;
+                };`),
                 after : dedentStrUsing1stLineIndent(`
-                int x;
-                ...
-                auto fn = [=] (int y) { return x*y;}; // OK
-                auto fn = [x] (int y) { return x*y;}; // Better
+                vector<Card> deckOfCards { 
+                    Card("Spades", "9"), Card("Diamond", "9"), Card("Spades", "9"),
+                    Card("Hearts", "4"), Card("Clubs", "3"), Card("Diamond", "10"),
+                };
                 `)
             },
-            
+            {
+                
+                before_label: "Manual for-loop count 9-Spades",
+                before : dedentStrUsing1stLineIndent(`                
+                auto numSpades9 = 0;
+                Card cardToCount("Spades", "9");
+                for (auto i = 0; i < deckOfCards.size(); ++i) {
+                    if (deckOfCards[i] == cardToCount) {
+                        ++numSpades9;
+                    }
+                }`),
+                after_label: "Using STL std::count",
+                after : dedentStrUsing1stLineIndent(`
+                Card cardToCount("Spades", "9");
+                numSpades9 = count(begin(deckOfCards), end(deckOfCards), cardToCount);
+                `)
+            },
+            {
+                
+                before_label: "Manual for-loop count card with rank == 9",
+                before : dedentStrUsing1stLineIndent(`                
+                auto numCardRank9 = 0;
+                for (auto i = 0; i < deckOfCards.size(); ++i) {
+                    if (deckOfCards[i].GetRank() == cardToCount.GetRank()) {
+                        ++numCardRank9;
+                    }
+                }`),
+                after_label: "Using STL std::count",
+                after : dedentStrUsing1stLineIndent(`                
+                const auto cardRank9 = "9";
+                numCardRank9 = count_if(begin(deckOfCards), end(deckOfCards), 
+                    [&cardRank9] (const Card& card) {
+                        return cardRank9 == card.GetRank();
+                    });
+                `)
+            },
         ],
     },
     computed : {
         splitted() {
-            return splitListInChunks(1, this.codes)
+            return splitListInChunks(this.codes, 1)
         },
     }
 })

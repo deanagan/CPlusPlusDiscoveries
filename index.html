@@ -208,29 +208,32 @@
                         </ul>
                     </div>
                     <img v-if="func.drawing" class="fragment" v-bind:src="func.drawing">
-                    <div v-if="func.note" class="fragment">{{func.note}}</div>
+                    <h6 v-if="func.note" class="fragment">{{func.note}}</h6>
                     <pre class="fragment"><code v-if="func.sample" class="cpp" data-trim>{{ func.sample }}</code></pre>
                 </section>
 
             </section>
             <!------------ Slide End ------------------------->
             <!------------ Slide Start ------------------------->
-            <section>
-                    <!-- <section v-for="sl in splitted">
-                        <h2>Refactoring: {{ sl.description }}</h2>
-                        <h5 class="fragment" v-for="cx in sl">
-                            <div class="row">
-                                <div class="column">
-                                    <pre><code class="cpp" data-trim>{{ cx.before }}</code></pre>
-                                </div>
-                                <div class="column">
-                                        <pre><code class="cpp" data-trim>{{ cx.after }}</code></pre>
-                                </div>
+            <section class="refactoringExamples">
+                <section v-for="sl in splitted">
+                    <h2>Refactoring</h2>
+                    <h5 class="fragment" v-for="cx in sl">
+                        {{ cx.description }}
+                        <div class="row">
+                            <div class="column fragment">
+                                    <div>{{cx.before_label}}</div>
+                                <pre><code class="cpp" data-trim>{{ cx.before }}</code></pre>
                             </div>
-                        </h5>
-                    </section> -->
+                            <div class="column fragment">
+                                    <div>{{cx.after_label}}</div>
+                                    <pre><code class="cpp" data-trim>{{ cx.after }}</code></pre>
+                            </div>
+                        </div>
+                    </h5>
                 </section>
-                <!------------ Slide End ------------------------->
+            </section>
+            <!------------ Slide End ------------------------->
         </div>
         <!----------------------- Slides ------------------>
     </div>
