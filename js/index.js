@@ -294,18 +294,8 @@ var captureRules = new Vue({
     },
     computed : {
         splitted() {
-            let newArr = [...this.codeexp]
-            let chunkSz = this.readchunk
-            let splitLen = Math.floor(newArr.length/chunkSz)
-            if ((newArr.length % chunkSz) > 0) {
-                splitLen += 1
-            }
-            let splittedList = []
-            for (const i of Array(splitLen).keys()) {
-                splittedList.push(newArr.slice(i*chunkSz,(i*chunkSz+chunkSz)))
-            }
-            return splittedList
-        }
+            return splitListInChunks(this.readchunk, this.codeexp)
+        },
     }
 })
 
@@ -655,4 +645,62 @@ var iteratorFunctions = new Vue({
         ]
     }
 
-});
+})
+
+
+var refactoringExamples = new Vue({
+    el: '.refactoringExamples',
+    data : {
+        codes : [
+            {
+                description: 'Prefer count over for-loop',
+                before : dedentStrUsing1stLineIndent(`
+                class Card
+                {
+                    public:
+                        Card(std::string suit, std::string rank)
+                         : m_suit(suit)
+                         , m_rank(rank)
+                         {}
+                        bool operator==(const Card& other)
+                        {
+                            return m_suit == other.m_suit && 
+                                   m_rank == other.m_rank;
+                        }
+                    private:
+                    std::string m_suit;
+                    std::string m_rank;
+                }
+                std::vector<Card> deckOfCards { 
+                    Card("Spades", "9"),
+                    Card("Diamond", "9"),
+                    Card("Spades", "9"),
+                };
+
+                auto numSpades9 = 0;
+                Card cardToCount("Spades", "9");
+                for (auto i = 0; i < deckOfCards.size(); ++i)
+                {
+                    if (deckOfCards[i] == cardToCount)
+                    {
+                        ++numSpades9;
+                    }
+                }
+                std::cout << "Total Spades Nine: " << numSpades9 <<
+                `),
+                after : dedentStrUsing1stLineIndent(`
+                int x;
+                ...
+                auto fn = [=] (int y) { return x*y;}; // OK
+                auto fn = [x] (int y) { return x*y;}; // Better
+                `)
+            },
+            
+        ],
+    },
+    computed : {
+        splitted() {
+            return splitListInChunks(1, this.codes)
+        },
+    }
+})
