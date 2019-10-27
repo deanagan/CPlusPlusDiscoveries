@@ -699,8 +699,9 @@ var refactoringExamples = new Vue({
                 before_label: "Manual for-loop count card with rank == 9",
                 before : dedentStrUsing1stLineIndent(`                
                 auto numCardRank9 = 0;
+                const auto cardRank9 = "9";
                 for (auto i = 0; i < deckOfCards.size(); ++i) {
-                    if (deckOfCards[i].GetRank() == cardToCount.GetRank()) {
+                    if (deckOfCards[i].GetRank() == cardRank9) {
                         ++numCardRank9;
                     }
                 }`),
