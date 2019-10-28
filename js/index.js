@@ -637,7 +637,8 @@ var iteratorFunctions = new Vue({
                 sample: dedentStrUsing1stLineIndent(`
                 vector<int> d { 7, 4, 3, 2, 5, 1, 6 };
                 set<int> s;
-                // Because sets are ordered, the output is arranged in ascending sorted order.
+                // Because sets are ordered, the output is 
+                // arranged in ascending sorted order.
                 copy(begin(d), end(d), inserter(s, begin(s)));
                 // Output: dest = 1, 2, 3, 4, 5, 6, 7
                 `)
@@ -657,10 +658,10 @@ var refactoringExamples = new Vue({
                 before : dedentStrUsing1stLineIndent(`
                 class Card {
                 public:
-                    Card(string suit, string rank)
+                    Card(string suit="", string rank="")
                         : m_suit(suit), m_rank(rank) {}
 
-                    bool operator==(const Card& other) {
+                    bool operator==(const Card& other) const {
                         return m_suit == other.m_suit && 
                                 m_rank == other.m_rank;
                     }
@@ -673,34 +674,34 @@ var refactoringExamples = new Vue({
                 after : dedentStrUsing1stLineIndent(`
                 vector<Card> deckOfCards { 
                     Card("Spades", "9"), Card("Diamond", "9"), Card("Spades", "9"),
-                    Card("Hearts", "4"), Card("Clubs", "3"), Card("Diamond", "10"),
+                    Card("Hearts", "5"), Card("Clubs", "3"), Card("Diamond", "7"),
                 };
                 `)
             },
             {
                 
-                before_label: "Manual for-loop count 9-Spades",
+                before_label: "for-loop count 9-Spades",
                 before : dedentStrUsing1stLineIndent(`                
                 auto numSpades9 = 0;
-                Card cardToCount("Spades", "9");
-                for (auto i = 0; i < deckOfCards.size(); ++i) {
+                Card cardToCount{"Spades", "9"};
+                for (auto i = 0U; i < deckOfCards.size(); ++i) {
                     if (deckOfCards[i] == cardToCount) {
                         ++numSpades9;
                     }
                 }`),
                 after_label: "Using STL std::count",
                 after : dedentStrUsing1stLineIndent(`
-                Card cardToCount("Spades", "9");
+                Card cardToCount{"Spades", "9"};
                 numSpades9 = count(begin(deckOfCards), end(deckOfCards), cardToCount);
                 `)
             },
             {
                 
-                before_label: "Manual for-loop count card with rank == 9",
+                before_label: "for-loop count card with rank == 9",
                 before : dedentStrUsing1stLineIndent(`                
                 auto numCardRank9 = 0;
                 const auto cardRank9 = "9";
-                for (auto i = 0; i < deckOfCards.size(); ++i) {
+                for (auto i = 0U; i < deckOfCards.size(); ++i) {
                     if (deckOfCards[i].GetRank() == cardRank9) {
                         ++numCardRank9;
                     }
@@ -714,6 +715,92 @@ var refactoringExamples = new Vue({
                     });
                 `)
             },
+            {
+                
+                before_label: "for-loop find card with Clubs 3",
+                before : dedentStrUsing1stLineIndent(`                
+                Card foundCard;
+                Card cardToFind{"Clubs", "3"};
+                for(const auto& card : deckOfCards) {
+                    if (card == cardToFind) {
+                        foundCard = card;
+                    }
+                }`),
+                after_label: "Using STL std::find",
+                after : dedentStrUsing1stLineIndent(`
+                Card foundCard;                
+                auto found = find(begin(deckOfCards), end(deckOfCards)
+                                , Card{"Clubs", "3"});
+                foundCard = (found != end(deckOfCards)) ? *found : Card{}; 
+                `)
+            },
+            {
+                
+                before_label: "for-loop find card that has suit == Hearts",
+                before : dedentStrUsing1stLineIndent(`                
+                Card foundCard;
+                for(const auto& card : deckOfCards) {
+                    if (card.GetSuit() == "Hearts") {
+                        foundCard = card;
+                        break;
+                    }
+                }`),
+                after_label: "Using STL std::find_if",
+                after : dedentStrUsing1stLineIndent(`
+                Card foundCard;                
+                auto found = find_if(begin(deckOfCards), end(deckOfCards)
+                                , [] (const Card& card) { 
+                                    return card.GetSuit() == "Hearts"; 
+                                });
+                foundCard = (found != end(deckOfCards)) ? *found : Card{}; 
+                `)
+            },
+
+            {
+                
+                before_label: "for-loop find if all cards have odd rank number",
+                before : dedentStrUsing1stLineIndent(`                
+                bool isAllOdd = true;
+                for (const auto& card : deckOfCards) {
+                    if (stoi(card.GetRank()) % 2 == 0) {
+                        isAllOdd = false;
+                        break;
+                    }
+                }
+                cout << boolalpha << isAllOdd;`),
+                after_label: "Using STL std::all_of",
+                after : dedentStrUsing1stLineIndent(`
+                const auto isAllOdd = all_of(begin(deckOfCards), end(deckOfCards), 
+                                    [](const Card& card) {
+                                        return stoi(card.GetRank()) % 2 != 0;
+                                    });
+                cout << boolalpha << isAllOdd;`)
+            },
+
+            {
+                
+                before_label: "for-loop find if any card is Hearts 5",
+                before : dedentStrUsing1stLineIndent(`                
+                bool hasHearts5 = false;
+                Card cardToHave{"Hearts", "5"};
+                for (const auto& card : deckOfCards) {
+                    if (card == cardToHave) {
+                        hasHearts5 = true;
+                        break;
+                    }
+                }
+                cout << boolalpha << hasHearts5;`),
+                after_label: "Using STL std::any_of",
+                after : dedentStrUsing1stLineIndent(`
+                Card cardToHave{"Hearts", "5"};
+                const auto hasHearts5 = any_of(begin(deckOfCards), end(deckOfCards), 
+                                    [&cardToHave](const Card& card) {
+                                        return cardToHave == card;
+                                    });
+                cout << boolalpha << hasHearts5;`)
+            },
+
+            
         ],
     },
     computed : {

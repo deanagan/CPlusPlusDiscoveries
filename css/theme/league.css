@@ -101,9 +101,9 @@ body {
 .reveal ol,
 .reveal dl,
 .reveal ul {
-  display: inline-block;
+  display: inline;
   text-align: left;
-  margin: 0 0 0 1em; }
+  margin: 0 0 0 0; }
 
 .reveal ol {
   list-style-type: decimal; }
