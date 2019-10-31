@@ -103,7 +103,7 @@ body {
 .reveal ul {
   display: inline;
   text-align: left;
-  margin: 0 0 0 0; }
+  margin: 0 0 0 1em; }
 
 .reveal ol {
   list-style-type: decimal; }

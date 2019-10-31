@@ -654,24 +654,33 @@ var refactoringExamples = new Vue({
     data : {
         codes : [
             {
-                description: 'Preconditions',
+                description: 'Card class',
                 before : dedentStrUsing1stLineIndent(`
                 class Card {
                 public:
                     Card(string suit="", string rank="")
                         : m_suit(suit), m_rank(rank) {}
-
                     bool operator==(const Card& other) const {
                         return m_suit == other.m_suit && 
                                 m_rank == other.m_rank;
                     }
                     string GetSuit() const { return m_suit; }
                     string GetRank() const { return m_rank; }
+                    friend ostream & operator<<(ostream &os, const Card& card);
                 private:
                     string m_suit;
                     string m_rank;
-                };`),
-                after : dedentStrUsing1stLineIndent(`
+                };
+                
+                `),
+            },
+            {
+                before : dedentStrUsing1stLineIndent(`
+                ostream& operator<<(ostream& os, const Card& card)
+                {
+                    return os << card.GetRank() << " of " << card.GetSuit();
+                }
+
                 vector<Card> deckOfCards { 
                     Card("Spades", "9"), Card("Diamond", "9"), Card("Spades", "9"),
                     Card("Hearts", "5"), Card("Clubs", "3"), Card("Diamond", "7"),
@@ -800,7 +809,94 @@ var refactoringExamples = new Vue({
                 cout << boolalpha << hasHearts5;`)
             },
 
+            {
+                
+                before_label: "ranged for-loop capitalise string",
+                before : dedentStrUsing1stLineIndent(`                
+                string input {"HELLO"};
+                bool is_first = true;
+                for(auto& ch : input)
+                {
+                    if (!is_first)
+                    {   
+                        ch = tolower(ch);                     
+                    }
+                    else
+                    {
+                        is_first = false;
+                    }
+                }`),
+                after_label: "Using transform",
+                after : dedentStrUsing1stLineIndent(`
+                string input {"HELLO"};
+                transform(next(begin(input)), end(input), next(begin(input)), 
+                    [](char ch){ return tolower(ch); });
+                `)
+            },
+
+            {
+                
+                before_label: "ranged for-loop transform whole string to lowercase",
+                before : dedentStrUsing1stLineIndent(`                
+                string input {"HELLO"};
+                
+                for(auto& ch : input)
+                {
+                    ch = tolower(ch);
+                }`),
+
+                after_label: "Using transform, operating on the whole range makes ranged for loop cleaner, depending on taste.",
+                after : dedentStrUsing1stLineIndent(`
+                string input {"HELLO"};
+                transform(begin(input), end(input), begin(input), 
+                    [](char ch){ return tolower(ch); });
+                `)
+            },
             
+            {
+                
+                before_label: "for-loop comparing 2 vectors with same length and using either one",
+                before : dedentStrUsing1stLineIndent(`                
+                vector<int> n1 { 1, 2, 3, 4 };
+                vector<int> n2 { 2, 1, 1, 5 };
+                vector<int> out;
+                
+                for(auto i = 0U; i < n1.size(); ++i)
+                {
+                    out.push_back(std::min(n1[i], n2[i]));
+                }`),
+
+                after_label: "Using transform.",
+                after : dedentStrUsing1stLineIndent(`
+                vector<int> n1 { 1, 2, 3, 4 };
+                vector<int> n2 { 2, 1, 1, 5 };
+                vector<int> out;
+
+                transform(begin(n1), end(n1), begin(n2), back_inserter(out), 
+                    [](int a, int b){ return std::min(a,b); });
+                `)
+            },
+
+            {
+                
+                before_label: "Deal cards to 2 players using partition_copy",
+                before : dedentStrUsing1stLineIndent(`                
+                vector<Card> player1;
+                vector<Card> player2;
+            
+                std::partition_copy(begin(deckOfCards),
+                                    end(deckOfCards),
+                                    back_inserter(player1),
+                                    back_inserter(player2),
+                                    [toggle = false/*declare toggle outside for C++11*/](const Card&) mutable 
+                                    { return toggle = !toggle; });
+            
+                std::copy(begin(player1), end(player1), ostream_iterator<Card>(cout, ", "));
+                std::cout << "\n";
+                std::copy(begin(player2), end(player2), ostream_iterator<Card>(cout, ", "));`),
+
+                
+            },
         ],
     },
     computed : {

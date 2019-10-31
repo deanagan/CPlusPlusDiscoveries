@@ -224,7 +224,7 @@
                                     <div>{{cx.before_label}}</div>
                                 <pre><code class="cpp" data-trim>{{ cx.before }}</code></pre>
                             </div>
-                            <div class="column fragment">
+                            <div class="column fragment" v-if="cx.after_label">
                                     <div>{{cx.after_label}}</div>
                                     <pre><code class="cpp" data-trim>{{ cx.after }}</code></pre>
                             </div>
