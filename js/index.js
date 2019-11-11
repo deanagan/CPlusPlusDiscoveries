@@ -637,7 +637,7 @@ var iteratorFunctions = new Vue({
                 sample: dedentStrUsing1stLineIndent(`
                 vector<int> d { 7, 4, 3, 2, 5, 1, 6 };
                 set<int> s;
-                // Because sets are ordered, the output is 
+                // Because sets are ordered, the output is
                 // arranged in ascending sorted order.
                 copy(begin(d), end(d), inserter(s, begin(s)));
                 // Output: dest = 1, 2, 3, 4, 5, 6, 7
@@ -658,97 +658,94 @@ var refactoringExamples = new Vue({
                 before : dedentStrUsing1stLineIndent(`
                 class Card {
                 public:
-                    Card(string suit="", string rank="")
-                        : m_suit(suit), m_rank(rank) {}
-                    bool operator==(const Card& other) const {
-                        return m_suit == other.m_suit && 
-                                m_rank == other.m_rank;
-                    }
-                    string GetSuit() const { return m_suit; }
-                    string GetRank() const { return m_rank; }
-                    friend ostream & operator<<(ostream &os, const Card& card);
+                   Card(string suit="", string rank="")
+                       : m_suit(suit), m_rank(rank) {}
+                   bool operator==(const Card& other) const {
+                       return m_suit == other.m_suit &&
+                               m_rank == other.m_rank;
+                   }
+                   string GetSuit() const { return m_suit; }
+                   string GetRank() const { return m_rank; }
+                   friend ostream & operator<<(ostream &os, const Card& card);
                 private:
-                    string m_suit;
-                    string m_rank;
+                   string m_suit;
+                   string m_rank;
                 };
-                
+
                 `),
             },
             {
                 before : dedentStrUsing1stLineIndent(`
                 ostream& operator<<(ostream& os, const Card& card)
                 {
-                    return os << card.GetRank() << " of " << card.GetSuit();
+                   return os << card.GetRank() << " of " << card.GetSuit();
                 }
 
-                vector<Card> deckOfCards { 
-                    Card("Spades", "9"), Card("Diamond", "9"), Card("Spades", "9"),
-                    Card("Hearts", "5"), Card("Clubs", "3"), Card("Diamond", "7"),
+                vector<Card> deck {
+                   Card("Spades", "9"), Card("Diamond", "9"), Card("Spades", "9"),
+                   Card("Hearts", "5"), Card("Clubs", "3"), Card("Diamond", "7"),
                 };
                 `)
             },
             {
-                
                 before_label: "for-loop count 9-Spades",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 auto numSpades9 = 0;
                 Card cardToCount{"Spades", "9"};
-                for (auto i = 0U; i < deckOfCards.size(); ++i) {
-                    if (deckOfCards[i] == cardToCount) {
+                for (auto i = 0U; i < deck.size(); ++i) {
+                    if (deck[i] == cardToCount) {
                         ++numSpades9;
                     }
                 }`),
                 after_label: "Using STL std::count",
                 after : dedentStrUsing1stLineIndent(`
                 Card cardToCount{"Spades", "9"};
-                numSpades9 = count(begin(deckOfCards), end(deckOfCards), cardToCount);
+                numSpades9 = count(begin(deck), end(deck), cardToCount);
                 `)
             },
             {
-                
+
                 before_label: "for-loop count card with rank == 9",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 auto numCardRank9 = 0;
-                const auto cardRank9 = "9";
-                for (auto i = 0U; i < deckOfCards.size(); ++i) {
-                    if (deckOfCards[i].GetRank() == cardRank9) {
+                for (auto i = 0U; i < deck.size(); ++i) {
+                    if (deck[i].GetRank() == "9") {
                         ++numCardRank9;
                     }
                 }`),
                 after_label: "Using STL std::count_if",
-                after : dedentStrUsing1stLineIndent(`                
-                const auto cardRank9 = "9";
-                numCardRank9 = count_if(begin(deckOfCards), end(deckOfCards), 
-                    [&cardRank9] (const Card& card) {
-                        return cardRank9 == card.GetRank();
+                after : dedentStrUsing1stLineIndent(`
+                numCardRank9 = count_if(begin(deck), end(deck),
+                    [] (const Card& card) {
+                        return card.GetRank() == "9";
                     });
                 `)
             },
             {
-                
+
                 before_label: "for-loop find card with Clubs 3",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 Card foundCard;
                 Card cardToFind{"Clubs", "3"};
-                for(const auto& card : deckOfCards) {
+                for(const auto& card : deck) {
                     if (card == cardToFind) {
                         foundCard = card;
                     }
                 }`),
                 after_label: "Using STL std::find",
                 after : dedentStrUsing1stLineIndent(`
-                Card foundCard;                
-                auto found = find(begin(deckOfCards), end(deckOfCards)
+                Card foundCard;
+                auto found = find(begin(deck), end(deck)
                                 , Card{"Clubs", "3"});
-                foundCard = (found != end(deckOfCards)) ? *found : Card{}; 
+                foundCard = (found != end(deck)) ? *found : Card{};
                 `)
             },
             {
-                
+
                 before_label: "for-loop find card that has suit == Hearts",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 Card foundCard;
-                for(const auto& card : deckOfCards) {
+                for(const auto& card : deck) {
                     if (card.GetSuit() == "Hearts") {
                         foundCard = card;
                         break;
@@ -756,21 +753,21 @@ var refactoringExamples = new Vue({
                 }`),
                 after_label: "Using STL std::find_if",
                 after : dedentStrUsing1stLineIndent(`
-                Card foundCard;                
-                auto found = find_if(begin(deckOfCards), end(deckOfCards)
-                                , [] (const Card& card) { 
-                                    return card.GetSuit() == "Hearts"; 
+                Card foundCard;
+                auto found = find_if(begin(deck), end(deck)
+                                , [] (const Card& card) {
+                                    return card.GetSuit() == "Hearts";
                                 });
-                foundCard = (found != end(deckOfCards)) ? *found : Card{}; 
+                foundCard = (found != end(deck)) ? *found : Card{};
                 `)
             },
 
             {
-                
+
                 before_label: "for-loop find if all cards have odd rank number",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 bool isAllOdd = true;
-                for (const auto& card : deckOfCards) {
+                for (const auto& card : deck) {
                     if (stoi(card.GetRank()) % 2 == 0) {
                         isAllOdd = false;
                         break;
@@ -779,7 +776,7 @@ var refactoringExamples = new Vue({
                 cout << boolalpha << isAllOdd;`),
                 after_label: "Using STL std::all_of",
                 after : dedentStrUsing1stLineIndent(`
-                const auto isAllOdd = all_of(begin(deckOfCards), end(deckOfCards), 
+                const auto isAllOdd = all_of(begin(deck), end(deck),
                                     [](const Card& card) {
                                         return stoi(card.GetRank()) % 2 != 0;
                                     });
@@ -787,12 +784,12 @@ var refactoringExamples = new Vue({
             },
 
             {
-                
+
                 before_label: "for-loop find if any card is Hearts 5",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 bool hasHearts5 = false;
                 Card cardToHave{"Hearts", "5"};
-                for (const auto& card : deckOfCards) {
+                for (const auto& card : deck) {
                     if (card == cardToHave) {
                         hasHearts5 = true;
                         break;
@@ -802,7 +799,7 @@ var refactoringExamples = new Vue({
                 after_label: "Using STL std::any_of",
                 after : dedentStrUsing1stLineIndent(`
                 Card cardToHave{"Hearts", "5"};
-                const auto hasHearts5 = any_of(begin(deckOfCards), end(deckOfCards), 
+                const auto hasHearts5 = any_of(begin(deck), end(deck),
                                     [&cardToHave](const Card& card) {
                                         return cardToHave == card;
                                     });
@@ -810,16 +807,16 @@ var refactoringExamples = new Vue({
             },
 
             {
-                
+
                 before_label: "ranged for-loop capitalise string",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 string input {"HELLO"};
                 bool is_first = true;
                 for(auto& ch : input)
                 {
                     if (!is_first)
-                    {   
-                        ch = tolower(ch);                     
+                    {
+                        ch = tolower(ch);
                     }
                     else
                     {
@@ -829,17 +826,17 @@ var refactoringExamples = new Vue({
                 after_label: "Using transform",
                 after : dedentStrUsing1stLineIndent(`
                 string input {"HELLO"};
-                transform(next(begin(input)), end(input), next(begin(input)), 
+                transform(next(begin(input)), end(input), next(begin(input)),
                     [](char ch){ return tolower(ch); });
                 `)
             },
 
             {
-                
+
                 before_label: "ranged for-loop transform whole string to lowercase",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 string input {"HELLO"};
-                
+
                 for(auto& ch : input)
                 {
                     ch = tolower(ch);
@@ -848,19 +845,19 @@ var refactoringExamples = new Vue({
                 after_label: "Using transform, operating on the whole range makes ranged for loop cleaner, depending on taste.",
                 after : dedentStrUsing1stLineIndent(`
                 string input {"HELLO"};
-                transform(begin(input), end(input), begin(input), 
+                transform(begin(input), end(input), begin(input),
                     [](char ch){ return tolower(ch); });
                 `)
             },
-            
+
             {
-                
+
                 before_label: "for-loop comparing 2 vectors with same length and using either one",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 vector<int> n1 { 1, 2, 3, 4 };
                 vector<int> n2 { 2, 1, 1, 5 };
                 vector<int> out;
-                
+
                 for(auto i = 0U; i < n1.size(); ++i)
                 {
                     out.push_back(std::min(n1[i], n2[i]));
@@ -872,30 +869,30 @@ var refactoringExamples = new Vue({
                 vector<int> n2 { 2, 1, 1, 5 };
                 vector<int> out;
 
-                transform(begin(n1), end(n1), begin(n2), back_inserter(out), 
+                transform(begin(n1), end(n1), begin(n2), back_inserter(out),
                     [](int a, int b){ return std::min(a,b); });
                 `)
             },
 
             {
-                
+
                 before_label: "Deal cards to 2 players using partition_copy",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 vector<Card> player1;
                 vector<Card> player2;
-            
-                std::partition_copy(begin(deckOfCards),
-                                    end(deckOfCards),
+
+                std::partition_copy(begin(deck),
+                                    end(deck),
                                     back_inserter(player1),
                                     back_inserter(player2),
-                                    [toggle = false/*declare toggle outside for C++11*/](const Card&) mutable 
+                                    [toggle = false/*declare toggle outside for C++11*/](const Card&) mutable
                                     { return toggle = !toggle; });
-            
+
                 std::copy(begin(player1), end(player1), ostream_iterator<Card>(cout, ", "));
                 std::cout << "\n";
                 std::copy(begin(player2), end(player2), ostream_iterator<Card>(cout, ", "));`),
 
-                
+
             },
         ],
     },
@@ -905,3 +902,66 @@ var refactoringExamples = new Vue({
         },
     }
 })
+
+import helloworld from '@/txt/test.cpp'
+
+loadCppFile = new Vue({
+    el:'.loadCppFile',
+    data: {
+      text: helloworld,
+      candidates: [
+        { name: "Mr. Black", votes: 140 },
+        { name: "Mr. Red", votes: 135 },
+        { name: "Mr. Pink", votes: 145 },
+        { name: "Mr. Brown", votes: 140 }
+      ]
+    },
+    methods: {
+        getFileContent(filename) {
+            //if(!filename || filename.type !== 'text/plain') return filename;
+            let reader = new FileReader();
+            reader.readAsText(filename, "UTF-8");
+            reader.onload =  evt => {
+                this.text = evt.target.result;
+            }
+            reader.onerror = evt => {
+                console.error(evt);
+            }
+            return this.text;
+        },
+
+      },
+     computed:{
+        mayor: function(){
+            // var candidateSorted = this.candidates.sort(function(a,b){
+            //   return b.votes - a.votes;
+            // });
+            // return candidateSorted[0];
+            return { name: "Mr. Black", votes: 12 };
+        },
+        textClass: function() {
+        var tmp = {}
+        tmp[this.mayor.name.replace(/ /g,'').replace('Mr.','').toLowerCase()] = true
+        //tmp.name = filename
+        return tmp
+        }
+     }
+
+    //   selectedFile() {
+    //     console.error("file to be invoked");
+    //     let file = 'txt/test.cpp';
+    //     if(!file || file.type !== 'text/plain') return;
+
+    //     // Credit: https://stackoverflow.com/a/754398/52160
+    //     let reader = new FileReader();
+    //     reader.readAsText(file, "UTF-8");
+    //     reader.onload =  evt => {
+    //       this.text = evt.target.result;
+    //     }
+    //     reader.onerror = evt => {
+    //       console.error(evt);
+    //     }
+
+    //   }
+    // }
+  })

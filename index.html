@@ -32,7 +32,7 @@
             <!------------ Slide Start ------------------------->
             <section>
 
-                <h1>Modern C++ STL Notebook</h1>
+                <h1>Modern C++ STL Presentation</h1>
                 <h3>A slideshow presentation on the modern standard template library in C++</h3>
                 <p>
                     <small>Created by <a href="https://www.linkedin.com/in/deanagan/">Dean Agan</a> </small> </br>
@@ -197,7 +197,7 @@
                     </ul>
                 </div>
             </section>
-            <!------------ Slide End ------------------------->   
+            <!------------ Slide End ------------------------->
             <!------------ Slide Start ------------------------->
             <section class="iteratorFunctions">
                 <section v-for="func in funcs">
@@ -217,22 +217,43 @@
             <!------------ Slide Start ------------------------->
             <section class="refactoringExamples">
                 <section v-for="sl in splitted">
-                    <h5 class="fragment" v-for="cx in sl">
+                    <h5 v-for="cx in sl">
                         {{ cx.description }}
                         <div class="row">
-                            <div class="column fragment">
+                            <div class="column">
                                     <div>{{cx.before_label}}</div>
-                                <pre><code class="cpp" data-trim>{{ cx.before }}</code></pre>
+                                <pre><code class="cpp prettyprint lang-cpp" data-trim>{{ cx.before }}</code></pre>
                             </div>
                             <div class="column fragment" v-if="cx.after_label">
                                     <div>{{cx.after_label}}</div>
-                                    <pre><code class="cpp" data-trim>{{ cx.after }}</code></pre>
+                                    <pre><code class="cpp prettyprint lang-cpp" data-trim>{{ cx.after }}</code></pre>
                             </div>
                         </div>
                     </h5>
                 </section>
             </section>
             <!------------ Slide End ------------------------->
+
+            <section class="loadCppFile">
+                <section>
+                        <h1>First</h1>
+                </section>
+                <section>
+                    <div>
+                        <!--input type="file" ref="myFile" @change="selectedFile"><br/>
+                        <textarea v-model="text"></textarea-->
+                        <h1 data-external-replace="txt/test.cpp"></h1>
+                        <!--h2>Our Mayor is <span v-bind:class="textClass">{{ mayor.name }}</span></h2-->
+                    </div>
+                </section>
+                <section>
+                    <h1>Last</h1>
+                </section>
+
+
+            </section>
+
+
         </div>
         <!----------------------- Slides ------------------>
     </div>
@@ -254,6 +275,12 @@
                 },
                 {
                     src: 'plugin/markdown/markdown.js'
+                },
+                {
+                    src: 'plugin/external/external.js',
+                    condition: function() {
+                        return !!document.querySelector( '[data-external],[data-external-replace]' );
+                    }
                 },
                 {
                     src: 'plugin/notes/notes.js',
