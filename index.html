@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Modern C++ STL Notebook</title>
+    <title>Modern C++ STL Presentation</title>
 
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/reveal.css">
@@ -31,16 +31,7 @@
         <div class="slides">
             <!------------ Slide Start ------------------------->
             <section>
-
                 <h1>Modern C++ STL Presentation</h1>
-                <h3>A slideshow presentation on the modern standard template library in C++</h3>
-                <p>
-                    <small>Created by <a href="https://www.linkedin.com/in/deanagan/">Dean Agan</a> </small> </br>
-                    <a href="https://twitter.com/intent/tweet?screen_name=dean_agan&ref_src=twsrc%5Etfw"
-                        class="twitter-mention-button" data-show-count="false">Tweet to @dean_agan
-                    </a>
-                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                </p>
             </section>
             <!------------ Slide End ------------------------->
 
@@ -123,7 +114,7 @@
                     <h2>{{entry.heading}}</h2>
                     <div>{{entry.subheading}}</div>
                     <pre class="fragment prettyprint lang-cpp" v-for="code in entry.code">
-                            <code class="cpp" data-trim>{{ code }}</code>
+                            <code class="cpp" data-trim data-line-numbers>{{ code }}</code>
                     </pre>
                 </section>
             </section>
@@ -143,7 +134,7 @@
             <section class="lambdasyntax">
                 <section v-for="codesample in codesamples">
                     <h2>Syntax of Lambdas</h2>
-                    <pre><code class="cpp" data-trim>{{ codesample }}</code></pre>
+                    <pre><code class="cpp" data-trim data-line-numbers>{{ codesample }}</code></pre>
                 </section>
             </section>
             <!------------ Slide End ------------------------->
@@ -170,7 +161,7 @@
                 <h2>Mutable</h2>
                     {{note.statement}}
                     <div class="fragment" v-for="code in note.codes">
-                        <pre><code class="cpp" data-trim>{{ code }}</code></pre>
+                        <pre><code class="cpp" data-trim data-line-numbers>{{ code }}</code></pre>
                     </div>
                 </section>
             </section>
@@ -182,7 +173,7 @@
                     <h2>Gotchas</h2>
                     {{gotcha.statement}}
                     <div class="fragment" v-for="code in gotcha.codes">
-                        <pre><code class="cpp" data-trim>{{ code }}</code></pre>
+                        <pre><code class="cpp" data-trim data-line-numbers>{{ code }}</code></pre>
                     </div>
                 </section>
             </section>
@@ -191,9 +182,9 @@
             <!------------ Slide Start ------------------------->
             <section class="iteratorDescriptions">
                 <h2>Iterators</h2>
-                <div class="fragment" v-for="description in descriptions">
+                <div>
                     <ul>
-                    <li>{{ description }}</li>
+                    <li class="fragment" v-for="description in descriptions">{{ description }}</li>
                     </ul>
                 </div>
             </section>
@@ -201,57 +192,46 @@
             <!------------ Slide Start ------------------------->
             <section class="iteratorFunctions">
                 <section v-for="func in funcs">
-                    <h2>Iterator Functions - {{func.name}}</h2>
-                    <div class="fragment" v-for="description in func.descriptions">
+                    <h3>Iterator Functions - {{func.name}}</h3>
+                    <div>
                         <ul>
-                            <li>{{ description }}</li>
+                            <li class="fragment" v-for="description in func.descriptions">{{ description }}</li>
                         </ul>
                     </div>
                     <img v-if="func.drawing" class="fragment" v-bind:src="func.drawing">
                     <h6 v-if="func.note" class="fragment">{{func.note}}</h6>
-                    <pre class="fragment"><code v-if="func.sample" class="cpp" data-trim>{{ func.sample }}</code></pre>
+                    <pre class="fragment" v-if="func.sample"><code class="cpp" data-trim data-line-numbers>{{ func.sample }}</code></pre>
                 </section>
 
             </section>
             <!------------ Slide End ------------------------->
             <!------------ Slide Start ------------------------->
             <section class="refactoringExamples">
+                <h2>Code Examples </h2>
                 <section v-for="sl in splitted">
                     <h5 v-for="cx in sl">
                         {{ cx.description }}
                         <div class="row">
                             <div class="column">
                                     <div>{{cx.before_label}}</div>
-                                <pre><code class="cpp prettyprint lang-cpp" data-trim>{{ cx.before }}</code></pre>
+                                <pre><code class="cpp prettyprint lang-cpp" data-trim data-line-numbers>{{ cx.before }}</code></pre>
                             </div>
                             <div class="column fragment" v-if="cx.after_label">
                                     <div>{{cx.after_label}}</div>
-                                    <pre><code class="cpp prettyprint lang-cpp" data-trim>{{ cx.after }}</code></pre>
+                                    <pre><code class="cpp prettyprint lang-cpp" data-trim data-line-numbers>{{ cx.after }}</code></pre>
                             </div>
                         </div>
                     </h5>
                 </section>
             </section>
             <!------------ Slide End ------------------------->
-
-            <section class="loadCppFile">
-                <section>
-                        <h1>First</h1>
-                </section>
-                <section>
-                    <div>
-                        <!--input type="file" ref="myFile" @change="selectedFile"><br/>
-                        <textarea v-model="text"></textarea-->
-                        <h1 data-external-replace="txt/test.cpp"></h1>
-                        <!--h2>Our Mayor is <span v-bind:class="textClass">{{ mayor.name }}</span></h2-->
-                    </div>
-                </section>
-                <section>
-                    <h1>Last</h1>
-                </section>
-
-
+            <!------------ Slide Start ------------------------->
+            <section>
+                <h2>Questions?</h2>
+                <a href="https://twitter.com/intent/tweet?screen_name=dean_agan&ref_src=twsrc%5Etfw" class="twitter-mention-button" data-size="large" data-related="dean_agan" data-show-count="false">Tweet to @dean_agan</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </section>
+            <!------------ Slide End ------------------------->
+
 
 
         </div>

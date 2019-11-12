@@ -16,10 +16,10 @@ var coverage = new Vue({
         topcoverage : [
             'Why use STL and what is its approach',
             'STL Containers',
-            'Example Algorithm: std::find_if',
+            'Example Algorithm: find_if',
             'Discovering Lambdas',
             'Iterators',
-            'Example Refactorings to Use Algorithms'
+            'Code Examples'
         ],
 
         lambdacoverage : [
@@ -35,7 +35,7 @@ var stlApproach = new Vue({
     el: '.stlapproach',
     data: {
         approaches : [
-            'There are more free functions instead of member functions ( e.g. std::find(container..) instead of container.find() ).',
+            'There are more free functions instead of member functions ( e.g. find(container..) instead of container.find() ).',
             'Algorithms are designed to work for most containers.',
             'Algorithms work with iterators.',
         ]
@@ -126,12 +126,12 @@ var algosample = new Vue({
     data: {
         entries: [
             {
-                heading : "Example Algorithm: std::find_if",
+                heading : "Example Algorithm: find_if",
                 subheading: "Finding the first odd number",
 
                 code: [
-                    replaceDoubleSpaceStrings(`std::vector<int> n { 2, 4, 6, 9, 10 };
-                     auto result_iter = std::find_if(begin(n), end(n), ???);`)
+                    replaceDoubleSpaceStrings(`vector<int> n { 2, 4, 6, 9, 10 };
+                     auto result_iter = find_if(begin(n), end(n), ???);`)
                 ]
             },
 
@@ -142,11 +142,11 @@ var algosample = new Vue({
                 code: [
                     'bool IsOdd(int n) { return n % 2 != 0; }',
                     dedentStrUsing1stLineIndent(`
-                    void printOdd() {
-                        std::vector<int>::iterator it; // no auto yet!
-                        it = std::find_if(n.begin(), n.end(), IsOdd);
+                    void printFirstOdd() {
+                        vector<int>::iterator it; // no auto yet!
+                        it = find_if(n.begin(), n.end(), IsOdd);
                         if (it != n.end()) {
-                            std::cout << *it;
+                            cout << *it;
                         }
                     }`)
                   ],
@@ -164,13 +164,13 @@ var algosample = new Vue({
                         }
                     };`),
                     dedentStrUsing1stLineIndent(`
-                    void printOdd() {
-                        std::vector<int>::iterator it; // no auto yet!
+                    void printFirstOdd() {
+                        vector<int>::iterator it; // no auto yet!
                         IsOdd isOdd;
-                        it = std::find_if(n.begin(), n.end(), isOdd);
+                        it = find_if(n.begin(), n.end(), isOdd);
 
                         if (it != n.end()) {
-                          std::cout << *it;
+                          cout << *it;
                         }
                     }`)
                   ],
@@ -182,13 +182,13 @@ var algosample = new Vue({
 
                 code: [
                     dedentStrUsing1stLineIndent(`
-                    void printOdd() {
-                        auto it = std::find_if(begin(n), end(n), [] (int n) {
+                    void printFirstOdd() {
+                        auto it = find_if(begin(n), end(n), [] (int n) {
                             return n%2 != 0;
                         });
 
                         if (it != n.end()) {
-                          std::cout << *it;
+                          cout << *it;
                         }
                     }`),
 
@@ -214,8 +214,8 @@ var lambdaSyntax = new Vue({
             { /* body */ };`),
             replaceDoubleSpaceStrings(`// A lambda can have a parameter specified in parentheses.
             // This is also called a lambda declarator.
-            auto fn = [](const std::string& name)
-            { std::cout << "Hello, " << name; };`),
+            auto fn = [](const string& name)
+            { cout << "Hello, " << name; };`),
         ]
     }
 })
@@ -330,7 +330,7 @@ var mutableLambdas = new Vue({
                 codes : [
                     dedentStrUsing1stLineIndent(`
                     auto someFn = [someNumber](int anotherNumber) {
-                        ++someNumber; // Bad! expression must be a modifiable lvalue
+                        ++someNumber; // Error! expression must be a modifiable lvalue
                         return anotherNumber + someNumber;
                     };`),
                     dedentStrUsing1stLineIndent(`
@@ -382,7 +382,7 @@ var lambdaGotchas = new Vue({
                 that will be used nonlocally, including returned, stored on the heap, or passed to another thread may result in dangling pointers or references.`),
                 codes : [
                     dedentStrUsing1stLineIndent(`
-                    std::function<int(int)> GetModuloFn() {
+                    function<int(int)> GetModuloFn() {
                         auto number = 43;
                         return [&number] (int value) {
                             return value % number;
@@ -399,7 +399,7 @@ var lambdaGotchas = new Vue({
                         int yaxis { 1 };
                     };
 
-                    std::function<int(int)> GetSomeFn() {
+                    function<int(int)> GetSomeFn() {
                         auto pInter = new Coordinate;
                         auto fn = [=] (int value) {
                             return value % pInter->xaxis;  // dangle!
@@ -418,19 +418,19 @@ var lambdaGotchas = new Vue({
                         int xaxis { 1 };
                         int yaxis { 1 };
 
-                        std::function<int(int)> Compute() {
+                        function<int(int)> Compute() {
                             return [this] (int value) { return value % this->xaxis; };
                         }
                     };
 
-                    std::function<int(int)> GetSomeFn() {
+                    function<int(int)> GetSomeFn() {
                         Coordinate c;
                         return c.Compute(); // dangling! Out of scope capture.
                     }`)
                 ]
             },
             {
-                statement : "Prefer to not use default capture modes to easily spot what was captured and avoid dangling.(Scott Meyer Effective Modern C++)",
+                statement : "Avoid default capture modes.(Scott Meyer Effective Modern C++)",
                 codes : [
                     dedentStrUsing1stLineIndent(`
                     int x;
@@ -490,9 +490,9 @@ var iteratorFunctions = new Vue({
                 'Does not check when it crosses end() which may cause undefined behavior.'
                 ],
                 sample: dedentStrUsing1stLineIndent(`
-                std::vector<int> v{ 3, 1, 4 };
+                vector<int> v{ 3, 1, 4 };
                 auto vi = v.begin(); // *vi == 3
-                std::advance(vi, 2); // *vi == 4
+                advance(vi, 2); // *vi == 4
                 `)
             },
             {
@@ -504,10 +504,10 @@ var iteratorFunctions = new Vue({
                 'Does not check when it crosses end() which may cause undefined behavior.'
                 ],
                 sample: dedentStrUsing1stLineIndent(`
-                std::vector<int> v{ 3, 1, 4 };
+                vector<int> v{ 3, 1, 4 };
 
                 auto it = v.begin(); // *it == 3
-                auto nx = std::next(it, 2); // *nx == 4
+                auto nx = next(it, 2); // *nx == 4
                 `)
             },
 
@@ -519,18 +519,18 @@ var iteratorFunctions = new Vue({
                 "Doesn't check if it's past begin() and may result in undefined behavior."
                 ],
                 sample: dedentStrUsing1stLineIndent(`
-                std::vector<int> v{ 3, 1, 4 };
+                vector<int> v{ 3, 1, 4 };
 
                 auto it = v.end();
-                auto pv = std::prev(it, 2); // *pv == 1
+                auto pv = prev(it, 2); // *pv == 1
                 `)
             },
             {
                 name : "ostream_iterator",
                 descriptions : [
-                'Single pass iterator that writes characters into  std::basic_ostream.',
+                'Single pass iterator that writes characters into  basic_ostream.',
                 'ostream_iterator constructs/destructs object once per character, thus could have efficiency issues.',
-                'ostream_iterator allows for delimeter when constructed.'
+                'ostream_iterator allows for delimiter when constructed.'
                 ],
                 sample: dedentStrUsing1stLineIndent(`
                 vector<int> v { 1,2,3,4,5};
@@ -654,12 +654,12 @@ var refactoringExamples = new Vue({
     data : {
         codes : [
             {
-                description: 'Card class',
+                description: 'Demonstrations using a Card class',
                 before : dedentStrUsing1stLineIndent(`
                 class Card {
                 public:
                    Card(string suit="", string rank="")
-                       : m_suit(suit), m_rank(rank) {}
+                       : m_suit(move(suit)), m_rank(move(rank)) {}
                    bool operator==(const Card& other) const {
                        return m_suit == other.m_suit &&
                                m_rank == other.m_rank;
@@ -697,7 +697,7 @@ var refactoringExamples = new Vue({
                         ++numSpades9;
                     }
                 }`),
-                after_label: "Using STL std::count",
+                after_label: "Using STL count",
                 after : dedentStrUsing1stLineIndent(`
                 Card cardToCount{"Spades", "9"};
                 numSpades9 = count(begin(deck), end(deck), cardToCount);
@@ -713,7 +713,7 @@ var refactoringExamples = new Vue({
                         ++numCardRank9;
                     }
                 }`),
-                after_label: "Using STL std::count_if",
+                after_label: "Using STL count_if",
                 after : dedentStrUsing1stLineIndent(`
                 numCardRank9 = count_if(begin(deck), end(deck),
                     [] (const Card& card) {
@@ -731,18 +731,19 @@ var refactoringExamples = new Vue({
                     if (card == cardToFind) {
                         foundCard = card;
                     }
-                }`),
-                after_label: "Using STL std::find",
+                }
+                return foundCard;
+                `),
+                after_label: "Using STL find",
                 after : dedentStrUsing1stLineIndent(`
-                Card foundCard;
                 auto found = find(begin(deck), end(deck)
                                 , Card{"Clubs", "3"});
-                foundCard = (found != end(deck)) ? *found : Card{};
+                return (found != end(deck)) ? *found : Card{};
                 `)
             },
             {
 
-                before_label: "for-loop find card that has suit == Hearts",
+                before_label: "for-loop find first card that has suit == Hearts",
                 before : dedentStrUsing1stLineIndent(`
                 Card foundCard;
                 for(const auto& card : deck) {
@@ -750,15 +751,16 @@ var refactoringExamples = new Vue({
                         foundCard = card;
                         break;
                     }
-                }`),
-                after_label: "Using STL std::find_if",
+                }
+                return foundCard;
+                `),
+                after_label: "Using STL find_if",
                 after : dedentStrUsing1stLineIndent(`
-                Card foundCard;
                 auto found = find_if(begin(deck), end(deck)
                                 , [] (const Card& card) {
                                     return card.GetSuit() == "Hearts";
                                 });
-                foundCard = (found != end(deck)) ? *found : Card{};
+                return (found != end(deck)) ? *found : Card{};
                 `)
             },
 
@@ -774,7 +776,7 @@ var refactoringExamples = new Vue({
                     }
                 }
                 cout << boolalpha << isAllOdd;`),
-                after_label: "Using STL std::all_of",
+                after_label: "Using STL all_of",
                 after : dedentStrUsing1stLineIndent(`
                 const auto isAllOdd = all_of(begin(deck), end(deck),
                                     [](const Card& card) {
@@ -796,7 +798,7 @@ var refactoringExamples = new Vue({
                     }
                 }
                 cout << boolalpha << hasHearts5;`),
-                after_label: "Using STL std::any_of",
+                after_label: "Using STL any_of",
                 after : dedentStrUsing1stLineIndent(`
                 Card cardToHave{"Hearts", "5"};
                 const auto hasHearts5 = any_of(begin(deck), end(deck),
@@ -808,91 +810,79 @@ var refactoringExamples = new Vue({
 
             {
 
-                before_label: "ranged for-loop capitalise string",
+                before_label: "Generate suit names except for first item in deck.",
                 before : dedentStrUsing1stLineIndent(`
-                string input {"HELLO"};
-                bool is_first = true;
-                for(auto& ch : input)
-                {
-                    if (!is_first)
-                    {
-                        ch = tolower(ch);
-                    }
-                    else
-                    {
+                vector<string> suits;
+                auto is_first = true;
+                for(const auto& card : deck) {
+                    if (!is_first) {
+                        suits.push_back(card.GetSuit());
+                    } else {
                         is_first = false;
                     }
                 }`),
                 after_label: "Using transform",
                 after : dedentStrUsing1stLineIndent(`
-                string input {"HELLO"};
-                transform(next(begin(input)), end(input), next(begin(input)),
-                    [](char ch){ return tolower(ch); });
+                vector<string> suits;
+                transform(next(begin(deck)), end(deck), back_inserter(suits),
+                    [](const Card& card) {
+                        return card.GetSuit();
+                    });
                 `)
             },
 
             {
 
-                before_label: "ranged for-loop transform whole string to lowercase",
+                before_label: "Generate suit names for all items in deck.",
                 before : dedentStrUsing1stLineIndent(`
-                string input {"HELLO"};
-
-                for(auto& ch : input)
-                {
-                    ch = tolower(ch);
+                vector<string> suits;
+                for(const auto& card : deck) {
+                    suits.push_back(card.GetSuit());
                 }`),
 
-                after_label: "Using transform, operating on the whole range makes ranged for loop cleaner, depending on taste.",
+                after_label: "However, for whole collections, ranged for loops could be as clean or cleaner than transform.",
                 after : dedentStrUsing1stLineIndent(`
-                string input {"HELLO"};
-                transform(begin(input), end(input), begin(input),
-                    [](char ch){ return tolower(ch); });
+                transform(begin(deck), end(deck), back_inserter(suits),
+                    [](const Card& card) {
+                        return card.GetSuit();
+                    });
                 `)
             },
 
             {
-
-                before_label: "for-loop comparing 2 vectors with same length and using either one",
-                before : dedentStrUsing1stLineIndent(`
-                vector<int> n1 { 1, 2, 3, 4 };
-                vector<int> n2 { 2, 1, 1, 5 };
-                vector<int> out;
-
-                for(auto i = 0U; i < n1.size(); ++i)
-                {
-                    out.push_back(std::min(n1[i], n2[i]));
-                }`),
-
-                after_label: "Using transform.",
-                after : dedentStrUsing1stLineIndent(`
-                vector<int> n1 { 1, 2, 3, 4 };
-                vector<int> n2 { 2, 1, 1, 5 };
-                vector<int> out;
-
-                transform(begin(n1), end(n1), begin(n2), back_inserter(out),
-                    [](int a, int b){ return std::min(a,b); });
-                `)
-            },
-
-            {
-
                 before_label: "Deal cards to 2 players using partition_copy",
                 before : dedentStrUsing1stLineIndent(`
                 vector<Card> player1;
                 vector<Card> player2;
+                // Note: [toggle=false] doesn't work for C++11, define toggle
+                // before passing to lambda.
+                partition_copy(begin(deck),
+                               end(deck),
+                               back_inserter(player1),
+                               back_inserter(player2),
+                               [toggle = false](const Card&) mutable
+                               { return toggle = !toggle; });
+                `),
+            },
 
-                std::partition_copy(begin(deck),
-                                    end(deck),
-                                    back_inserter(player1),
-                                    back_inserter(player2),
-                                    [toggle = false/*declare toggle outside for C++11*/](const Card&) mutable
-                                    { return toggle = !toggle; });
+            {
+                before_label: "Accumulate hand into a card with total rank",
+                before : dedentStrUsing1stLineIndent(`
+                vector<Card> hand { Card("Spades", "9"),
+                                    Card("Spades", "9"),
+                                    Card("Spades", "9") };
 
-                std::copy(begin(player1), end(player1), ostream_iterator<Card>(cout, ", "));
-                std::cout << "\n";
-                std::copy(begin(player2), end(player2), ostream_iterator<Card>(cout, ", "));`),
+                auto totalCard = accumulate(begin(hand), end(hand), Card("", "0"),
+                    [](const Card& cardCombined, const Card& currentCard)
+                    {
+                        // possible stoi error elided
+                        auto combinedRank = stoi(cardCombined.GetRank()) +
+                                            stoi(currentCard.GetRank());
+                        return Card(currentCard.GetSuit(), to_string(combinedRank));
+                    });
 
-
+                    cout << "Combined Card: " << totalCard; // Result = 27 of Spades
+                }`),
             },
         ],
     },
@@ -902,66 +892,3 @@ var refactoringExamples = new Vue({
         },
     }
 })
-
-import helloworld from '@/txt/test.cpp'
-
-loadCppFile = new Vue({
-    el:'.loadCppFile',
-    data: {
-      text: helloworld,
-      candidates: [
-        { name: "Mr. Black", votes: 140 },
-        { name: "Mr. Red", votes: 135 },
-        { name: "Mr. Pink", votes: 145 },
-        { name: "Mr. Brown", votes: 140 }
-      ]
-    },
-    methods: {
-        getFileContent(filename) {
-            //if(!filename || filename.type !== 'text/plain') return filename;
-            let reader = new FileReader();
-            reader.readAsText(filename, "UTF-8");
-            reader.onload =  evt => {
-                this.text = evt.target.result;
-            }
-            reader.onerror = evt => {
-                console.error(evt);
-            }
-            return this.text;
-        },
-
-      },
-     computed:{
-        mayor: function(){
-            // var candidateSorted = this.candidates.sort(function(a,b){
-            //   return b.votes - a.votes;
-            // });
-            // return candidateSorted[0];
-            return { name: "Mr. Black", votes: 12 };
-        },
-        textClass: function() {
-        var tmp = {}
-        tmp[this.mayor.name.replace(/ /g,'').replace('Mr.','').toLowerCase()] = true
-        //tmp.name = filename
-        return tmp
-        }
-     }
-
-    //   selectedFile() {
-    //     console.error("file to be invoked");
-    //     let file = 'txt/test.cpp';
-    //     if(!file || file.type !== 'text/plain') return;
-
-    //     // Credit: https://stackoverflow.com/a/754398/52160
-    //     let reader = new FileReader();
-    //     reader.readAsText(file, "UTF-8");
-    //     reader.onload =  evt => {
-    //       this.text = evt.target.result;
-    //     }
-    //     reader.onerror = evt => {
-    //       console.error(evt);
-    //     }
-
-    //   }
-    // }
-  })
