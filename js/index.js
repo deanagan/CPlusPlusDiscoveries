@@ -899,8 +899,8 @@ var refactoringExamples = new Vue({
                 before_drawing: "img/after_rotate.png",
                 before : dedentStrUsing1stLineIndent(`
                 auto numspades = count(begin(cards),end(cards),Card("Spades","9"));
-                // moved_diamonds points to the start of where diamonds are moved.
-                // This is useful for subsequent rotations.
+                // moved_diamonds points to the location of first after rotation.
+                // This is the first 9 at the end of the rotated collection.
                 auto moved_diamonds = rotate(next(begin(cards), numspades/2), 
                                              next(begin(cards), numspades),
                                              end(cards));
