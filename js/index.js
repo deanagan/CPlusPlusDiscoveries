@@ -873,16 +873,38 @@ var refactoringExamples = new Vue({
                                     Card("Spades", "9") };
 
                 auto totalCard = accumulate(begin(hand), end(hand), Card("", "0"),
-                    [](const Card& cardCombined, const Card& currentCard)
-                    {
+                    [](const Card& cardCombined, const Card& currentCard) {
                         // possible stoi error elided
                         auto combinedRank = stoi(cardCombined.GetRank()) +
                                             stoi(currentCard.GetRank());
                         return Card(currentCard.GetSuit(), to_string(combinedRank));
                     });
-
-                    cout << "Combined Card: " << totalCard; // Result = 27 of Spades
+                    // Result = 27 of Spades
+                    cout << "Combined Card: " << totalCard; 
                 }`),
+            },
+
+            {
+                before_label: "Rotate diamonds to the middle of 2 spades.",
+                before_drawing: "img/before_rotate.png",
+                before : dedentStrUsing1stLineIndent(`
+                vector<Card> cards { Card("Spades","9"), Card("Spades","9"), 
+                                     Card("Spades","9"), Card("Spades","9"), 
+                                     Card("Diamond","10"), Card("Diamond","10"),
+                                     Card("Diamond","10"), Card("Diamond","10") }; 
+                `),
+            },
+            {
+                before_label: "We use rotate to move the diamonds to the middle.",
+                before_drawing: "img/after_rotate.png",
+                before : dedentStrUsing1stLineIndent(`
+                auto numspades = count(begin(cards),end(cards),Card("Spades","9"));
+                // moved_diamonds points to the start of where diamonds are moved.
+                // This is useful for subsequent rotations.
+                auto moved_diamonds = rotate(next(begin(cards), numspades/2), 
+                                             next(begin(cards), numspades),
+                                             end(cards));
+                `)
             },
         ],
     },

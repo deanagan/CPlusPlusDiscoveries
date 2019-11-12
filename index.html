@@ -213,12 +213,14 @@
                         {{ cx.description }}
                         <div class="row">
                             <div class="column">
-                                    <div>{{cx.before_label}}</div>
+                                <div>{{cx.before_label}}</div>                                
                                 <pre><code class="cpp prettyprint lang-cpp" data-trim data-line-numbers>{{ cx.before }}</code></pre>
+                                <img v-if="cx.before_drawing" class="fragment" v-bind:src="cx.before_drawing">
                             </div>
-                            <div class="column fragment" v-if="cx.after_label">
-                                    <div>{{cx.after_label}}</div>
-                                    <pre><code class="cpp prettyprint lang-cpp" data-trim data-line-numbers>{{ cx.after }}</code></pre>
+                            <div class="column fragment" v-if="cx.after_label">                                    
+                                <div>{{cx.after_label}}</div>
+                                <img v-if="cx.after_drawing" class="fragment" v-bind:src="cx.after_drawing">
+                                <pre><code class="cpp prettyprint lang-cpp" data-trim data-line-numbers>{{ cx.after }}</code></pre>                                    
                             </div>
                         </div>
                     </h5>
