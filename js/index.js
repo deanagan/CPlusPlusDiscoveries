@@ -730,6 +730,7 @@ var refactoringExamples = new Vue({
                 for(const auto& card : deck) {
                     if (card == cardToFind) {
                         foundCard = card;
+                        break;
                     }
                 }
                 return foundCard;
@@ -873,11 +874,11 @@ var refactoringExamples = new Vue({
                                     Card("Spades", "9") };
 
                 auto totalCard = accumulate(begin(hand), end(hand), Card("", "0"),
-                    [](const Card& cardCombined, const Card& currentCard) {
+                    [](const Card& cardCombined, const Card& current) {
                         // possible stoi error elided
                         auto combinedRank = stoi(cardCombined.GetRank()) +
-                                            stoi(currentCard.GetRank());
-                        return Card(currentCard.GetSuit(), to_string(combinedRank));
+                                            stoi(current.GetRank());
+                        return Card(current.GetSuit(), to_string(combinedRank));
                     });
                     // Result = 27 of Spades
                     cout << "Combined Card: " << totalCard; 
@@ -899,11 +900,32 @@ var refactoringExamples = new Vue({
                 before_drawing: "img/after_rotate.png",
                 before : dedentStrUsing1stLineIndent(`
                 auto numspades = count(begin(cards),end(cards),Card("Spades","9"));
-                // moved_diamonds points to the location of first after rotation.
+                // moved points to the location of first after rotation.
                 // This is the first 9 at the end of the rotated collection.
-                auto moved_diamonds = rotate(next(begin(cards), numspades/2), 
-                                             next(begin(cards), numspades),
-                                             end(cards));
+                auto moved = rotate(next(begin(cards), numspades/2), 
+                                         next(begin(cards), numspades),
+                                         end(cards));
+                `)
+            },
+            {
+                before_label: "Partition cards into diamonds and spades.",
+                before_drawing: "img/partition_before.png",
+                before : dedentStrUsing1stLineIndent(`
+                vector<Card> cards { Card("Spades","10"), Card("Diamond","5"), 
+                                     Card("Diamond","2"), Card("Spades","3"), 
+                                     Card("Diamond","4"), Card("Spades","5") }; 
+                `),
+            },
+            {
+                before_label: "We use stable partition to re-order cards but preserving relative order. Partition does the same but does not preserve order.",
+                before_drawing: "img/partition_after.png",
+                before : dedentStrUsing1stLineIndent(`
+                auto partition_point = stable_partition(
+                                        begin(cards), 
+                                        end(cards), [](const Card& card)
+                                        {
+                                            return card.GetSuit() == "Diamond";
+                                        });
                 `)
             },
         ],
