@@ -315,13 +315,13 @@ var mutableLambdas = new Vue({
                     // is equivalent to this functor:
                     struct Product {
                         public:
-                            Product(int multiplier) : _multiplier(multiplier) {}
+                            Product(int multiplier) : multiplier_(multiplier) {}
                             int operator()(int multiplicand) const
                             {
-                                return multiplicand * multiplier;
+                                return multiplicand * multiplier_;
                             }
                         private:
-                            int _multiplier;
+                            int multiplier_;
                     };`)
                 ]
             },
@@ -881,7 +881,7 @@ var refactoringExamples = new Vue({
                         return Card(current.GetSuit(), to_string(combinedRank));
                     });
                     // Result = 27 of Spades
-                    cout << "Combined Card: " << totalCard; 
+                    cout << "Combined Card: " << totalCard;
                 }`),
             },
 
@@ -889,10 +889,10 @@ var refactoringExamples = new Vue({
                 before_label: "Rotate diamonds to the middle of 2 spades.",
                 before_drawing: "img/before_rotate.png",
                 before : dedentStrUsing1stLineIndent(`
-                vector<Card> cards { Card("Spades","9"), Card("Spades","9"), 
-                                     Card("Spades","9"), Card("Spades","9"), 
+                vector<Card> cards { Card("Spades","9"), Card("Spades","9"),
+                                     Card("Spades","9"), Card("Spades","9"),
                                      Card("Diamond","10"), Card("Diamond","10"),
-                                     Card("Diamond","10"), Card("Diamond","10") }; 
+                                     Card("Diamond","10"), Card("Diamond","10") };
                 `),
             },
             {
@@ -902,7 +902,7 @@ var refactoringExamples = new Vue({
                 auto numspades = count(begin(cards),end(cards),Card("Spades","9"));
                 // moved points to the location of first after rotation.
                 // This is the first 9 at the end of the rotated collection.
-                auto moved = rotate(next(begin(cards), numspades/2), 
+                auto moved = rotate(next(begin(cards), numspades/2),
                                          next(begin(cards), numspades),
                                          end(cards));
                 `)
@@ -911,9 +911,9 @@ var refactoringExamples = new Vue({
                 before_label: "Partition cards into diamonds and spades.",
                 before_drawing: "img/partition_before.png",
                 before : dedentStrUsing1stLineIndent(`
-                vector<Card> cards { Card("Spades","10"), Card("Diamond","5"), 
-                                     Card("Diamond","2"), Card("Spades","3"), 
-                                     Card("Diamond","4"), Card("Spades","5") }; 
+                vector<Card> cards { Card("Spades","10"), Card("Diamond","5"),
+                                     Card("Diamond","2"), Card("Spades","3"),
+                                     Card("Diamond","4"), Card("Spades","5") };
                 `),
             },
             {
@@ -921,7 +921,7 @@ var refactoringExamples = new Vue({
                 before_drawing: "img/partition_after.png",
                 before : dedentStrUsing1stLineIndent(`
                 auto partition_point = stable_partition(
-                                        begin(cards), 
+                                        begin(cards),
                                         end(cards), [](const Card& card)
                                         {
                                             return card.GetSuit() == "Diamond";
