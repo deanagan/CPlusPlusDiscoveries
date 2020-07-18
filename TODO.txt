@@ -1,4 +1,0 @@
-Add:
-std::array
-random-access vs non random access (perhaps a table)
-discuss set comparator
