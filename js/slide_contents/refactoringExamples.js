@@ -31,11 +31,11 @@ new Vue({
                 }
 
                 vector<Card> deck {
-                   Card("Spades", "9"), 
-                   Card("Diamond", "9"), 
                    Card("Spades", "9"),
-                   Card("Hearts", "5"), 
-                   Card("Clubs", "3"), 
+                   Card("Diamond", "9"),
+                   Card("Spades", "9"),
+                   Card("Hearts", "5"),
+                   Card("Clubs", "3"),
                    Card("Diamond", "7"),
                 };
                 `)
@@ -225,8 +225,8 @@ new Vue({
                                     Card("Spades", "9"),
                                     Card("Spades", "9") };
 
-                auto totalCard = accumulate(begin(hand), end(hand), 
-                    Card("", "0"), 
+                auto totalCard = accumulate(begin(hand), end(hand),
+                    Card("", "0"),
                     [](const Card& cardCombined, const Card& current) {
                         // note: possible stoi error elided
                         auto combinedRank = stoi(cardCombined.GetRank()) +
@@ -234,7 +234,7 @@ new Vue({
                         const auto strCombinedRank = to_string(combinedRank);
                         return Card(current.GetSuit(), strCombinedRank);
                     });
-                    // Result = 27 of Spades                    
+                    // Result = 27 of Spades
                 }`),
             },
 
@@ -245,7 +245,7 @@ new Vue({
                 vector<Card> cards {Card("Spades","9"),Card("Spades","9"),
                                     Card("Spades","9"),Card("Spades","9"),
                                     Card("Diamond","10"),Card("Diamond","10"),
-                                    Card("Diamond","10"),Card("Diamond","10") 
+                                    Card("Diamond","10"),Card("Diamond","10")
                                 };
                 `),
             },
@@ -274,16 +274,69 @@ new Vue({
             {
                 before_label: "Use stable_partition to re-order cards but preserving relative order.",
                 before_drawing: "img/partition_after.png",
-                before : dedentStrUsing1stLineIndent(`                
+                before : dedentStrUsing1stLineIndent(`
                 // Use partition if relative order is not important.
                 auto partition_pt = stable_partition(
-                                    begin(cards), end(cards), 
+                                    begin(cards), end(cards),
                                     [](const Card& card)
                                     {
                                         return card.GetSuit() == "Diamond";
                                     });
                 `)
             },
+            {
+                before_label: "Creating a set of cards from a vector using a custom functor type comparator",
+                before : dedentStrUsing1stLineIndent(`
+                struct CardValueComparator {
+                bool operator() (const Card& card1, const Card& card2) const {
+                    const auto card1Val = CSValueMap.at(card1.GetSuit()) +
+                                          CRValueMap.at(card1.GetRank());
+                    const auto card2Val = CSValueMap.at(card2.GetSuit()) +
+                                          CRValueMap.at(card2.GetRank());
+                    return (card1Val < card2Val);
+                }
+                };
+                `),
+                after_label: "Use copy into set declared with comparator.",
+                after : dedentStrUsing1stLineIndent(`
+                set<Card, CardValueComparator> myCards;
+                copy(begin(srcDeck), end(srcDeck),
+                     inserter(myCards, begin(myCards)));
+                `)
+            },
+            {
+                before_label: "Creating a set of cards from a vector using a custom lambda comparator",
+                before : dedentStrUsing1stLineIndent(`
+                auto cardValueComparator = [](const Card& card1,
+                                              const Card& card2) {
+                    const auto card1Val = CSValueMap.at(card1.GetSuit()) +
+                                          CRValueMap.at(card1.GetRank());
+                    const auto card2Val = CSValueMap.at(card2.GetSuit()) +
+                                          CRValueMap.at(card2.GetRank());
+                    return (card1Val < card2Val);
+                };
+                `),
+                after_label: "Use copy into set declared with comparator.",
+                after : dedentStrUsing1stLineIndent(`
+                // We don't need to pass lambda comparator in C++20. We need
+                // to pass this prior because lambda closures have deleted
+                // default constructor. Since C++20, lambda's with empty
+                // captures will have a default constructor.
+                set<Card, decltype(comparator)> myCards(comparator);
+                copy(begin(srcDeck), end(srcDeck),
+                     inserter(myCards, begin(myCards)));
+                `)
+            },
+            {
+                before_label: "Checking if a sorted collection exists within another collection",
+                before : dedentStrUsing1stLineIndent(`
+                const auto hasFourQueens = includes(begin(sortedCardsByValue),
+                                                    end(sortedCardsByValue),
+                                                    begin(fourQueenSet),
+                                                    end(fourQueenSet),
+                                                    cardValueComparator);
+                `),
+            }
         ],
     },
     computed : {
