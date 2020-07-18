@@ -1,0 +1,9 @@
+{
+    "files.watcherExclude": {
+        "cpp/*.exe": true
+    },
+    "search.exclude": {
+        "cpp/*.exe": true
+    },
+    "C_Cpp.exclusionPolicy": "checkFilesAndFolders"
+}
