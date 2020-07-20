@@ -41,7 +41,7 @@ new Vue({
                 `)
             },
             {
-                before_label: "for-loop count 9-Spades",
+                before_label: "Count 9-Spades in deck.",
                 before : dedentStrUsing1stLineIndent(`
                 auto numSpades9 = 0;
                 Card cardToCount{"Spades", "9"};
@@ -50,7 +50,7 @@ new Vue({
                         ++numSpades9;
                     }
                 }`),
-                after_label: "Using STL count",
+                after_label: "Count using STL's count",
                 after : dedentStrUsing1stLineIndent(`
                 Card cardToCount{"Spades", "9"};
                 numSpades9 = count(begin(deck), end(deck), cardToCount);
@@ -58,7 +58,7 @@ new Vue({
             },
             {
 
-                before_label: "for-loop count card with rank == 9",
+                before_label: "Count cards with rank == 9",
                 before : dedentStrUsing1stLineIndent(`
                 auto numCardRank9 = 0;
                 for (auto i = 0U; i < deck.size(); ++i) {
@@ -66,7 +66,7 @@ new Vue({
                         ++numCardRank9;
                     }
                 }`),
-                after_label: "Using STL count_if",
+                after_label: "Using STL's count_if",
                 after : dedentStrUsing1stLineIndent(`
                 numCardRank9 = count_if(begin(deck), end(deck),
                     [] (const Card& card) {
@@ -76,7 +76,7 @@ new Vue({
             },
             {
 
-                before_label: "for-loop find card with Clubs 3",
+                before_label: "Find first card == 3-Clubs",
                 before : dedentStrUsing1stLineIndent(`
                 Card foundCard;
                 Card cardToFind{"Clubs", "3"};
@@ -88,7 +88,7 @@ new Vue({
                 }
                 return foundCard;
                 `),
-                after_label: "Using STL find",
+                after_label: "Using STL's find",
                 after : dedentStrUsing1stLineIndent(`
                 auto found = find(begin(deck), end(deck), Card{"Clubs", "3"});
                 return (found != end(deck)) ? *found : Card{};
@@ -96,7 +96,7 @@ new Vue({
             },
             {
 
-                before_label: "for-loop find first card that has suit == Hearts",
+                before_label: "Find first card that has suit == Hearts",
                 before : dedentStrUsing1stLineIndent(`
                 Card foundCard;
                 for(const auto& card : deck) {
@@ -107,7 +107,7 @@ new Vue({
                 }
                 return foundCard;
                 `),
-                after_label: "Using STL find_if",
+                after_label: "Using STL's find_if",
                 after : dedentStrUsing1stLineIndent(`
                 auto found = find_if(begin(deck), end(deck)
                                 , [] (const Card& card) {
@@ -119,17 +119,18 @@ new Vue({
 
             {
 
-                before_label: "for-loop find if all cards have odd rank number",
+                before_label: "Determine if all cards have odd rank number",
                 before : dedentStrUsing1stLineIndent(`
                 bool isAllOdd = true;
                 for (const auto& card : deck) {
+                    // note: stoi error elided
                     if (stoi(card.GetRank()) % 2 == 0) {
                         isAllOdd = false;
                         break;
                     }
                 }
                 cout << boolalpha << isAllOdd;`),
-                after_label: "Using STL all_of",
+                after_label: "Using STL's all_of",
                 after : dedentStrUsing1stLineIndent(`
                 const auto isAllOdd = all_of(begin(deck), end(deck),
                                     [](const Card& card) {
@@ -140,7 +141,7 @@ new Vue({
 
             {
 
-                before_label: "for-loop find if any card is Hearts 5",
+                before_label: "Find if any card is a 5-Hearts",
                 before : dedentStrUsing1stLineIndent(`
                 bool hasHearts5 = false;
                 Card cardToHave{"Hearts", "5"};
@@ -150,15 +151,15 @@ new Vue({
                         break;
                     }
                 }
-                cout << boolalpha << hasHearts5;`),
-                after_label: "Using STL any_of",
+                `),
+                after_label: "Using STL's any_of",
                 after : dedentStrUsing1stLineIndent(`
                 Card cardToHave{"Hearts", "5"};
                 const auto hasHearts5 = any_of(begin(deck), end(deck),
                                     [&cardToHave](const Card& card) {
                                         return cardToHave == card;
                                     });
-                cout << boolalpha << hasHearts5;`)
+                `)
             },
 
             {
@@ -174,7 +175,7 @@ new Vue({
                         is_first = false;
                     }
                 }`),
-                after_label: "Using transform",
+                after_label: "Using STL's transform",
                 after : dedentStrUsing1stLineIndent(`
                 vector<string> suits;
                 transform(next(begin(deck)), end(deck), back_inserter(suits),
@@ -193,7 +194,7 @@ new Vue({
                     suits.push_back(card.GetSuit());
                 }`),
 
-                after_label: "However, for whole collections, ranged for loops could be as clean or cleaner than transform.",
+                after_label: "For whole collections, ranged for loops could be as clean or cleaner than transform.",
                 after : dedentStrUsing1stLineIndent(`
                 transform(begin(deck), end(deck), back_inserter(suits),
                     [](const Card& card) {
@@ -203,7 +204,7 @@ new Vue({
             },
 
             {
-                before_label: "Deal cards to 2 players using partition_copy",
+                before_label: "Deal cards to 2 players via copy",
                 before : dedentStrUsing1stLineIndent(`
                 vector<Card> player1;
                 vector<Card> player2;
@@ -263,7 +264,7 @@ new Vue({
                 `)
             },
             {
-                before_label: "Partition cards into diamonds and spades.",
+                before_label: "Split cards into diamonds and spades preserving order.",
                 before_drawing: "img/partition_before.png",
                 before : dedentStrUsing1stLineIndent(`
                 vector<Card> cards { Card("Spades","10"), Card("Diamond","5"),
@@ -285,7 +286,7 @@ new Vue({
                 `)
             },
             {
-                before_label: "Creating a set of cards from a vector using a custom functor type comparator",
+                before_label: "Create a set of cards from a vector using a custom functor type comparator",
                 before : dedentStrUsing1stLineIndent(`
                 struct CardValueComparator {
                 bool operator() (const Card& card1, const Card& card2) const {
@@ -305,7 +306,7 @@ new Vue({
                 `)
             },
             {
-                before_label: "Creating a set of cards from a vector using a custom lambda comparator",
+                before_label: "Create a set of cards from a vector using a custom lambda comparator",
                 before : dedentStrUsing1stLineIndent(`
                 auto comparator = [](const Card& card1, const Card& card2) {
                     const auto card1Val = CSValueMap.at(card1.GetSuit()) +
@@ -327,7 +328,7 @@ new Vue({
                 `)
             },
             {
-                before_label: "Checking if a sorted collection exists within another collection",
+                before_label: "Determine if a sorted collection exists within another collection",
                 before : dedentStrUsing1stLineIndent(`
                 const auto hasFourQueens = includes(
                     begin(sortedCardsByValueSet),
