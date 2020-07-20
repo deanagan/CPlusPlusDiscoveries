@@ -5,5 +5,11 @@
     "search.exclude": {
         "cpp/*.exe": true
     },
-    "C_Cpp.exclusionPolicy": "checkFilesAndFolders"
+    "C_Cpp.exclusionPolicy": "checkFilesAndFolders",
+    "files.associations": {
+        "utility": "cpp",
+        "xutility": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
+    }
 }

@@ -72,12 +72,12 @@ int main()
         cout << "\n";
     };
 
-    set<Card, CardValueComparator> sortedCardsByValue;
-    copy(begin(deck), end(deck), inserter(sortedCardsByValue, begin(sortedCardsByValue)));
-    printCardCollection(sortedCardsByValue);
+    set<Card, CardValueComparator> sortedCardsByValueSet;
+    copy(begin(deck), end(deck), inserter(sortedCardsByValueSet, begin(sortedCardsByValueSet)));
+    printCardCollection(sortedCardsByValueSet);
 
-    copy(begin(extra), end(extra), inserter(sortedCardsByValue, begin(sortedCardsByValue)));
-    printCardCollection(sortedCardsByValue);
+    copy(begin(extra), end(extra), inserter(sortedCardsByValueSet, begin(sortedCardsByValueSet)));
+    printCardCollection(sortedCardsByValueSet);
 
     auto cardValueComparator = [](const Card& card1, const Card& card2) {
         return (CardSuitValueMap.at(card1.GetSuit()) + CardRankValueMap.at(card1.GetRank())) <
@@ -87,14 +87,15 @@ int main()
     copy(begin(fourOfNines), end(fourOfNines), inserter(fourNineSet, begin(fourNineSet)));
 
 
-    const auto hasFourNines = includes(begin(sortedCardsByValue), end(sortedCardsByValue), begin(fourNineSet), end(fourNineSet), cardValueComparator);
+    const auto hasFourNines = includes(begin(sortedCardsByValueSet), end(sortedCardsByValueSet), begin(fourNineSet), end(fourNineSet), cardValueComparator);
 
     cout << "Deck has Four Nines: " << boolalpha << hasFourNines << "\n";
-    using lambdaComparatorType =decltype(cardValueComparator);
+
+    using lambdaComparatorType = decltype(cardValueComparator);
     set<Card, lambdaComparatorType> fourQueenSet(cardValueComparator); // we don't need to pass lambda comparator in C++20
     copy(begin(fourOfQueen), end(fourOfQueen), inserter(fourQueenSet, begin(fourQueenSet)));
 
-    const auto hasFourQueens = includes(begin(sortedCardsByValue), end(sortedCardsByValue), begin(fourQueenSet), end(fourQueenSet), cardValueComparator);
+    const auto hasFourQueens = includes(begin(sortedCardsByValueSet), end(sortedCardsByValueSet), begin(fourQueenSet), end(fourQueenSet), cardValueComparator);
 
     cout << "Deck has Four Queens: " << boolalpha << hasFourQueens << "\n";
 

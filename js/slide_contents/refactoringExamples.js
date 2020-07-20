@@ -307,8 +307,7 @@ new Vue({
             {
                 before_label: "Creating a set of cards from a vector using a custom lambda comparator",
                 before : dedentStrUsing1stLineIndent(`
-                auto cardValueComparator = [](const Card& card1,
-                                              const Card& card2) {
+                auto comparator = [](const Card& card1, const Card& card2) {
                     const auto card1Val = CSValueMap.at(card1.GetSuit()) +
                                           CRValueMap.at(card1.GetRank());
                     const auto card2Val = CSValueMap.at(card2.GetSuit()) +
@@ -330,13 +329,37 @@ new Vue({
             {
                 before_label: "Checking if a sorted collection exists within another collection",
                 before : dedentStrUsing1stLineIndent(`
-                const auto hasFourQueens = includes(begin(sortedCardsByValue),
-                                                    end(sortedCardsByValue),
-                                                    begin(fourQueenSet),
-                                                    end(fourQueenSet),
-                                                    cardValueComparator);
+                const auto hasFourQueens = includes(
+                    begin(sortedCardsByValueSet),
+                    end(sortedCardsByValueSet),
+                    begin(fourQueenSet),
+                    end(fourQueenSet),
+                    cardValueComparator);
                 `),
-            }
+            },
+            {
+                before_label: "Reduce 3 cards with the highest values by 100.",
+                before : dedentStrUsing1stLineIndent(`
+                vector<CardScore> cardsAndValues {
+                    { Card("Spades","8"), 12 }, { Card("Spades","10"),  212 },
+                    { Card("Clubs","10"), 20 }, { Card("Heart","10"),   170 },
+                    { Card("Diamond","10"), 344 }
+                   };
+                `),
+                after_label: "Use partial sort and foreach.",
+                after : dedentStrUsing1stLineIndent(`
+                partial_sort( begin(cardsAndValues),
+                              next(begin(cardsAndValues), 3),
+                              end(cardsAndValues),
+                    [](const CardScore& cardValue1,
+                       const CardScore& cardValue2) {
+                        return cardValue1.score > cardValue2.score;
+                    });
+                for_each(begin(cardsAndValues),
+                         next(begin(cardsAndValues), 3),
+                    [](CardScore& cardScore) { cardScore.score -= 100; });
+                `)
+            },
         ],
     },
     computed : {

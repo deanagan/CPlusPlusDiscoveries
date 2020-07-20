@@ -23,7 +23,7 @@ public:
    string GetSuit() const { return m_suit; }
    string GetRank() const { return m_rank; }
 
-   friend ostream &operator<<(ostream &os, const Card &card);
+   friend ostream& operator<<(ostream& os, const Card& card);
 private:
    string m_suit;
    string m_rank;
