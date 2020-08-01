@@ -13,11 +13,11 @@ namespace test {
 using namespace demo;
 namespace {
     std::vector<Card> kDeck {
-        Card(card_suit::kSpades, card_rank::kNine),
-        Card(card_suit::kDiamonds, card_rank::kNine),
-        Card(card_suit::kHearts, card_rank::kFive),
-        Card(card_suit::kClubs, card_rank::kNine),
-        Card(card_suit::kDiamonds, card_rank::kSeven),
+        Card(card_suit::Spades, card_rank::Nine),
+        Card(card_suit::Diamonds, card_rank::Nine),
+        Card(card_suit::Hearts, card_rank::Five),
+        Card(card_suit::Clubs, card_rank::Nine),
+        Card(card_suit::Diamonds, card_rank::Seven),
     };
 }
 class AnyOfDemoTest : public ::testing::Test
@@ -33,7 +33,7 @@ TEST_F(AnyOfDemoTest, ShouldExpect_True_WhenCardIsInCollection)
     AnyOfDemo sut;
 
     // Act
-    const auto has_5_hearts = sut.HasCard(kDeck, Card {card_suit::kHearts, card_rank::kFive});
+    const auto has_5_hearts = sut.HasCard(kDeck, Card {card_suit::Hearts, card_rank::Five});
 
     // Assert
     EXPECT_TRUE(has_5_hearts);
@@ -45,7 +45,7 @@ TEST_F(AnyOfDemoTest, ShouldExpect_False_WhenCardIsNotInCollection)
     AnyOfDemo sut;
 
     // Act
-    const auto has_8_spades = sut.HasCard(kDeck, Card {card_suit::kSpades, card_rank::kEight});
+    const auto has_8_spades = sut.HasCard(kDeck, Card {card_suit::Spades, card_rank::Eight});
 
     // Assert
     EXPECT_FALSE(has_8_spades);

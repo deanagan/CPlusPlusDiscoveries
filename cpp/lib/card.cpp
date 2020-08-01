@@ -15,26 +15,26 @@ namespace demo {
 namespace {
 
     const std::map<std::string, int> kCardSuitValueMap {
-        {card_suit::kSpades, 0},
-        {card_suit::kClubs, 13},
-        {card_suit::kHearts, 27},
-        {card_suit::kDiamonds, 39},
+        {card_suit::Spades, 0},
+        {card_suit::Clubs, 13},
+        {card_suit::Hearts, 27},
+        {card_suit::Diamonds, 39},
     };
 
     const std::map<std::string, int> kCardRankValueMap {
-        {card_rank::kTwo, 1},
-        {card_rank::kThree, 2},
-        {card_rank::kFour, 3},
-        {card_rank::kFive, 4},
-        {card_rank::kSix, 5},
-        {card_rank::kSeven, 6},
-        {card_rank::kEight, 7},
-        {card_rank::kNine, 8},
-        {card_rank::kTen, 9},
-        {card_rank::kJack, 10},
-        {card_rank::kQueen, 11},
-        {card_rank::kKing, 12},
-        {card_rank::kAce, 13},
+        {card_rank::Two, 1},
+        {card_rank::Three, 2},
+        {card_rank::Four, 3},
+        {card_rank::Five, 4},
+        {card_rank::Six, 5},
+        {card_rank::Seven, 6},
+        {card_rank::Eight, 7},
+        {card_rank::Nine, 8},
+        {card_rank::Ten, 9},
+        {card_rank::Jack, 10},
+        {card_rank::Queen, 11},
+        {card_rank::King, 12},
+        {card_rank::Ace, 13},
     };
 }
 
