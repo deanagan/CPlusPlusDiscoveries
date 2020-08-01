@@ -4,20 +4,23 @@
 #include <algorithm>
 
 #include "card.h"
-
+#include <iostream>
 namespace demo {
 
-PartialSortDemo::PartialSortDemo(const std::vector<CardScorePair>& vCardScores)
-    : card_scores_(vCardScores)
+void PartialSortDemo::ReduceTopNCardScores(CardScores& cardScores, int top_n, int amount)
 {
+    // Partial sort to get top n.
+    std::partial_sort( begin(cardScores), next(begin(cardScores), top_n),
+                  end(cardScores),
+                  [](const CardScorePair& cardValue1, const CardScorePair& cardValue2) {
+                      return cardValue1.second > cardValue2.second;
+                  });
+    // Reduce top n score by amount.
+    for_each(begin(cardScores), next(begin(cardScores), top_n), [amount](CardScorePair& cardScore) {
+        cardScore.second -= amount;
+    });
 
 }
-
-void PartialSortDemo::ReduceTopCardScores(int top_n, int amount)
-{
-
-}
-
 
 
 } // namespace demo

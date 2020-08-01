@@ -3,20 +3,21 @@
 
 #include <vector>
 
-#include "gtest/gtest.h"
-#include "gmock/gmock.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
+#include "card_values.h"
 
 namespace test {
 
 using namespace demo;
 namespace {
     std::vector<Card> kDeck {
-        Card("Spades", "9"),
-        Card("Diamond", "9"),
-        Card("Hearts", "5"),
-        Card("Clubs", "9"),
-        Card("Diamond", "7"),
+        Card(card_suit::kSpades, card_rank::kNine),
+        Card(card_suit::kDiamonds, card_rank::kNine),
+        Card(card_suit::kHearts, card_rank::kFive),
+        Card(card_suit::kClubs, card_rank::kNine),
+        Card(card_suit::kDiamonds, card_rank::kSeven),
     };
 }
 class AnyOfDemoTest : public ::testing::Test
@@ -32,7 +33,7 @@ TEST_F(AnyOfDemoTest, ShouldExpect_True_WhenCardIsInCollection)
     AnyOfDemo sut;
 
     // Act
-    const auto has_5_hearts = sut.HasCard(kDeck, Card {"Hearts", "5"});
+    const auto has_5_hearts = sut.HasCard(kDeck, Card {card_suit::kHearts, card_rank::kFive});
 
     // Assert
     EXPECT_TRUE(has_5_hearts);
@@ -44,7 +45,7 @@ TEST_F(AnyOfDemoTest, ShouldExpect_False_WhenCardIsNotInCollection)
     AnyOfDemo sut;
 
     // Act
-    const auto has_8_spades = sut.HasCard(kDeck, Card {"Spades", "8"});
+    const auto has_8_spades = sut.HasCard(kDeck, Card {card_suit::kSpades, card_rank::kEight});
 
     // Assert
     EXPECT_FALSE(has_8_spades);

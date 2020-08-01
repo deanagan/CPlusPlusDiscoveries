@@ -9,34 +9,38 @@
 #include <string>
 #include <map>
 
+#include "card_values.h"
+
 namespace demo {
 namespace {
 
     const std::map<std::string, int> kCardSuitValueMap {
-        {"Spades", 0},
-        {"Clubs",  13},
-        {"Hearts", 27},
-        {"Diamond",39},
+        {card_suit::kSpades, 0},
+        {card_suit::kClubs, 13},
+        {card_suit::kHearts, 27},
+        {card_suit::kDiamonds, 39},
     };
 
     const std::map<std::string, int> kCardRankValueMap {
-        {"2", 1},
-        {"3", 2},
-        {"4", 3},
-        {"5", 4},
-        {"6", 5},
-        {"7", 6},
-        {"8", 7},
-        {"9", 8},
-        {"10",9},
-        {"J", 10},
-        {"Q", 11},
-        {"K", 12},
-        {"A", 13},
+        {card_rank::kTwo, 1},
+        {card_rank::kThree, 2},
+        {card_rank::kFour, 3},
+        {card_rank::kFive, 4},
+        {card_rank::kSix, 5},
+        {card_rank::kSeven, 6},
+        {card_rank::kEight, 7},
+        {card_rank::kNine, 8},
+        {card_rank::kTen, 9},
+        {card_rank::kJack, 10},
+        {card_rank::kQueen, 11},
+        {card_rank::kKing, 12},
+        {card_rank::kAce, 13},
     };
 }
 
-Card:: Card(std::string suit, std::string rank) : suit_(suit), rank_(rank)
+Card:: Card(std::string suit, std::string rank)
+    : suit_(std::move(suit))
+    , rank_(std::move(rank))
 {}
 
 bool Card::operator==(const Card& other) const {
@@ -44,6 +48,10 @@ bool Card::operator==(const Card& other) const {
     const auto this_value =  kCardSuitValueMap.at(GetSuit()) + kCardRankValueMap.at(GetRank());
 
     return this_value == other_value;
+}
+
+bool Card::operator!=(const Card& other) const {
+    return !(*this == other);
 }
 
 bool Card::operator<(const Card& other) const {

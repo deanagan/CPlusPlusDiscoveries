@@ -8,6 +8,7 @@ namespace demo {
       Card(std::string suit, std::string rank);
 
       bool operator==(const Card& other) const;
+      bool operator!=(const Card& other) const;
       bool operator<(const Card& other) const;
 
       std::string GetSuit() const { return suit_; }
