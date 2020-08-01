@@ -2,6 +2,11 @@
     "files.watcherExclude": {
         "cpp/*.exe": true
     },
+    "files.exclude": {
+        "cpp/*.exe": true,
+        "cpp/bazel-*": true,
+        "node_modules": true
+    },
     "search.exclude": {
         "cpp/*.exe": true,
         "cpp/bazel-*": true
