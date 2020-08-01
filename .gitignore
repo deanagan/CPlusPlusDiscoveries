@@ -10,5 +10,5 @@ tmp/**
 node_modules/
 .sass-cache
 dist/*.map
-**/cpp/*.exe
-**/cpp/bazel*/
+cpp/*.exe
+cpp/bazel-*
