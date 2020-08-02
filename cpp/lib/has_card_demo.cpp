@@ -8,7 +8,6 @@
 
 namespace demo {
 
-
 bool HasCardDemo::DoAllCardsHaveSameSuit(const std::vector<Card>& deck, const std::string& suit) const {
     bool haveAllSameSuit = true;
 
