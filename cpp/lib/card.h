@@ -7,6 +7,7 @@ namespace demo {
    class Card {
    public:
       Card(std::string suit, std::string rank);
+      Card() = default;
 
       bool operator==(const Card& other) const;
       bool operator!=(const Card& other) const;
