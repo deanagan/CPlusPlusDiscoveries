@@ -8,10 +8,42 @@
 
 namespace demo {
 
-bool AnyOfDemo::HasCard(const std::vector<Card>& deck, const Card& card) const {
+
+bool HasCardDemo::DoAllCardsHaveSameSuit(const std::vector<Card>& deck, const std::string& suit) const {
+    bool haveAllSameSuit = true;
+
+    for (const auto& card : deck) {
+        if (card.GetSuit() != suit) {
+            haveAllSameSuit = false;
+            break;
+        }
+    }
+	return haveAllSameSuit;
+}
+
+bool HasCardDemo::DoAllCardsHaveSameSuitSTL(const std::vector<Card>& deck, const std::string& suit) const {
+    return all_of(begin(deck), end(deck),
+                [&suit](const Card& card) {
+	                return card.GetSuit() == suit;
+                });
+}
+
+bool HasCardDemo::DoAnyCardsHaveRank(const std::vector<Card>& deck, const std::string& rank) const {
+    bool haveRank = false;
+
+    for (const auto& card : deck) {
+        if (card.GetRank() == rank) {
+            haveRank = true;
+            break;
+        }
+    }
+	return haveRank;
+}
+
+bool HasCardDemo::DoAnyCardsHaveRankSTL(const std::vector<Card>& deck, const std::string& rank) const {
     return any_of(begin(deck), end(deck),
-                [&card](const Card& card_in_deck) {
-                    return card_in_deck == card;
+                [&rank](const Card& card) {
+                    return card.GetRank() == rank;
                 });
 }
 

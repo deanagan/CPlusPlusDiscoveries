@@ -7,7 +7,7 @@
 #include <iostream>
 namespace demo {
 
-void PartialSortDemo::ReduceTopNCardScores(CardScores& cardScores, int top_n, int amount)
+void PartialSortDemo::ReduceTopNCardScores(CardScores& cardScores, int top_n, int amount) const
 {
     // Partial sort to get top n.
     std::partial_sort( begin(cardScores), next(begin(cardScores), top_n),

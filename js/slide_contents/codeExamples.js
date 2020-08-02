@@ -3,85 +3,71 @@ new Vue({
     data : {
         codes : [
             {
-                description: 'Demonstrations using a Card class',
+                description: 'Card class',
                 before : dedentStrUsing1stLineIndent(`
                 class Card {
-                public:
-                   Card(string suit="", string rank="")
-                       : m_suit(move(suit)), m_rank(move(rank)) {}
-                   bool operator==(const Card& other) const {
-                       return m_suit == other.m_suit &&
-                               m_rank == other.m_rank;
-                   }
-                   string GetSuit() const { return m_suit; }
-                   string GetRank() const { return m_rank; }
-                   friend ostream& operator<<(ostream &os, const Card& card);
-                private:
-                   string m_suit;
-                   string m_rank;
-                };
+                    public:
+                       Card(std::string suit, std::string rank);
+                       bool operator==(const Card& other) const;
+                       bool operator!=(const Card& other) const;
+                       bool operator<(const Card& other) const;
 
+                       std::string GetSuit() const { return suit_; }
+                       std::string GetRank() const { return rank_; }
+                       friend std::ostream& operator<<(std::ostream& os,
+                                                       const Card& card);
+                    private:
+                       std::string suit_;
+                       std::string rank_;
+                    };
                 `),
             },
             {
+                before_label: "Count cards in deck",
                 before : dedentStrUsing1stLineIndent(`
-                ostream& operator<<(ostream& os, const Card& card)
-                {
-                   return os << card.GetRank() << " of " << card.GetSuit();
+                size_t count = 0;
+
+                for (auto i = 0U; i < deck.size(); ++i) {
+                    if (deck[i] == card_to_count) {
+                        ++count;
+                    }
                 }
 
-                vector<Card> deck {
-                   Card("Spades", "9"),
-                   Card("Diamond", "9"),
-                   Card("Spades", "9"),
-                   Card("Hearts", "5"),
-                   Card("Clubs", "3"),
-                   Card("Diamond", "7"),
-                };
-                `)
-            },
-            {
-                before_label: "Count 9-Spades in deck.",
-                before : dedentStrUsing1stLineIndent(`
-                auto numSpades9 = 0;
-                Card cardToCount{"Spades", "9"};
-                for (auto i = 0U; i < deck.size(); ++i) {
-                    if (deck[i] == cardToCount) {
-                        ++numSpades9;
-                    }
-                }`),
+                return count;`),
                 after_label: "Count using STL's count",
                 after : dedentStrUsing1stLineIndent(`
-                Card cardToCount{"Spades", "9"};
-                numSpades9 = count(begin(deck), end(deck), cardToCount);
+                return count(begin(deck), end(deck), card_to_count);
                 `)
             },
             {
 
-                before_label: "Count cards with rank == 9",
+                before_label: "Count cards with matching rank",
                 before : dedentStrUsing1stLineIndent(`
-                auto numCardRank9 = 0;
+                size_t count = 0;
+
                 for (auto i = 0U; i < deck.size(); ++i) {
-                    if (deck[i].GetRank() == "9") {
-                        ++numCardRank9;
+                    if (deck[i].GetRank() == rank) {
+                        ++count;
                     }
-                }`),
+                }
+
+                return count;`),
                 after_label: "Using STL's count_if",
                 after : dedentStrUsing1stLineIndent(`
-                numCardRank9 = count_if(begin(deck), end(deck),
-                    [] (const Card& card) {
-                        return card.GetRank() == "9";
+                return count_if(begin(deck), end(deck),
+                    [&rank] (const Card& card) {
+                        return card.GetRank() == rank;
                     });
                 `)
             },
             {
 
-                before_label: "Find first card == 3-Clubs",
+                before_label: "Find first matching card",
                 before : dedentStrUsing1stLineIndent(`
                 Card foundCard;
-                Card cardToFind{"Clubs", "3"};
+
                 for(const auto& card : deck) {
-                    if (card == cardToFind) {
+                    if (card == card_to_find) {
                         foundCard = card;
                         break;
                     }
@@ -90,17 +76,18 @@ new Vue({
                 `),
                 after_label: "Using STL's find",
                 after : dedentStrUsing1stLineIndent(`
-                auto found = find(begin(deck), end(deck), Card{"Clubs", "3"});
+                const auto found = find(begin(deck), end(deck), card_to_find);
+
                 return (found != end(deck)) ? *found : Card{};
                 `)
             },
             {
 
-                before_label: "Find first card that has suit == Hearts",
+                before_label: "Find first card matching suit",
                 before : dedentStrUsing1stLineIndent(`
                 Card foundCard;
                 for(const auto& card : deck) {
-                    if (card.GetSuit() == "Hearts") {
+                    if (card.GetSuit() == suit) {
                         foundCard = card;
                         break;
                     }
@@ -109,9 +96,9 @@ new Vue({
                 `),
                 after_label: "Using STL's find_if",
                 after : dedentStrUsing1stLineIndent(`
-                auto found = find_if(begin(deck), end(deck)
-                                , [] (const Card& card) {
-                                    return card.GetSuit() == "Hearts";
+                const auto found = find_if(begin(deck), end(deck),
+                                  [&suit] (const Card& card) {
+                                    return card.GetSuit() == suit;
                                 });
                 return (found != end(deck)) ? *found : Card{};
                 `)
@@ -119,65 +106,65 @@ new Vue({
 
             {
 
-                before_label: "Determine if all cards have odd rank number",
+                before_label: "Determine if all cards have same suit",
                 before : dedentStrUsing1stLineIndent(`
-                bool isAllOdd = true;
+                bool haveAllSameSuit = true;
+
                 for (const auto& card : deck) {
-                    // note: stoi error elided
-                    if (stoi(card.GetRank()) % 2 == 0) {
-                        isAllOdd = false;
+                    if (card.GetSuit() != suit) {
+                        haveAllSameSuit = false;
                         break;
                     }
                 }
-                cout << boolalpha << isAllOdd;`),
+                return haveAllSameSuit;`),
                 after_label: "Using STL's all_of",
                 after : dedentStrUsing1stLineIndent(`
-                const auto isAllOdd = all_of(begin(deck), end(deck),
-                                    [](const Card& card) {
-                                        return stoi(card.GetRank()) % 2 != 0;
-                                    });
-                cout << boolalpha << isAllOdd;`)
+                return all_of(begin(deck), end(deck),
+                    [&suit](const Card& card) {
+	                    return card.GetSuit() == suit;
+                });`)
             },
 
             {
 
-                before_label: "Find if any card is a 5-Hearts",
+                before_label: "Find if any card matches rank",
                 before : dedentStrUsing1stLineIndent(`
-                bool hasHearts5 = false;
-                Card cardToHave{"Hearts", "5"};
+                bool haveRank = false;
+
                 for (const auto& card : deck) {
-                    if (card == cardToHave) {
-                        hasHearts5 = true;
+                    if (card.GetRank() == rank) {
+                        haveRank = true;
                         break;
                     }
                 }
+	            return haveRank;
                 `),
                 after_label: "Using STL's any_of",
                 after : dedentStrUsing1stLineIndent(`
-                Card cardToHave{"Hearts", "5"};
-                const auto hasHearts5 = any_of(begin(deck), end(deck),
-                                    [&cardToHave](const Card& card) {
-                                        return cardToHave == card;
-                                    });
-                `)
+                return any_of(begin(deck), end(deck),
+                    [&rank](const Card& card) {
+                        return card.GetRank() == rank;
+                    });`)
             },
 
             {
 
                 before_label: "Generate suit names except for first item in deck.",
                 before : dedentStrUsing1stLineIndent(`
-                vector<string> suits;
-                auto is_first = true;
+                std::vector<std::string> suits;
+
+                bool first = true;
                 for(const auto& card : deck) {
-                    if (!is_first) {
+                    if (!first) {
                         suits.push_back(card.GetSuit());
                     } else {
-                        is_first = false;
+                        first = false;
                     }
-                }`),
+                }
+                return suits;`),
                 after_label: "Using STL's transform",
                 after : dedentStrUsing1stLineIndent(`
-                vector<string> suits;
+                std::vector<std::string> suits;
                 transform(next(begin(deck)), end(deck), back_inserter(suits),
                     [](const Card& card) {
                         return card.GetSuit();
@@ -189,17 +176,20 @@ new Vue({
 
                 before_label: "Generate suit names for all items in deck.",
                 before : dedentStrUsing1stLineIndent(`
-                vector<string> suits;
+                std::vector<std::string> suits;
                 for(const auto& card : deck) {
                     suits.push_back(card.GetSuit());
-                }`),
+                }
+                return suits;`),
 
                 after_label: "For whole collections, ranged for loops could be as clean or cleaner than transform.",
                 after : dedentStrUsing1stLineIndent(`
-                transform(begin(deck), end(deck), back_inserter(suits),
-                    [](const Card& card) {
-                        return card.GetSuit();
-                    });
+                std::vector<std::string> suits;
+                std::transform(begin(deck), end(deck), back_inserter(suits),
+                        [](const Card& card) {
+                            return card.GetSuit();
+                        });
+                return suits;
                 `)
             },
 

@@ -12,43 +12,48 @@ namespace test {
 
 using namespace demo;
 namespace {
-    std::vector<Card> kDeck {
+
+    std::vector<Card> kStraight {
+        Card(card_suit::Spades, card_rank::Seven),
+        Card(card_suit::Spades, card_rank::Eight),
         Card(card_suit::Spades, card_rank::Nine),
-        Card(card_suit::Diamonds, card_rank::Nine),
-        Card(card_suit::Hearts, card_rank::Five),
-        Card(card_suit::Clubs, card_rank::Nine),
-        Card(card_suit::Diamonds, card_rank::Seven),
+        Card(card_suit::Spades, card_rank::Ten),
+        Card(card_suit::Spades, card_rank::Jack),
     };
 }
-class AnyOfDemoTest : public ::testing::Test
+class HasCardDemoTest : public ::testing::Test
 {
 protected:
 
 };
 
 
-TEST_F(AnyOfDemoTest, ShouldExpect_True_WhenCardIsInCollection)
+TEST_F(HasCardDemoTest, ShouldExpect_True_WhenCheckingQuads)
 {
     // Arrange
-    AnyOfDemo sut;
+    HasCardDemo sut;
 
     // Act
-    const auto has_5_hearts = sut.HasCard(kDeck, Card {card_suit::Hearts, card_rank::Five});
+    const auto haveAllSameSuit = sut.DoAllCardsHaveSameSuit(kStraight, card_suit::Spades);
+    const auto haveAllSameSuitSTL = sut.DoAllCardsHaveSameSuitSTL(kStraight, card_suit::Spades);
 
     // Assert
-    EXPECT_TRUE(has_5_hearts);
+    EXPECT_TRUE(haveAllSameSuit);
+    EXPECT_EQ(haveAllSameSuit, haveAllSameSuitSTL);
 }
 
-TEST_F(AnyOfDemoTest, ShouldExpect_False_WhenCardIsNotInCollection)
+TEST_F(HasCardDemoTest, ShouldExpect_True_WhenAnyCardHasRank)
 {
     // Arrange
-    AnyOfDemo sut;
+    HasCardDemo sut;
 
     // Act
-    const auto has_8_spades = sut.HasCard(kDeck, Card {card_suit::Spades, card_rank::Eight});
+    const auto hasTen = sut.DoAnyCardsHaveRank(kStraight, card_rank::Ten);
+    const auto hasTenSTL = sut.DoAnyCardsHaveRank(kStraight, card_rank::Ten);
 
     // Assert
-    EXPECT_FALSE(has_8_spades);
+    EXPECT_TRUE(hasTen);
+    EXPECT_EQ(hasTen, hasTenSTL);
 }
 
 } // namespace test
