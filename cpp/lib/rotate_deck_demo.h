@@ -9,6 +9,7 @@ class RotateDeckDemo {
 
 public:
     void AlternateCardsInHalf(std::vector<Card>& deck) const;
+    void MoveSecondHalfIntoMiddleOfFirstHalf(std::vector<Card>& deck) const;
 
 };
 

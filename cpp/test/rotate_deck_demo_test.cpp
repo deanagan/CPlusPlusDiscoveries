@@ -18,6 +18,37 @@ protected:
 
 };
 
+TEST_F(RotateDeckDemoTest, ShouldExpect_SecondHalf_InMiddle_OfFirstHalf)
+{
+    // Arrange
+    RotateDeckDemo sut;
+    std::vector<Card> deck {
+        Card(card_suit::Spades,   card_rank::Nine),
+        Card(card_suit::Spades,   card_rank::Nine),
+        Card(card_suit::Spades,   card_rank::Nine),
+        Card(card_suit::Spades,   card_rank::Nine),
+        Card(card_suit::Diamonds, card_rank::Ten),
+        Card(card_suit::Diamonds, card_rank::Ten),
+        Card(card_suit::Diamonds, card_rank::Ten),
+        Card(card_suit::Diamonds, card_rank::Ten),
+    };
+
+    // Act
+    sut.MoveSecondHalfIntoMiddleOfFirstHalf(deck);
+
+    // Assert
+    EXPECT_THAT(deck,
+                ::testing::ElementsAre(
+                    Card(card_suit::Spades,   card_rank::Nine),
+                    Card(card_suit::Spades,   card_rank::Nine),
+                    Card(card_suit::Diamonds, card_rank::Ten),
+                    Card(card_suit::Diamonds, card_rank::Ten),
+                    Card(card_suit::Diamonds, card_rank::Ten),
+                    Card(card_suit::Diamonds, card_rank::Ten),
+                    Card(card_suit::Spades,   card_rank::Nine),
+                    Card(card_suit::Spades,   card_rank::Nine))
+                );
+}
 
 TEST_F(RotateDeckDemoTest, ShouldExpect_Alternating_Cards)
 {

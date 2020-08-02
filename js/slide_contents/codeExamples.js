@@ -232,24 +232,29 @@ new Vue({
                 before_label: "Rotate diamonds to the middle of 2 spades.",
                 before_drawing: "img/before_rotate.png",
                 before : dedentStrUsing1stLineIndent(`
-                vector<Card> cards {Card("Spades","9"),Card("Spades","9"),
-                                    Card("Spades","9"),Card("Spades","9"),
-                                    Card("Diamond","10"),Card("Diamond","10"),
-                                    Card("Diamond","10"),Card("Diamond","10")
-                                };
+                std::vector<Card> deck {
+                    Card(card_suit::Spades,   card_rank::Nine),
+                    Card(card_suit::Spades,   card_rank::Nine),
+                    Card(card_suit::Spades,   card_rank::Nine),
+                    Card(card_suit::Spades,   card_rank::Nine),
+                    Card(card_suit::Diamonds, card_rank::Ten),
+                    Card(card_suit::Diamonds, card_rank::Ten),
+                    Card(card_suit::Diamonds, card_rank::Ten),
+                    Card(card_suit::Diamonds, card_rank::Ten),
+                };
                 `),
             },
             {
                 before_label: "We use std::rotate to move the diamonds to the middle.",
                 before_drawing: "img/after_rotate.png",
                 before : dedentStrUsing1stLineIndent(`
-                auto num9spades = count(begin(cards), end(cards),
-                                       Card("Spades","9"));
-                // moved points to the location of first 9 after rotation.
-                // This is the first 9 at the end of the rotated collection.
-                auto moved = rotate(next(begin(cards), num9spades/2),
-                                         next(begin(cards), num9spades),
-                                         end(cards));
+                const auto first_half_len = count(begin(deck),
+                                                  end(deck),
+                                                  deck.front());
+
+                auto moved = rotate(next(begin(deck), first_half_len/2),
+                                    next(begin(deck), first_half_len),
+                                    end(deck));
                 `)
             },
             {
