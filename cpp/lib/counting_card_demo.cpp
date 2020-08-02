@@ -2,50 +2,76 @@
 
 #include <vector>
 #include <algorithm>
+#include <numeric>
 
 #include "card.h"
 
+namespace demo
+{
 
-namespace demo {
+    int CountingCardDemo::CountCard(const std::vector<Card> &deck, const Card &card_to_count) const
+    {
 
-size_t CountingCardDemo::CountCard(const std::vector<Card>& deck, const Card& card_to_count) const {
+        int count = 0;
 
-    size_t count = 0;
-
-    for (auto i = 0U; i < deck.size(); ++i) {
-        if (deck[i] == card_to_count) {
-            ++count;
+        for (auto i = 0U; i < deck.size(); ++i)
+        {
+            if (deck[i] == card_to_count)
+            {
+                ++count;
+            }
         }
+
+        return count;
     }
 
-    return count;
-}
+    int CountingCardDemo::CountCardSTL(const std::vector<Card> &deck, const Card &card_to_count) const
+    {
 
-size_t CountingCardDemo::CountCardSTL(const std::vector<Card>& deck, const Card& card_to_count) const {
-
-    return count(begin(deck), end(deck), card_to_count);
-}
-
-size_t CountingCardDemo::CountCardWithRank(const std::vector<Card>& deck, const std::string& rank) const {
-
-    size_t count = 0;
-
-    for (auto i = 0U; i < deck.size(); ++i) {
-        if (deck[i].GetRank() == rank) {
-            ++count;
-        }
+        return count(begin(deck), end(deck), card_to_count);
     }
 
-    return count;
-}
+    int CountingCardDemo::CountCardWithRank(const std::vector<Card> &deck, const std::string &rank) const
+    {
 
-size_t CountingCardDemo::CountCardWithRankSTL(const std::vector<Card>& deck, const std::string& rank) const {
+        int count = 0;
 
-    return count_if(begin(deck), end(deck),
-                    [&rank] (const Card& card) {
-                        return card.GetRank() == rank;
+        for (auto i = 0U; i < deck.size(); ++i)
+        {
+            if (deck[i].GetRank() == rank)
+            {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
+    int CountingCardDemo::CountCardWithRankSTL(const std::vector<Card> &deck, const std::string &rank) const
+    {
+
+        return count_if(begin(deck), end(deck),
+                        [&rank](const Card &card) {
+                            return card.GetRank() == rank;
+                        });
+    }
+
+    int CountingCardDemo::GetTotalDeckValue(const CardScores &scores) const
+    {
+        unsigned int total = 0;
+        for (const auto &csp : scores)
+        {
+            total += csp.second;
+        }
+        return total;
+    }
+
+    int CountingCardDemo::GetTotalDeckValueSTL(const CardScores &scores) const
+    {
+        return accumulate(begin(scores), end(scores), 0,
+                    [](const auto total, const auto& current) {
+                        return total + current.second;
                     });
-}
-
+    }
 
 } // namespace demo

@@ -25,7 +25,7 @@ new Vue({
             {
                 before_label: "Count cards in deck",
                 before : dedentStrUsing1stLineIndent(`
-                size_t count = 0;
+                int count = 0;
 
                 for (auto i = 0U; i < deck.size(); ++i) {
                     if (deck[i] == card_to_count) {
@@ -43,7 +43,7 @@ new Vue({
 
                 before_label: "Count cards with matching rank",
                 before : dedentStrUsing1stLineIndent(`
-                size_t count = 0;
+                int count = 0;
 
                 for (auto i = 0U; i < deck.size(); ++i) {
                     if (deck[i].GetRank() == rank) {
@@ -192,7 +192,27 @@ new Vue({
                 return suits;
                 `)
             },
-
+            {
+                before_label: "Accumulate scores from card collection",
+                before : dedentStrUsing1stLineIndent(`
+                // using CardScorePair = std::pair<Card, int>;
+                // using CardScores = std::vector<CardScorePair>;
+                unsigned int total = 0;
+                for (const auto& csp : scores)
+                {
+                    total += csp.second;
+                }
+                return total;
+                `),
+                after_label: "Using accumulate",
+                after : dedentStrUsing1stLineIndent(`
+                // Generic lambdas can make this look cleaner.
+                return accumulate(begin(scores), end(scores), 0,
+                    [](const int total, const CardScorePair& current) {
+                        return total + current.second;
+                    });
+                `)
+            },
             {
                 before_label: "Deal cards to 2 players via copy",
                 before : dedentStrUsing1stLineIndent(`
@@ -208,27 +228,6 @@ new Vue({
                                { return toggle = !toggle; });
                 `),
             },
-
-            {
-                before_label: "Accumulate hand into a card with total rank",
-                before : dedentStrUsing1stLineIndent(`
-                vector<Card> hand { Card("Spades", "9"),
-                                    Card("Spades", "9"),
-                                    Card("Spades", "9") };
-
-                auto totalCard = accumulate(begin(hand), end(hand),
-                    Card("", "0"),
-                    [](const Card& cardCombined, const Card& current) {
-                        // note: possible stoi error elided
-                        auto combinedRank = stoi(cardCombined.GetRank()) +
-                                            stoi(current.GetRank());
-                        const auto strCombinedRank = to_string(combinedRank);
-                        return Card(current.GetSuit(), strCombinedRank);
-                    });
-                    // Result = 27 of Spades
-                }`),
-            },
-
             {
                 before_label: "Rotate diamonds to the middle of 2 spades.",
                 before_drawing: "img/before_rotate.png",
@@ -329,27 +328,22 @@ new Vue({
                 `),
             },
             {
-                before_label: "Reduce 3 cards with the highest values by 100.",
+                before_label: "Reduce top cards by certain amount",
                 before : dedentStrUsing1stLineIndent(`
-                vector<CardScore> cardsAndValues {
-                    { Card("Spades","8"), 12 }, { Card("Spades","10"),  212 },
-                    { Card("Clubs","10"), 20 }, { Card("Heart","10"),   170 },
-                    { Card("Diamond","10"), 344 }
-                   };
+                // Partial sort to get top n.
+                partial_sort( begin(scores), next(begin(scores), top_n),
+                              end(scores),
+                              [](const CardScorePair& csp1,
+                                 const CardScorePair& csp2) {
+                                  return csp.second > csp.second;
+                              });
+                // Reduce top n score by amount.
+                for_each(begin(scores), next(begin(scores), top_n),
+                        [amount](CardScorePair& score) {
+                            score.second -= amount;
+                        });
                 `),
-                after_label: "Use partial sort and foreach.",
-                after : dedentStrUsing1stLineIndent(`
-                partial_sort( begin(cardsAndValues),
-                              next(begin(cardsAndValues), 3),
-                              end(cardsAndValues),
-                    [](const CardScore& cardValue1,
-                       const CardScore& cardValue2) {
-                        return cardValue1.score > cardValue2.score;
-                    });
-                for_each(begin(cardsAndValues),
-                         next(begin(cardsAndValues), 3),
-                    [](CardScore& cardScore) { cardScore.score -= 100; });
-                `)
+
             },
         ],
     },
