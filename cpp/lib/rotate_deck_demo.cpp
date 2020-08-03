@@ -37,5 +37,15 @@ void RotateDeckDemo::MoveSecondHalfIntoMiddleOfFirstHalf(std::vector<Card>& deck
                         end(deck));
 }
 
+void RotateDeckDemo::SplitAndPreserveOrder(std::vector<Card>& deck, const std::string& suit) const {
+    // Use partition if relative order is not important.
+    auto partition_pt = stable_partition(
+                            begin(deck), end(deck),
+                            [&suit](const Card& card) {
+                                return card.GetSuit() == suit;
+                            }
+                        );
+}
+
 
 } // namespace demo

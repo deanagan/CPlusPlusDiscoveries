@@ -261,9 +261,14 @@ new Vue({
                 before_label: "Split cards into diamonds and spades preserving order.",
                 before_drawing: "img/partition_before.png",
                 before : dedentStrUsing1stLineIndent(`
-                vector<Card> cards { Card("Spades","10"), Card("Diamond","5"),
-                                     Card("Diamond","2"), Card("Spades","3"),
-                                     Card("Diamond","4"), Card("Spades","5") };
+                std::vector<Card> deck {
+                    Card(card_suit::Spades,   card_rank::Ten),
+                    Card(card_suit::Diamonds, card_rank::Five),
+                    Card(card_suit::Diamonds, card_rank::Two),
+                    Card(card_suit::Spades,   card_rank::Three),
+                    Card(card_suit::Diamonds, card_rank::Four),
+                    Card(card_suit::Spades,   card_rank::Five)
+                };
                 `),
             },
             {
@@ -272,11 +277,11 @@ new Vue({
                 before : dedentStrUsing1stLineIndent(`
                 // Use partition if relative order is not important.
                 auto partition_pt = stable_partition(
-                                    begin(cards), end(cards),
-                                    [](const Card& card)
-                                    {
-                                        return card.GetSuit() == "Diamond";
-                                    });
+                                   begin(deck), end(deck),
+                                   [&suit](const Card& card) {
+                                      return card.GetSuit() == suit;
+                                   }
+                                );
                 `)
             },
             {
