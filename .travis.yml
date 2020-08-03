@@ -1,0 +1,27 @@
+language: cpp
+compiler:
+  - clang
+  - gcc
+os:
+  - linux
+
+dist: bionic
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - wget
+      - pkg-config
+
+before_install:
+  - sudo apt install curl gnupg
+  - curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+  - echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+  - sudo apt update && sudo apt install bazel
+  - sudo apt update && sudo apt full-upgrade
+  - sudo apt install bazel-1.0.0
+  - cd cpp
+script:
+  - test.sh
