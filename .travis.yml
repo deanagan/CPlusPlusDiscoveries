@@ -22,6 +22,6 @@ before_install:
   - sudo apt update && sudo apt install bazel
   - sudo apt update && sudo apt full-upgrade
   - sudo apt install bazel-1.0.0
-  - cd cpp
+
 script:
-  - test.sh
+  - cd cpp && ./test.sh
