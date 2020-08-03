@@ -12,7 +12,7 @@ new Vue({
             { name: "vector", descriptions: [
                 "A dynamic array, capable of random access.",
                 "Requires contiguous memory.",
-                "Resizes itself when inserting or erasing an object.",
+                "Resizes itself when inserting or deleting an object. (note that capacity does not decrease with erasures).",
                 "Inserting to the back takes amortized constant time. Inefficient insertion/deletion other than back.",
                 "Provides random access in the same way as an array."
             ]},
