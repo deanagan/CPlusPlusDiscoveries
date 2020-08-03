@@ -3,7 +3,7 @@ new Vue({
     data : {
         mutablenotes : [
             {
-                statement: "Lambdas are equivalent to const methods by default.",
+                statement: "Lambdas are equivalent to functors with const operator() by default.",
                 codes: [
                     dedentStrUsing1stLineIndent(`
                     // This lambda
