@@ -228,6 +228,52 @@ new Vue({
                                { return toggle = !toggle; });
                 `),
             },
+
+            {
+                before_label: "Use stable_partition to re-order cards but preserving relative order.",
+                before_drawing: "img/partition_after.png",
+                before : dedentStrUsing1stLineIndent(`
+                // Use partition if relative order is not important.
+                auto partition_pt = stable_partition(
+                                   begin(deck), end(deck),
+                                   [&suit](const Card& card) {
+                                      return card.GetSuit() == suit;
+                                   }
+                                );
+                `)
+            },
+            {
+                before_label: "Reduce top cards by certain amount",
+                before : dedentStrUsing1stLineIndent(`
+                // Partial sort to get top n.
+                partial_sort( begin(scores), next(begin(scores), top_n),
+                              end(scores),
+                              [](const CardScorePair& csp1,
+                                 const CardScorePair& csp2) {
+                                  return csp.second > csp.second;
+                              });
+                // Reduce top n score by amount.
+                for_each(begin(scores), next(begin(scores), top_n),
+                        [amount](CardScorePair& score) {
+                            score.second -= amount;
+                        });
+                `),
+
+            },
+            {
+                before_label: "Split cards into diamonds and spades preserving order.",
+                before_drawing: "img/partition_before.png",
+                before : dedentStrUsing1stLineIndent(`
+                std::vector<Card> deck {
+                    Card(card_suit::Spades,   card_rank::Ten),
+                    Card(card_suit::Diamonds, card_rank::Five),
+                    Card(card_suit::Diamonds, card_rank::Two),
+                    Card(card_suit::Spades,   card_rank::Three),
+                    Card(card_suit::Diamonds, card_rank::Four),
+                    Card(card_suit::Spades,   card_rank::Five)
+                };
+                `),
+            },
             {
                 before_label: "Rotate diamonds to the middle of 2 spades.",
                 before_drawing: "img/before_rotate.png",
@@ -256,104 +302,6 @@ new Vue({
                                     next(begin(deck), first_half_len),
                                     end(deck));
                 `)
-            },
-            {
-                before_label: "Split cards into diamonds and spades preserving order.",
-                before_drawing: "img/partition_before.png",
-                before : dedentStrUsing1stLineIndent(`
-                std::vector<Card> deck {
-                    Card(card_suit::Spades,   card_rank::Ten),
-                    Card(card_suit::Diamonds, card_rank::Five),
-                    Card(card_suit::Diamonds, card_rank::Two),
-                    Card(card_suit::Spades,   card_rank::Three),
-                    Card(card_suit::Diamonds, card_rank::Four),
-                    Card(card_suit::Spades,   card_rank::Five)
-                };
-                `),
-            },
-            {
-                before_label: "Use stable_partition to re-order cards but preserving relative order.",
-                before_drawing: "img/partition_after.png",
-                before : dedentStrUsing1stLineIndent(`
-                // Use partition if relative order is not important.
-                auto partition_pt = stable_partition(
-                                   begin(deck), end(deck),
-                                   [&suit](const Card& card) {
-                                      return card.GetSuit() == suit;
-                                   }
-                                );
-                `)
-            },
-            {
-                before_label: "Create a set of cards from a vector using a custom functor type comparator",
-                before : dedentStrUsing1stLineIndent(`
-                struct CardValueComparator {
-                bool operator() (const Card& card1, const Card& card2) const {
-                    const auto card1Val = CSValueMap.at(card1.GetSuit()) +
-                                          CRValueMap.at(card1.GetRank());
-                    const auto card2Val = CSValueMap.at(card2.GetSuit()) +
-                                          CRValueMap.at(card2.GetRank());
-                    return (card1Val < card2Val);
-                }
-                };
-                `),
-                after_label: "Use copy into set declared with comparator.",
-                after : dedentStrUsing1stLineIndent(`
-                set<Card, CardValueComparator> myCards;
-                copy(begin(srcDeck), end(srcDeck),
-                     inserter(myCards, begin(myCards)));
-                `)
-            },
-            {
-                before_label: "Create a set of cards from a vector using a custom lambda comparator",
-                before : dedentStrUsing1stLineIndent(`
-                auto comparator = [](const Card& card1, const Card& card2) {
-                    const auto card1Val = CSValueMap.at(card1.GetSuit()) +
-                                          CRValueMap.at(card1.GetRank());
-                    const auto card2Val = CSValueMap.at(card2.GetSuit()) +
-                                          CRValueMap.at(card2.GetRank());
-                    return (card1Val < card2Val);
-                };
-                `),
-                after_label: "Use copy into set declared with comparator.",
-                after : dedentStrUsing1stLineIndent(`
-                // We don't need to pass lambda comparator in C++20. We need
-                // to pass this prior because lambda closures have deleted
-                // default constructor. Since C++20, lambda's with empty
-                // captures will have a default constructor.
-                set<Card, decltype(comparator)> myCards(comparator);
-                copy(begin(srcDeck), end(srcDeck),
-                     inserter(myCards, begin(myCards)));
-                `)
-            },
-            {
-                before_label: "Determine if a sorted collection exists within another collection",
-                before : dedentStrUsing1stLineIndent(`
-                const auto hasFourQueens = includes(
-                    begin(sortedCardsByValueSet),
-                    end(sortedCardsByValueSet),
-                    begin(fourQueenSet),
-                    end(fourQueenSet),
-                    cardValueComparator);
-                `),
-            },
-            {
-                before_label: "Reduce top cards by certain amount",
-                before : dedentStrUsing1stLineIndent(`
-                // Partial sort to get top n.
-                partial_sort( begin(scores), next(begin(scores), top_n),
-                              end(scores),
-                              [](const CardScorePair& csp1,
-                                 const CardScorePair& csp2) {
-                                  return csp.second > csp.second;
-                              });
-                // Reduce top n score by amount.
-                for_each(begin(scores), next(begin(scores), top_n),
-                        [amount](CardScorePair& score) {
-                            score.second -= amount;
-                        });
-                `),
-
             },
         ],
     },
