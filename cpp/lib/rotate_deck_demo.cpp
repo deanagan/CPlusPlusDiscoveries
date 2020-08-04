@@ -44,7 +44,7 @@ void RotateDeckDemo::SplitAndPreserveOrder(std::vector<Card>& deck, const std::s
                             [&suit](const Card& card) {
                                 return card.GetSuit() == suit;
                             }
-                        );
+                        )
 }
 
 
